@@ -42,16 +42,6 @@ script:
   - >
     if [[ "$COVERAGE" == "1" ]]; then
       echo;
-      echo "Running functional tests";
-      export typo3DatabaseName="typo3";
-      export typo3DatabaseHost="localhost";
-      export typo3DatabaseUsername="root";
-      export typo3DatabasePassword="";
-      find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --coverage-clover={}functionaltest-coverage.clover --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}'
-    fi
-  - >
-    if [[ "$COVERAGE" == "1" ]]; then
-      echo;
       echo "Uploading code coverage results";
       wget https://scrutinizer-ci.com/ocular.phar
       cp -R typo3conf/ext/fe_change_pwd/.git .
