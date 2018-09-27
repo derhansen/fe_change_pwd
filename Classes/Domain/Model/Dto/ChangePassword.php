@@ -28,7 +28,7 @@ class ChangePassword
     /**
      * @return string
      */
-    public function getPassword1(): string
+    public function getPassword1()
     {
         return $this->password1;
     }
@@ -44,7 +44,7 @@ class ChangePassword
     /**
      * @return string
      */
-    public function getPassword2(): string
+    public function getPassword2()
     {
         return $this->password2;
     }
