@@ -1,0 +1,47 @@
+#==============================================
+# FE-Plugin configuration
+#==============================================
+plugin.tx_fechangepwd {
+    view {
+        templateRootPaths {
+            0 = EXT:fe_change_pwd/Resources/Private/Templates/
+            1 = {$plugin.tx_fechangepwd.view.templateRootPath}
+        }
+        partialRootPaths {
+            0 = EXT:fe_change_pwd/Resources/Private/Partials/
+            1 = {$plugin.tx_fechangepwd.view.partialRootPath}
+        }
+        layoutRootPaths {
+            0 = EXT:fe_change_pwd/Resources/Private/Layouts/
+            1 = {$plugin.tx_fechangepwd.view.layoutRootPath}
+        }
+    }
+    settings {
+        # The pid to redirect to if a password change is required
+        changePasswordPid = 54
+
+        passwordComplexity {
+            minLength = 6
+            capitalCharCheck = 1
+            lowerCaseCharCheck = 1
+            digitCheck = 1
+            specialCharCheck = 1
+        }
+
+        redirect {
+            # If set, a redirect to the configured changePasswordPid will be forced for all access protected pages
+            # Overrides includePageUids setting
+            allAccessProtectedPages = 1
+
+            # If set, a redirect to the configured changePasswordPid will be forced for the configured PIDs
+            includePageUids =
+
+            # @todo: includePageUids recursive setting
+
+            # List of PIDs to exclude from redirect checks
+            excludePageUids =
+
+            # @todo: excludePageUids recursive setting
+        }
+    }
+}

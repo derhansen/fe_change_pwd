@@ -1,0 +1,13 @@
+#==============================================
+# FE-Plugin configuration
+#==============================================
+plugin.tx_fechangepwd {
+    view {
+        # cat=plugin.tx_fechangepwd/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:fe_change_pwd/Resources/Private/Templates/
+        # cat=plugin.tx_fechangepwd/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:fe_change_pwd/Resources/Private/Partials/
+        # cat=plugin.tx_fechangepwd/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:fe_change_pwd/Resources/Private/Layouts/
+    }
+}

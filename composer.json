@@ -1,0 +1,57 @@
+{
+  "name": "derhansen/fe_change_pwd",
+  "type": "typo3-cms-extension",
+  "description": "Configurable event management and registration extension based on ExtBase and Fluid",
+  "homepage": "https://github.com/derhansen/fe_change_pwd",
+  "support": {
+    "issues": "https://github.com/derhansen/fe_change_pwd/issues"
+  },
+  "authors": [
+    {
+      "name": "Torben Hansen",
+      "email": "torben@derhansen.com",
+      "homepage": "https://www.derhansen.com",
+      "role": "Developer"
+    }
+  ],
+  "keywords": ["TYPO3 CMS", "frontend user password", "force password change", "fluid", "extbase"],
+  "license": [
+    "GPL-2.0+"
+  ],
+  "require": {
+    "typo3/cms-core": "^7.6 || ^8.7"
+  },
+  "require-dev": {
+    "nimut/testing-framework": "2.x-dev || 3.x-dev"
+  },
+  "replace": {
+    "fe_change_pwd": "self.version",
+    "typo3-ter/force-pwd-change-fe": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "Derhansen\\FeChangePwd\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Derhansen\\FeChangePwd\\Tests\\": "Tests"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/fe_change_pwd ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/fe_change_pwd"
+    ]
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}
