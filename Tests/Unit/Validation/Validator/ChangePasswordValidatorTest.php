@@ -47,7 +47,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
             'no password given' => [
                 '',
                 '',
-                false,
+                true,
                 []
             ],
             'passwords not equal' => [
