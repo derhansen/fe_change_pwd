@@ -3,6 +3,12 @@
     <file source-language="en" datatype="plaintext" original="messages" date="2018-22-26T19:47:02Z" product-name="fe_change_pwd">
         <header/>
         <body>
+            <trans-unit id="passwordFieldsEmptyOrNotBothFilledOut">
+                <source>You must fill out both password fields</source>
+            </trans-unit>
+            <trans-unit id="passwordsDoNotMatch">
+                <source>The passwords do not match</source>
+            </trans-unit>
             <trans-unit id="passwordComplexity.failure.minLength">
                 <source>The password must at least have a length of %1s chars</source>
             </trans-unit>
@@ -18,6 +24,22 @@
             <trans-unit id="passwordComplexity.failure.specialCharCheck">
                 <source>The password must at least contain one special char</source>
             </trans-unit>
+            <trans-unit id="passwordUpdated">
+                <source>The password has been updated</source>
+            </trans-unit>
+            <trans-unit id="password">
+                <source>Password</source>
+            </trans-unit>
+            <trans-unit id="repeatPassword">
+                <source>Repeat Password</source>
+            </trans-unit>
+            <trans-unit id="update">
+                <source>Update</source>
+            </trans-unit>
+            <trans-unit id="validationErrorHeader">
+                <source>Please check your input for the following errors:</source>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

@@ -6,28 +6,38 @@
 
 	<f:form.validationResults>
 		<f:if condition="{validationResults.flattenedErrors}">
-			<ul class="errors">
-				<f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
-					<li>{propertyPath}
-						<ul>
-							<f:for each="{errors}" as="error">
-								<li>{error.code}: {error}</li>
-							</f:for>
-						</ul>
-					</li>
-				</f:for>
-			</ul>
+			<h2><f:translate key="validationErrorHeader" /> </h2>
+			<f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
+				<ul>
+					<f:for each="{errors}" as="error">
+						<li>
+							{error}
+						</li>
+					</f:for>
+				</ul>
+			</f:for>
 		</f:if>
 	</f:form.validationResults>
 
 	<f:form action="update" name="changePassword" object="{changePassword}" method="post">
-		<label for="password1">Passwort</label>
-		<f:form.password id="password1" property="password1" />
+		<fieldset>
+			<div>
+				<label for="password1">
+					<f:translate key="password" />
+				</label>
+				<f:form.password id="password1" property="password1" />
+			</div>
+			<div>
+				<label for="password2">
+					<f:translate key="repeatPassword" />
+				</label>
+				<f:form.password id="password2" property="password2" />
+			</div>
+			<div>
+				<f:form.submit title="Submit" value="{f:translate(key: 'update')}" />
+			</div>
+		</fieldset>
 
-		<label for="password2">Repeat Password</label>
-		<f:form.password id="password2" property="password2" />
-
-		<f:form.submit title="Submit" value="Submit" />
 	</f:form>
 
 </f:section>

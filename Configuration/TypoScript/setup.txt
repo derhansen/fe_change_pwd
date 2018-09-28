@@ -36,12 +36,8 @@ plugin.tx_fechangepwd {
             # If set, a redirect to the configured changePasswordPid will be forced for the configured PIDs
             includePageUids =
 
-            # @todo: includePageUids recursive setting
-
             # List of PIDs to exclude from redirect checks
             excludePageUids =
-
-            # @todo: excludePageUids recursive setting
         }
     }
 }

@@ -69,13 +69,18 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
         $settings = $this->settingsService->getSettings();
 
         // Early return if no passwords are given
-        if ($value->getPassword1() === '' && $value->getPassword2() === '') {
-            return $result;
+        if ($value->getPassword1() === '' || $value->getPassword2() === '') {
+            $this->addError(
+                $this->localizationService->translate('passwordFieldsEmptyOrNotBothFilledOut'),
+                1537701950
+            );
+
+            return false;
         }
 
         if ($value->getPassword1() !== $value->getPassword2()) {
             $this->addError(
-                'Passwords do not match',
+                $this->localizationService->translate('passwordsDoNotMatch'),
                 1537701950
             );
             // Early return, no other checks need to be done if passwords do not match

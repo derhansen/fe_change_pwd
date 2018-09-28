@@ -15,13 +15,11 @@ class ChangePassword
 {
     /**
      * @var string
-     * @validate NotEmpty
      */
     protected $password1 = '';
 
     /**
      * @var string
-     * @validate NotEmpty
      */
     protected $password2 = '';
 
