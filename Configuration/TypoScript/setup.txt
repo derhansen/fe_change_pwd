@@ -28,6 +28,12 @@ plugin.tx_fechangepwd {
             specialCharCheck = 1
         }
 
+        # If enabled, passwords saved with the extension will expire after the configured amount of days
+        passwordExpiration {
+            enabled = 0
+            validityInDays = 90
+        }
+
         redirect {
             # If set, a redirect to the configured changePasswordPid will be forced for all access protected pages
             # Overrides includePageUids setting

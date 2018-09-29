@@ -15,6 +15,7 @@ This TYPO3 extension contains a plugin to allow logged in frontend users to chan
 * Configurable password rules (upper case char, lower case char, digit, special char)
 * Force password change for frontend users
 * Redirect to configured page when password change is required
+* Password expiration after a configurable amount of days
 
 ## Thanks for sponsoring
 

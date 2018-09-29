@@ -49,4 +49,26 @@ class SettingsService
         }
         return $this->settings;
     }
+
+    /**
+     * Returns the password expiry timestamp depending on the configured setting switch. If password expiry is not
+     * enabled, 0 is returned. If no password validity in days is configured, 90 days is taken as fallback
+     *
+     * @param null|\DateTime $currentDate
+     * @return int
+     */
+    public function getPasswordExpiryTimestamp($currentDate = null)
+    {
+        if (!$currentDate) {
+            $currentDate = new \DateTime();
+        }
+        $result = 0;
+        $settings = $this->getSettings();
+        if (isset($settings['passwordExpiration']['enabled']) && (bool)$settings['passwordExpiration']['enabled']) {
+            $validityInDays = $settings['passwordExpiration']['validityInDays'] ?? 90;
+            $currentDate->modify('+' . $validityInDays . 'days');
+            $result = $currentDate->getTimestamp();
+        }
+        return $result;
+    }
 }

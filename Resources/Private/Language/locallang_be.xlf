@@ -9,6 +9,9 @@
 			<trans-unit id="label.must_change_password">
 				<source>User must change password at next login</source>
 			</trans-unit>
+			<trans-unit id="label.password_expiry_date">
+				<source>Password expiry date</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

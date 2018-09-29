@@ -19,6 +19,19 @@ use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 class FrontendUserService
 {
     /**
+     * @var SettingsService
+     */
+    protected $settingsService = null;
+
+    /**
+     * @param SettingsService $settingsService
+     */
+    public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
+
+    /**
      * Returns if the frontend user must change the password
      *
      * @param array $feUserRecord
@@ -27,10 +40,13 @@ class FrontendUserService
     public function mustChangePassword($feUserRecord)
     {
         $result = false;
-        if ((bool)$feUserRecord['must_change_password']) {
+        $mustChangePassword = $feUserRecord['must_change_password'] ?? 0;
+        $passwordExpiryTimestamp = $feUserRecord['password_expiry_date'] ?? 0;
+        if ((bool)$mustChangePassword ||
+            ((int)$passwordExpiryTimestamp > 0 && (int)$passwordExpiryTimestamp < time())
+        ) {
             $result = true;
         }
-        // @todo: Later check if password has expired
         return $result;
     }
 
@@ -60,6 +76,7 @@ class FrontendUserService
         $queryBuilder->update($userTable)
             ->set('password', $password)
             ->set('must_change_password', 0)
+            ->set('password_expiry_date', $this->settingsService->getPasswordExpiryTimestamp())
             ->set('tstamp', (int)$GLOBALS['EXEC_TIME'])
             ->where(
                 $queryBuilder->expr()->eq(
