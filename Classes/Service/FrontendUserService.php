@@ -19,6 +19,11 @@ use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 class FrontendUserService
 {
     /**
+     * The session key
+     */
+    const SESSION_KEY = 'mustChangePasswordReason';
+
+    /**
      * @var SettingsService
      */
     protected $settingsService = null;
@@ -39,15 +44,34 @@ class FrontendUserService
      */
     public function mustChangePassword($feUserRecord)
     {
+        $reason = '';
         $result = false;
         $mustChangePassword = $feUserRecord['must_change_password'] ?? 0;
         $passwordExpiryTimestamp = $feUserRecord['password_expiry_date'] ?? 0;
-        if ((bool)$mustChangePassword ||
-            ((int)$passwordExpiryTimestamp > 0 && (int)$passwordExpiryTimestamp < time())
-        ) {
+        if ((bool)$mustChangePassword) {
+            $reason = 'forcedChange';
+            $result = true;
+        } elseif (((int)$passwordExpiryTimestamp > 0 && (int)$passwordExpiryTimestamp < time())) {
+            $reason = 'passwordExpired';
             $result = true;
         }
+
+        if ($result) {
+            // Store reason for password change in user session
+            $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, $reason);
+            $this->getFrontendUser()->storeSessionData();
+        }
         return $result;
+    }
+
+    /**
+     * Returns the reason for the password change stored in the session
+     *
+     * @return mixed
+     */
+    public function getMustChangePasswordReason()
+    {
+        return $this->getFrontendUser()->getKey('ses', self::SESSION_KEY);
     }
 
     /**
@@ -85,6 +109,9 @@ class FrontendUserService
                 )
             )
             ->execute();
+
+        // Unset reason for password change in user session
+        $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
     }
 
     /**

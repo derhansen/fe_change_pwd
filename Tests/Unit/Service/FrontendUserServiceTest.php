@@ -72,6 +72,8 @@ class FrontendUserServiceTest extends UnitTestCase
      */
     public function mustChangePasswordReturnsExpectedResult($feUserRecord, $expected)
     {
+        $GLOBALS['TSFE'] = new \stdClass();
+        $GLOBALS['TSFE']->fe_user = new \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication();
         $this->assertEquals($expected, $this->subject->mustChangePassword($feUserRecord));
     }
 }

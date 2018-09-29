@@ -39,6 +39,7 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     {
         $changePassword = $this->objectManager->get(ChangePassword::class);
         $this->view->assignMultiple([
+            'changePasswordReason' => $this->frontendUserService->getMustChangePasswordReason(),
             'changePassword' => $changePassword
         ]);
     }

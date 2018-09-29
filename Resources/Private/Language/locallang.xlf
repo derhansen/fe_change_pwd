@@ -39,6 +39,12 @@
             <trans-unit id="validationErrorHeader">
                 <source>Please check your input for the following errors:</source>
             </trans-unit>
+            <trans-unit id="changePasswordReason.forcedChange">
+                <source>You must change your password</source>
+            </trans-unit>
+            <trans-unit id="changePasswordReason.passwordExpired">
+                <source>Your password has expired and must be changed</source>
+            </trans-unit>
 
         </body>
     </file>

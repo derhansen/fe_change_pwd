@@ -4,6 +4,10 @@
 
 <f:section name="main">
 
+	<f:if condition="{changePasswordReason}">
+		<f:translate key="changePasswordReason.{changePasswordReason}" />
+	</f:if>
+
 	<f:form.validationResults>
 		<f:if condition="{validationResults.flattenedErrors}">
 			<h2><f:translate key="validationErrorHeader" /> </h2>

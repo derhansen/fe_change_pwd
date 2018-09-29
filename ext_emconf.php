@@ -2,8 +2,8 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Change password for frontend users',
-    'description' => 'Plugin to change the password of a frontend user. Contains configurable password 
-        rules and password change enforcement',
+    'description' => 'Plugin to enable password change for frontend users. Contains configurable password 
+        rules and password change enforcement.',
     'category' => 'plugin',
     'author' => 'Torben Hansen',
     'author_email' => 'torben@derhansen.com',
