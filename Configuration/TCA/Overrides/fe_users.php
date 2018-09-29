@@ -23,7 +23,12 @@ $tmp_columns = [
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $tmp_columns);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
-    'must_change_password, password_expiry_date',
+    '--palette--;LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:label.password_settings;password_settings',
     '',
     'after:password'
+);
+
+// Add the new palette:
+$GLOBALS['TCA']['fe_users']['palettes']['password_settings'] = array(
+    'showitem' => 'must_change_password, password_expiry_date'
 );

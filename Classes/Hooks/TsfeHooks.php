@@ -36,7 +36,7 @@ class TsfeHooks
         /** @var TypoScriptFrontendController $tsfe */
         $tsfe = $params['pObj'];
 
-        // Early return if no frontend user available, page is excluded from redirect or user should is not
+        // Early return if no frontend user available, page is excluded from redirect or user is not
         // forced to change the password
         if (!isset($tsfe->fe_user->user['uid']) ||
             $pageAccessService->isExcludePage($tsfe->id) ||

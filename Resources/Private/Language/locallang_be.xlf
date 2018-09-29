@@ -12,6 +12,9 @@
 			<trans-unit id="label.password_expiry_date">
 				<source>Password expiry date</source>
 			</trans-unit>
+			<trans-unit id="label.password_settings">
+				<source>Password settings</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
