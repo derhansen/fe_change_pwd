@@ -1,7 +1,7 @@
 {
   "name": "derhansen/fe_change_pwd",
   "type": "typo3-cms-extension",
-  "description": "Configurable event management and registration extension based on ExtBase and Fluid",
+  "description": "Plugin to enable password change for frontend users. Contains configurable password rules and password change enforcement.",
   "homepage": "https://github.com/derhansen/fe_change_pwd",
   "support": {
     "issues": "https://github.com/derhansen/fe_change_pwd/issues"
