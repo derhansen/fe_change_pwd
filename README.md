@@ -3,8 +3,6 @@
 
 # Change password for frontend users
 
-*DEVELOPMENT IN PROGRESS - DO NOT USE IN PRODUCTION*
-
 ## What does it do?
 
 This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. 
