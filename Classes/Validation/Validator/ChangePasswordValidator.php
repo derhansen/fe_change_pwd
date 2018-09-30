@@ -10,6 +10,7 @@ namespace Derhansen\FeChangePwd\Validation\Validator;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\LocalizationService;
+use Derhansen\FeChangePwd\Service\PwnedPasswordsService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 
 /**
@@ -40,6 +41,11 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
     protected $localizationService = null;
 
     /**
+     * @var PwnedPasswordsService
+     */
+    protected $pwnedPasswordsService = null;
+
+    /**
      * @param SettingsService $settingsService
      */
     public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
@@ -54,6 +60,15 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
         \Derhansen\FeChangePwd\Service\LocalizationService $localizationService
     ) {
         $this->localizationService = $localizationService;
+    }
+
+    /**
+     * @param PwnedPasswordsService $PwnedPasswordsService
+     */
+    public function injectPwnedPasswordsService(
+        \Derhansen\FeChangePwd\Service\PwnedPasswordsService $PwnedPasswordsService
+    ) {
+        $this->pwnedPasswordsService = $PwnedPasswordsService;
     }
 
     /**
@@ -97,6 +112,10 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
             ) {
                 $this->evaluatePasswordCheck($value, $check);
             }
+        }
+
+        if (isset($settings['pwnedpasswordsCheck']['enabled']) && (bool)$settings['pwnedpasswordsCheck']['enabled']) {
+            $this->evaluatePwnedPasswordCheck($value);
         }
 
         if ($this->result->hasErrors()) {
@@ -146,6 +165,17 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
                     1537898029
                 );
             }
+        }
+    }
+
+    protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword)
+    {
+        $foundCount = $this->pwnedPasswordsService->checkPassword($changePassword->getPassword1());
+        if ($foundCount > 0) {
+            $this->addError(
+                $this->localizationService->translate('pwnedPasswordFailure', [$foundCount]),
+                1537898030
+            );
         }
     }
 }

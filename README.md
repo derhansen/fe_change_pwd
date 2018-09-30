@@ -5,7 +5,11 @@
 
 ## What does it do?
 
-This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. 
+This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. Additionally
+the extension allows to define password rules for frontend user passwords and can also check if the password
+was part of a data breach using the haveibeenpwned.com API.
+
+Password changes for frontend users can be enforces and passwords can expire after a certain amount of days.
 
 **Features:**
 
@@ -14,10 +18,17 @@ This TYPO3 extension contains a plugin to allow logged in frontend users to chan
 * Force password change for frontend users
 * Redirect to configured page when password change is required
 * Password expiration after a configurable amount of days
+* Optional check if password has been part of a password breach using the haveibeenpwned.com API
+
+## TypoScript configuration settings
+
+
+## Styling
+
+The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template) 
+the fluid templates to your needs.
 
 ## Thanks for sponsoring
 
 I would like to thank [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this 
 extension and for supporting open source software. 
- 
-

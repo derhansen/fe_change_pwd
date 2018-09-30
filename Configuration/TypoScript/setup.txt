@@ -28,6 +28,11 @@ plugin.tx_fechangepwd {
             specialCharCheck = 1
         }
 
+        # If enabled, the password for password breaches using the haveibeenpwned.com API
+        pwnedpasswordsCheck {
+            enabled = 1
+        }
+
         # If enabled, passwords saved with the extension will expire after the configured amount of days
         passwordExpiration {
             enabled = 0

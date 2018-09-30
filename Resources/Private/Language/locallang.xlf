@@ -24,6 +24,9 @@
             <trans-unit id="passwordComplexity.failure.specialCharCheck">
                 <source>The password must at least contain one special char</source>
             </trans-unit>
+            <trans-unit id="pwnedPasswordFailure">
+                <source>This password is found %1s times in the haveibeenpwned.com database and has previously appeared in a data breach.</source>
+            </trans-unit>
             <trans-unit id="passwordUpdated">
                 <source>The password has been updated</source>
             </trans-unit>

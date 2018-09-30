@@ -1,0 +1,20 @@
+.tx-fe-change-pwd {
+  font-family: Helvetica;
+}
+
+.tx-fe-change-pwd fieldset {
+  border: none;
+}
+
+.tx-fe-change-pwd fieldset div {
+  margin-bottom: 0.4em;
+}
+
+.tx-fe-change-pwd label {
+  width: 150px;
+  display: inline-block;
+}
+
+.tx-fe-change-pwd input[type=submit] {
+  margin-left: 155px;
+}

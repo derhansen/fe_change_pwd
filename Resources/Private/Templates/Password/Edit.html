@@ -5,12 +5,14 @@
 <f:section name="main">
 
 	<f:if condition="{changePasswordReason}">
-		<f:translate key="changePasswordReason.{changePasswordReason}" />
+		<h3>
+			<f:translate key="changePasswordReason.{changePasswordReason}" />
+		</h3>
 	</f:if>
 
 	<f:form.validationResults>
 		<f:if condition="{validationResults.flattenedErrors}">
-			<h2><f:translate key="validationErrorHeader" /> </h2>
+			<h3><f:translate key="validationErrorHeader" /> </h3>
 			<f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
 				<ul>
 					<f:for each="{errors}" as="error">
