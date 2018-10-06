@@ -24,8 +24,11 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class TsfeHooks
 {
     /**
+     * Checks if a password change should be forced
+     *
      * @param array $params
      * @param $parentObject
+     * @return void
      */
     public function checkForcePasswordChange($params, $parentObject)
     {
