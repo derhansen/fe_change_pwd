@@ -8,6 +8,7 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -21,11 +22,24 @@ class PageAccessService
     protected $settingsService = null;
 
     /**
+     * @var QueryGenerator
+     */
+    protected $queryGenerator = null;
+
+    /**
      * @param SettingsService $settingsService
      */
     public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
+    }
+
+    /**
+     * @param QueryGenerator $queryGenerator
+     */
+    public function injectQueryGenerator(QueryGenerator $queryGenerator)
+    {
+        $this->queryGenerator = $queryGenerator;
     }
 
     /**
@@ -70,11 +84,15 @@ class PageAccessService
     {
         $settings = $this->settingsService->getSettings();
         if (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
-            $excludePids = GeneralUtility::intExplode(',', $settings['redirect']['includePageUids'], true);
+            $includePids = $this->extendPidListByChildren(
+                $settings['redirect']['includePageUids'],
+                $settings['redirect']['includePageUidsRecursionLevel']
+            );
+            $includePids = GeneralUtility::intExplode(',', $includePids, true);
         } else {
-            $excludePids = [];
+            $includePids = [];
         }
-        return in_array($pageUid, $excludePids, true);
+        return in_array($pageUid, $includePids, true);
     }
 
     /**
@@ -87,7 +105,11 @@ class PageAccessService
     {
         $settings = $this->settingsService->getSettings();
         if (isset($settings['redirect']['excludePageUids']) && $settings['redirect']['excludePageUids'] !== '') {
-            $excludePids = GeneralUtility::intExplode(',', $settings['redirect']['excludePageUids'], true);
+            $excludePids = $this->extendPidListByChildren(
+                $settings['redirect']['excludePageUids'],
+                $settings['redirect']['excludePageUidsRecursionLevel']
+            );
+            $excludePids = GeneralUtility::intExplode(',', $excludePids, true);
         } else {
             $excludePids = [];
         }
@@ -116,5 +138,32 @@ class PageAccessService
             $loop++;
         }
         return $isAccessProtected;
+    }
+
+    /**
+     * Find all ids from given ids and level
+     *
+     * @param string $pidList comma separated list of ids
+     * @param int $recursive recursive levels
+     * @return string comma separated list of ids
+     */
+    protected function extendPidListByChildren($pidList = '', $recursive = 0)
+    {
+        $recursive = (int)$recursive;
+        if ($recursive <= 0) {
+            return $pidList;
+        }
+
+        $recursiveStoragePids = $pidList;
+        $storagePids = GeneralUtility::intExplode(',', $pidList);
+        foreach ($storagePids as $startPid) {
+            if ($startPid >= 0) {
+                $pids = $this->queryGenerator->getTreeList($startPid, $recursive, 0, 1);
+                if (strlen($pids) > 0) {
+                    $recursiveStoragePids .= ',' . $pids;
+                }
+            }
+        }
+        return GeneralUtility::uniqueList($recursiveStoragePids);
     }
 }
