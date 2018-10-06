@@ -67,9 +67,9 @@ class TsfeHooks
             if ($type && MathUtility::canBeInterpretedAsInteger($type)) {
                 $parameter .= ',' . $type;
             }
-            $redirectUrl = $cObj->typoLink_URL(['parameter' => $parameter, 'addQueryString' => true,
+            $url = $cObj->typoLink_URL(['parameter' => $parameter, 'addQueryString' => true,
                 'addQueryString.' => ['exclude' => 'id']]);
-            HttpUtility::redirect($redirectUrl, HttpUtility::HTTP_STATUS_307);
+            HttpUtility::redirect($url, HttpUtility::HTTP_STATUS_307);
         }
     }
 }

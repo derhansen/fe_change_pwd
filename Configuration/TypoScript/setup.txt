@@ -41,7 +41,7 @@ plugin.tx_fechangepwd {
 
         redirect {
             # If set, a redirect to the configured changePasswordPid will be forced for all access protected pages
-            # Overrides includePageUids setting
+            # Overrides includePageUids setting!
             allAccessProtectedPages = 1
 
             # If set, a redirect to the configured changePasswordPid will be forced for the configured PIDs
