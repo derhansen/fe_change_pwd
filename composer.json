@@ -20,7 +20,8 @@
   ],
   "require": {
     "typo3/cms-core": "^7.6 || ^8.7 || ^9.5",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "nimut/testing-framework": "2.x-dev || 3.x-dev || 4.x-dev"
