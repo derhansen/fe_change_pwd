@@ -9,7 +9,7 @@ This TYPO3 extension contains a plugin to allow logged in frontend users to chan
 the extension allows to define password rules for frontend user passwords and can also check if the password
 was part of a data breach using the haveibeenpwned.com API.
 
-Password changes for frontend users can be enforces and passwords can expire after a certain amount of days.
+Password changes for frontend users can be enforced and passwords can expire after a certain amount of days.
 
 **Features:**
 
