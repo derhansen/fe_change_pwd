@@ -18,7 +18,7 @@ Password changes for frontend users can be enforces and passwords can expire aft
 * Force password change for frontend users
 * Redirect to configured page when password change is required (uses PSR-15 Middleware in TYPO3 v9)
 * Password expiration after a configurable amount of days
-* Optional check if password has been part of a password breach using the haveibeenpwned.com API
+* Optional check if password has been part of a password breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API
 
 ## Installation
 
@@ -99,4 +99,4 @@ extension and for supporting open source software.
 
 ## Additional thanks
 
-Also a big thanks to Troy Hunt for his remarkable work and the haveibeenpwned.com service and API. 
+Also a big thanks to Troy Hunt for his remarkable work and the [haveibeenpwned.com](https://haveibeenpwned.com/) service and API. 
