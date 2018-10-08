@@ -20,6 +20,13 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Password expiration after a configurable amount of days
 * Optional check if password has been part of a password breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API
 
+## Screenshot
+
+The screenshot below shows the output of the "Change Frontend User Password" plugin after the user tried to submit  
+a weak password.
+
+![Screenshot of the plugin outpu](Documentation/Images/plugin-output.png "Output of the plugin after password validation")
+
 ## Installation
 
 1) Install the extension from the TYPO3 Extension Repository or using composer and add the Static Typoscript 
