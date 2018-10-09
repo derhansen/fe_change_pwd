@@ -7,7 +7,7 @@
 
 This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. Additionally
 the extension allows to define password rules for frontend user passwords and can also check if the password
-was part of a data breach using the haveibeenpwned.com API.
+was part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API.
 
 Password changes for frontend users can be enforced and passwords can expire after a certain amount of days.
 
@@ -18,7 +18,7 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Force password change for frontend users
 * Redirect to configured page when password change is required (uses PSR-15 Middleware in TYPO3 v9)
 * Password expiration after a configurable amount of days
-* Optional check if password has been part of a password breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API
+* Optional check if password has been part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API and the k-Anonymity model
 
 ## Screenshot
 
@@ -62,7 +62,8 @@ The following TypoScript settings are available.
 
 **plugin.tx_fechangepwd.settings**
 
-* `changePasswordPid` *(integer)* The pid to redirect to if a password change is required. Thisis usually the page with the Plugin of the extension
+* `changePasswordPid` *(integer)* The pid to redirect to if a password change is required. This is usually the 
+page with the Plugin of the extension
 
 **plugin.tx_fechangepwd.settings.passwordComplexity**
 
@@ -75,8 +76,8 @@ The following TypoScript settings are available.
 **plugin.tx_fechangepwd.settings.pwnedpasswordsCheck**
 
 * `enabled` *(bool)* If set to `1`, the new password is checked using the haveibeenpwned.com API to verify, that the 
-password has not been exposed in a data breach. Note, that API uses a k-Anonymity model, so no passwords are submitted. 
-Read more about it [here](https://haveibeenpwned.com/API/v2#SearchingPwnedPasswordsByRange)
+password has not been exposed in a data breach. Note, that the API uses a k-Anonymity model, so no passwords are 
+submitted to the external service. Read more about it [here](https://haveibeenpwned.com/API/v2#SearchingPwnedPasswordsByRange)
 
 **plugin.tx_fechangepwd.settings.passwordExpiration**
 
