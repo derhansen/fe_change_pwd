@@ -48,7 +48,9 @@
             <trans-unit id="changePasswordReason.passwordExpired">
                 <source>Your password has expired and must be changed</source>
             </trans-unit>
-
+            <trans-unit id="notLoggedIn">
+                <source>You need to be logged in to update your password</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -75,14 +75,18 @@ class FrontendUserService
     }
 
     /**
-     * Updates the password of the current user
+     * Updates the password of the current user if a current user session exist
      *
      * @param string $newPassword
      * @return void
      */
     public function updatePassword($newPassword)
     {
-        // First use md5 as fallback
+        if (!$this->isUserLoggedIn()) {
+            return;
+        }
+
+        // Use md5 as fallback
         $password = md5($newPassword);
 
         // If salted passwords is enabled, salt the new password
@@ -112,6 +116,16 @@ class FrontendUserService
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
+    }
+
+    /**
+     * Returns is there is a current user login
+     *
+     * @return bool
+     */
+    public function isUserLoggedIn()
+    {
+        return  $GLOBALS['TSFE']->loginUser;
     }
 
     /**

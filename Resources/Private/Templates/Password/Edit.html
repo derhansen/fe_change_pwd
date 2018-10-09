@@ -4,47 +4,54 @@
 
 <f:section name="main">
 
-	<f:if condition="{changePasswordReason}">
-		<h3>
-			<f:translate key="changePasswordReason.{changePasswordReason}" />
-		</h3>
-	</f:if>
+	<f:security.ifAuthenticated>
+		<f:then>
+			<f:if condition="{changePasswordReason}">
+				<h3>
+					<f:translate key="changePasswordReason.{changePasswordReason}" />
+				</h3>
+			</f:if>
 
-	<f:form.validationResults>
-		<f:if condition="{validationResults.flattenedErrors}">
-			<h3><f:translate key="validationErrorHeader" /> </h3>
-			<f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
-				<ul>
-					<f:for each="{errors}" as="error">
-						<li>
-							{error}
-						</li>
+			<f:form.validationResults>
+				<f:if condition="{validationResults.flattenedErrors}">
+					<h3><f:translate key="validationErrorHeader" /> </h3>
+					<f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
+						<ul>
+							<f:for each="{errors}" as="error">
+								<li>
+									{error}
+								</li>
+							</f:for>
+						</ul>
 					</f:for>
-				</ul>
-			</f:for>
-		</f:if>
-	</f:form.validationResults>
+				</f:if>
+			</f:form.validationResults>
 
-	<f:form action="update" name="changePassword" object="{changePassword}" method="post">
-		<fieldset>
-			<div>
-				<label for="password1">
-					<f:translate key="password" />
-				</label>
-				<f:form.password id="password1" property="password1" />
-			</div>
-			<div>
-				<label for="password2">
-					<f:translate key="repeatPassword" />
-				</label>
-				<f:form.password id="password2" property="password2" />
-			</div>
-			<div>
-				<f:form.submit title="Submit" value="{f:translate(key: 'update')}" />
-			</div>
-		</fieldset>
+			<f:form action="update" name="changePassword" object="{changePassword}" method="post">
+				<fieldset>
+					<div>
+						<label for="password1">
+							<f:translate key="password" />
+						</label>
+						<f:form.password id="password1" property="password1" />
+					</div>
+					<div>
+						<label for="password2">
+							<f:translate key="repeatPassword" />
+						</label>
+						<f:form.password id="password2" property="password2" />
+					</div>
+					<div>
+						<f:form.submit title="Submit" value="{f:translate(key: 'update')}" />
+					</div>
+				</fieldset>
+			</f:form>
+		</f:then>
+		<f:else>
+			<f:translate key="notLoggedIn" />
+		</f:else>
+	</f:security.ifAuthenticated>
 
-	</f:form>
 
 </f:section>
 
