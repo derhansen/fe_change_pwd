@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace Derhansen\FeChangePwd\Middleware;
 
 /*
@@ -81,7 +81,7 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
             if ($this->controller->type && MathUtility::canBeInterpretedAsInteger($this->controller->type)) {
                 $parameter .= ',' . $this->controller->type;
             }
-            $url =  GeneralUtility::makeInstance(ContentObjectRenderer::class, $this->controller)->typoLink_URL([
+            $url = GeneralUtility::makeInstance(ContentObjectRenderer::class, $this->controller)->typoLink_URL([
                 'parameter' => $parameter,
                 'addQueryString' => true,
                 'addQueryString.' => ['exclude' => 'id'],
