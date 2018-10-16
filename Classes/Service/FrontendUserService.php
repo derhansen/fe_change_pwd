@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Derhansen\FeChangePwd\Service;
 
 /*
@@ -42,7 +43,7 @@ class FrontendUserService
      * @param array $feUserRecord
      * @return bool
      */
-    public function mustChangePassword($feUserRecord)
+    public function mustChangePassword(array $feUserRecord)
     {
         $reason = '';
         $result = false;
@@ -80,7 +81,7 @@ class FrontendUserService
      * @param string $newPassword
      * @return void
      */
-    public function updatePassword($newPassword)
+    public function updatePassword(string $newPassword)
     {
         if (!$this->isUserLoggedIn()) {
             return;

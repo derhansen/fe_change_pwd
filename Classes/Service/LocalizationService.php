@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Derhansen\FeChangePwd\Service;
 
 /*
@@ -22,7 +23,7 @@ class LocalizationService
      * @param array $arguments
      * @return string
      */
-    public function translate($key, $arguments = [])
+    public function translate(string $key, array $arguments = [])
     {
         $result = LocalizationUtility::translate($key, 'fe_change_pwd', $arguments);
         if (!$result) {

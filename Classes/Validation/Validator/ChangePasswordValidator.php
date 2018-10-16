@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Derhansen\FeChangePwd\Validation\Validator;
 
 /*
@@ -168,6 +169,12 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
         }
     }
 
+    /**
+     * Evaluates the password using the pwnedpasswords API
+     *
+     * @param ChangePassword $changePassword
+     * @return void
+     */
     protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword)
     {
         $foundCount = $this->pwnedPasswordsService->checkPassword($changePassword->getPassword1());

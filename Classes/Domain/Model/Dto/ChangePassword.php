@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Derhansen\FeChangePwd\Domain\Model\Dto;
 
 /*
