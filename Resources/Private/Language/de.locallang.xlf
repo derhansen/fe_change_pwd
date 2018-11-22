@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2018-22-26T19:47:02Z" product-name="fe_change_pwd">
+        <header/>
+        <body>
+            <trans-unit id="passwordFieldsEmptyOrNotBothFilledOut">
+                <source>You must fill out both password fields</source>
+                <target>Sie müssen beide Passwort-Felder ausfüllen</target>
+            </trans-unit>
+            <trans-unit id="passwordsDoNotMatch">
+                <source>The passwords do not match</source>
+                <target>Passwörter stimmen nicht überein</target>
+            </trans-unit>
+            <trans-unit id="passwordComplexity.failure.minLength">
+                <source>The password must at least have a length of %1s chars</source>
+                <target>Das Passwort muss eine Mindestlänge von %1s Zeichen haben</target>
+            </trans-unit>
+            <trans-unit id="passwordComplexity.failure.capitalCharCheck">
+                <source>The password must at least contain one capital char</source>
+                <target>Das Passwort muss mindestens ein Großbuchstabe enthalten</target>
+            </trans-unit>
+            <trans-unit id="passwordComplexity.failure.lowerCaseCharCheck">
+                <source>The password must at least contain one lower case char</source>
+                <target>Das Passwort muss mindestens ein Kleinbuchstabe enthalten</target>
+            </trans-unit>
+            <trans-unit id="passwordComplexity.failure.digitCheck">
+                <source>The password must at least contain one digit</source>
+                <target>Das Passwort muss mindestens eine Zahl enthalten</target>
+            </trans-unit>
+            <trans-unit id="passwordComplexity.failure.specialCharCheck">
+                <source>The password must at least contain one special char</source>
+                <target>Das Passwort muss mindestesn ein Sonderzeichen enthalten</target>
+            </trans-unit>
+            <trans-unit id="pwnedPasswordFailure">
+                <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
+                <target>Dieses Passwort ist durch Datendiebstahl bekannt und kommt %1s mal in der haveibeenpwned.com Datenbank vor. Bitte wählen Sie ein anderes Passwort.</target>
+            </trans-unit>
+            <trans-unit id="passwordUpdated">
+                <source>The password has been updated</source>
+                <target>Ihr Passwort wurde aktualisiert</target>
+            </trans-unit>
+            <trans-unit id="password">
+                <source>Password</source>
+                <target>Passwort</target>
+            </trans-unit>
+            <trans-unit id="repeatPassword">
+                <source>Repeat Password</source>
+                <target>Passwort wiederhohlen</target>
+            </trans-unit>
+            <trans-unit id="update">
+                <source>Update</source>
+                <target>Aktualisieren</target>
+            </trans-unit>
+            <trans-unit id="validationErrorHeader">
+                <source>Please check your input for the following errors:</source>
+                <target>Bitte überprüfen Sie Ihre Eingabe auf folgende Fehler:</target>
+            </trans-unit>
+            <trans-unit id="changePasswordReason.forcedChange">
+                <source>You must change your password</source>
+                <target>Sie müssen Ihr Passwort ändern</target>
+            </trans-unit>
+            <trans-unit id="changePasswordReason.passwordExpired">
+                <source>Your password has expired and must be changed</source>
+                <target>Ihr Passwort ist abgelaufen und muss geändert werden</target>
+            </trans-unit>
+            <trans-unit id="notLoggedIn">
+                <source>You need to be logged in to update your password</source>
+                <target>Sie müssen eingeloggt sein, um Ihr Passwort zu aktualisieren</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
