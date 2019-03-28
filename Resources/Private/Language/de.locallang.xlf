@@ -9,7 +9,7 @@
             </trans-unit>
             <trans-unit id="passwordsDoNotMatch">
                 <source>The passwords do not match</source>
-                <target>Passwörter stimmen nicht überein</target>
+                <target>Die Passwörter stimmen nicht überein</target>
             </trans-unit>
             <trans-unit id="passwordComplexity.failure.minLength">
                 <source>The password must at least have a length of %1s chars</source>
@@ -17,11 +17,11 @@
             </trans-unit>
             <trans-unit id="passwordComplexity.failure.capitalCharCheck">
                 <source>The password must at least contain one capital char</source>
-                <target>Das Passwort muss mindestens ein Großbuchstabe enthalten</target>
+                <target>Das Passwort muss mindestens einen Großbuchstaben enthalten</target>
             </trans-unit>
             <trans-unit id="passwordComplexity.failure.lowerCaseCharCheck">
                 <source>The password must at least contain one lower case char</source>
-                <target>Das Passwort muss mindestens ein Kleinbuchstabe enthalten</target>
+                <target>Das Passwort muss mindestens einen Kleinbuchstaben enthalten</target>
             </trans-unit>
             <trans-unit id="passwordComplexity.failure.digitCheck">
                 <source>The password must at least contain one digit</source>
@@ -29,7 +29,7 @@
             </trans-unit>
             <trans-unit id="passwordComplexity.failure.specialCharCheck">
                 <source>The password must at least contain one special char</source>
-                <target>Das Passwort muss mindestesn ein Sonderzeichen enthalten</target>
+                <target>Das Passwort muss mindestens ein Sonderzeichen enthalten</target>
             </trans-unit>
             <trans-unit id="pwnedPasswordFailure">
                 <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
@@ -45,7 +45,7 @@
             </trans-unit>
             <trans-unit id="repeatPassword">
                 <source>Repeat Password</source>
-                <target>Passwort wiederhohlen</target>
+                <target>Passwort wiederholen</target>
             </trans-unit>
             <trans-unit id="update">
                 <source>Update</source>
