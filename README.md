@@ -100,6 +100,15 @@ if you e.g. want to exclude a page and all subpages for the redirect
 The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template) 
 the fluid templates to your needs.
 
+## Possible Errors
+
+The extension will not save a users password, if it can not be securily be hashed. If this scenario occurs,
+the following exception is shown: 
+
+`No secure password hashing service could be initialized. Please check your TYPO3 system configuration`
+
+In TYPO3 8.7, you must ensure, that the Setting `basic.FE.enabled` is enabled for the `saltedpasswords` extension.  
+
 ## Thanks for sponsoring
 
 I would like to thank [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this 

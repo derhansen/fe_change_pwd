@@ -9,6 +9,7 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
@@ -87,16 +88,7 @@ class FrontendUserService
             return;
         }
 
-        // Use md5 as fallback
-        $password = md5($newPassword);
-
-        // If salted passwords is enabled, salt the new password
-        if (SaltedPasswordsUtility::isUsageEnabled('FE')) {
-            $objSalt = SaltFactory::getSaltingInstance(null);
-            if (is_object($objSalt)) {
-                $password = $objSalt->getHashedPassword($newPassword);
-            }
-        }
+        $password = $this->getPasswordHash($newPassword);
 
         $userTable = $this->getFrontendUser()->user_table;
         $userUid = $this->getFrontendUser()->user['uid'];
@@ -117,6 +109,32 @@ class FrontendUserService
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
+    }
+
+    /**
+     * Returns a password hash
+     *
+     * @param string $password
+     * @return string
+     * @throws MissingPasswordHashServiceException
+     * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
+     */
+    protected function getPasswordHash(string $password)
+    {
+        if (class_exists(PasswordHashFactory::class)) {
+            $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
+            $password = $hashInstance->getHashedPassword($password);
+        } elseif (SaltedPasswordsUtility::isUsageEnabled('FE')) {
+            $saltingInstance = SaltFactory::getSaltingInstance();
+            $password = $saltingInstance->getHashedPassword($password);
+        } else {
+            throw new MissingPasswordHashServiceException(
+                'No secure password hashing service could be initialized. Please check your TYPO3 system configuration',
+                1557550040515
+            );
+        }
+
+        return $password;
     }
 
     /**
