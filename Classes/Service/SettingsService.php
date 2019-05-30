@@ -43,6 +43,12 @@ class SettingsService
     public function getSettings()
     {
         if ($this->settings === null) {
+            // Ensure, TSFE setup is loaded for cached pages
+            if ($GLOBALS['TSFE']->tmpl && empty($GLOBALS['TSFE']->tmpl->setup)) {
+                $GLOBALS['TSFE']->forceTemplateParsing = true;
+                $GLOBALS['TSFE']->getConfigArray();
+            }
+
             $this->settings = $this->configurationManager->getConfiguration(
                 \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'FeChangePwd'

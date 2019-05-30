@@ -58,8 +58,8 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
         // Early return if no frontend user available, page is excluded from redirect or user is not
         // forced to change the password
         if (!isset($this->controller->fe_user->user['uid']) ||
-            $pageAccessService->isExcludePage($this->controller->id) ||
-            !$frontendUserService->mustChangePassword($this->controller->fe_user->user)
+            !$frontendUserService->mustChangePassword($this->controller->fe_user->user) ||
+            $pageAccessService->isExcludePage($this->controller->id)
         ) {
             return $handler->handle($request);
         }

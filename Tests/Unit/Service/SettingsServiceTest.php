@@ -11,6 +11,7 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
 use Derhansen\FeChangePwd\Service\SettingsService;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Class SettingsServiceTest
@@ -81,6 +82,12 @@ class SettingsServiceTest extends UnitTestCase
      */
     public function getPasswordExpiryTimestampReturnsExpectedResult($settings, $currentDate, $expected)
     {
+        $mockTsfe = $this->getMockBuilder(TypoScriptFrontendController::class)
+            ->setMethods(['getConfigArray'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $GLOBALS['TSFE'] = $mockTsfe;
+
         $mockConfigurationManager = $this->getMockBuilder(ConfigurationManager::class)
             ->setMethods(['getConfiguration'])
             ->disableOriginalConstructor()
