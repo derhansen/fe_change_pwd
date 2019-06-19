@@ -44,7 +44,7 @@ class SettingsService
     {
         if ($this->settings === null) {
             // Ensure, TSFE setup is loaded for cached pages
-            if ($GLOBALS['TSFE']->tmpl && empty($GLOBALS['TSFE']->tmpl->setup)) {
+            if ($GLOBALS['TSFE']->tmpl === null || $GLOBALS['TSFE']->tmpl && empty($GLOBALS['TSFE']->tmpl->setup)) {
                 $GLOBALS['TSFE']->forceTemplateParsing = true;
                 $GLOBALS['TSFE']->getConfigArray();
             }
