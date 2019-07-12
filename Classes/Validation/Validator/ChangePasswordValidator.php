@@ -11,6 +11,7 @@ namespace Derhansen\FeChangePwd\Validation\Validator;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\LocalizationService;
+use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\PwnedPasswordsService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 
@@ -47,6 +48,11 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
     protected $pwnedPasswordsService = null;
 
     /**
+     * @var OldPasswordService
+     */
+    protected $oldPasswordService = null;
+
+    /**
      * @param SettingsService $settingsService
      */
     public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
@@ -61,6 +67,14 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
         \Derhansen\FeChangePwd\Service\LocalizationService $localizationService
     ) {
         $this->localizationService = $localizationService;
+    }
+
+    /**
+     * @param OldPasswordService $oldPasswordService
+     */
+    public function injectOldPasswordService(\Derhansen\FeChangePwd\Service\OldPasswordService $oldPasswordService)
+    {
+        $this->oldPasswordService = $oldPasswordService;
     }
 
     /**
@@ -117,6 +131,10 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
 
         if (isset($settings['pwnedpasswordsCheck']['enabled']) && (bool)$settings['pwnedpasswordsCheck']['enabled']) {
             $this->evaluatePwnedPasswordCheck($value);
+        }
+
+        if (isset($settings['oldPasswordCheck']['enabled']) && (bool)$settings['oldPasswordCheck']['enabled']) {
+            $this->evaluateOldPasswordCheck($value);
         }
 
         if ($this->result->hasErrors()) {
@@ -181,6 +199,22 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
         if ($foundCount > 0) {
             $this->addError(
                 $this->localizationService->translate('pwnedPasswordFailure', [$foundCount]),
+                1537898030
+            );
+        }
+    }
+
+    /**
+     * Evaluates the password against the current password
+     *
+     * @param ChangePassword $changePassword
+     * @return void
+     */
+    protected function evaluateOldPasswordCheck(ChangePassword $changePassword)
+    {
+        if ($this->oldPasswordService->checkNewEqualsOldPassword($changePassword->getPassword1())) {
+            $this->addError(
+                $this->localizationService->translate('oldPasswordFailure'),
                 1537898030
             );
         }

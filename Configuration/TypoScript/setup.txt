@@ -33,6 +33,11 @@ plugin.tx_fechangepwd {
             enabled = 1
         }
 
+        # If enabled, the new password is checked against the old password, so a user must choose a different password.
+        oldPasswordCheck {
+            enabled = 1
+        }
+
         # If enabled, passwords saved with the extension will expire after the configured amount of days
         passwordExpiration {
             enabled = 0

@@ -35,6 +35,10 @@
                 <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
                 <target>Dieses Passwort ist durch Datendiebstahl bekannt und kommt %1s mal in der haveibeenpwned.com Datenbank vor. Bitte wählen Sie ein anderes Passwort.</target>
             </trans-unit>
+            <trans-unit id="oldPasswordFailure">
+                <source>This password can not be used, because it equals the old password.</source>
+                <target>Dieses Passwort kann nicht verwendet werden, da es dem aktuellen Passwort entspricht.</target>
+            </trans-unit>
             <trans-unit id="passwordUpdated">
                 <source>The password has been updated</source>
                 <target>Ihr Passwort wurde aktualisiert</target>

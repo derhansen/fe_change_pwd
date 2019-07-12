@@ -79,6 +79,11 @@ page with the Plugin of the extension
 password has not been exposed in a data breach. Note, that the API uses a k-Anonymity model, so no passwords are 
 submitted to the external service. Read more about it [here](https://haveibeenpwned.com/API/v2#SearchingPwnedPasswordsByRange)
 
+**plugin.tx_fechangepwd.settings.oldPasswordCheck**
+
+* `enabled` *(bool)* If set to `1`, it is checked, if the new password equals the old password and if so, the user
+must choose a different password.
+
 **plugin.tx_fechangepwd.settings.passwordExpiration**
 
 * `enabled` *(bool)* Is set to `1`, new passwords will expire after the configured amount of days

@@ -27,6 +27,9 @@
             <trans-unit id="pwnedPasswordFailure">
                 <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
             </trans-unit>
+            <trans-unit id="oldPasswordFailure">
+                <source>This password can not be used, because it equals the old password.</source>
+            </trans-unit>
             <trans-unit id="passwordUpdated">
                 <source>The password has been updated</source>
             </trans-unit>
