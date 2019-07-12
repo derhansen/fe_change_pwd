@@ -100,6 +100,11 @@ if you e.g. want to force a redirect for a page and all subpages
 * `excludePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `excludePageUids`. Use this option, 
 if you e.g. want to exclude a page and all subpages for the redirect
 
+**plugin.tx_fechangepwd.settings.afterPasswordChangeAction**
+
+* `redirect` *(string)* Redirects the user to the "update" action and adds a flash message, that the password has been updated. 
+* `view` *(string)* Shows the view for the update action with a message, that the password has been updated
+
 ## Styling
 
 The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template) 

@@ -61,5 +61,8 @@ plugin.tx_fechangepwd {
             # If > 0, all page uids configured in excludePageUids will be resolved by the given recursion level
             excludePageUidsRecursionLevel = 0
         }
+
+        # What to do after a successful password change (allowed values are "redirect" or "view")
+        afterPasswordChangeAction = redirect
     }
 }

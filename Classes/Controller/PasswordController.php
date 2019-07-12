@@ -11,6 +11,7 @@ namespace Derhansen\FeChangePwd\Controller;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class PasswordController
@@ -56,5 +57,23 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function updateAction(ChangePassword $changePassword)
     {
         $this->frontendUserService->updatePassword($changePassword->getPassword1());
+        if (isset($this->settings['afterPasswordChangeAction']) &&
+            $this->settings['afterPasswordChangeAction'] === 'redirect') {
+            $this->addFlashMessage(
+                LocalizationUtility::translate('passwordUpdated', 'fe_change_pwd'),
+                LocalizationUtility::translate('passwordUpdated.title', 'fe_change_pwd')
+            );
+            $this->redirect('edit');
+        }
+    }
+
+    /**
+     * Suppress default flash messages
+     *
+     * @return bool
+     */
+    protected function getErrorFlashMessage()
+    {
+        return false;
     }
 }

@@ -33,6 +33,9 @@
             <trans-unit id="passwordUpdated">
                 <source>The password has been updated</source>
             </trans-unit>
+            <trans-unit id="passwordUpdated.title">
+                <source>Password updated</source>
+            </trans-unit>
             <trans-unit id="password">
                 <source>Password</source>
             </trans-unit>
