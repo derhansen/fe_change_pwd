@@ -19,6 +19,7 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Redirect to configured page when password change is required (uses PSR-15 Middleware in TYPO3 v9)
 * Password expiration after a configurable amount of days
 * Optional check if password has been part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API and the k-Anonymity model
+* Optional require the current password in order to change it
 
 ## Screenshot
 
@@ -73,6 +74,10 @@ page with the Plugin of the extension
 * `digitCheck` *(bool)* Is set to `1`, the password must at least contain one digit
 * `specialCharCheck` *(bool)* Is set to `1`, the password must at least contain one special character
 
+**plugin.tx_fechangepwd.settings.requireCurrentPassword**
+
+* `enabled` *(bool)* If set to `1`, the user must enter the current password in order to set a new password.
+
 **plugin.tx_fechangepwd.settings.pwnedpasswordsCheck**
 
 * `enabled` *(bool)* If set to `1`, the new password is checked using the haveibeenpwned.com API to verify, that the 
@@ -121,8 +126,10 @@ In TYPO3 8.7, you must ensure, that the Setting `basic.FE.enabled` is enabled fo
 
 ## Thanks for sponsoring
 
-I would like to thank [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this 
+* Thanks to [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this 
 extension and for supporting open source software.
+
+* Thanks to [t3site.com](https://www.t3site.com/) for sponsoring the "Require current password" feature.
 
 ## Additional thanks
 

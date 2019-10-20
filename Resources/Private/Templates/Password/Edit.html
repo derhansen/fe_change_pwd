@@ -31,6 +31,14 @@
 
 			<f:form action="update" name="changePassword" object="{changePassword}" method="post">
 				<fieldset>
+					<f:if condition="{settings.requireCurrentPassword.enabled} == 1">
+						<div>
+							<label for="currentPassword">
+								<f:translate key="currentPassword" />
+							</label>
+							<f:form.password id="currentPassword" property="currentPassword" />
+						</div>
+					</f:if>
 					<div>
 						<label for="password1">
 							<f:translate key="password" />

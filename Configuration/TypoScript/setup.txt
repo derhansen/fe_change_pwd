@@ -28,6 +28,11 @@ plugin.tx_fechangepwd {
             specialCharCheck = 1
         }
 
+        # If enabled, it is required to enter the current password in order to set a new one
+        requireCurrentPassword {
+            enabled = 0
+        }
+
         # If enabled, the password for password breaches using the haveibeenpwned.com API
         pwnedpasswordsCheck {
             enabled = 1

@@ -98,6 +98,16 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
         $result = true;
         $settings = $this->settingsService->getSettings();
 
+        // Early return if old password is required, but either empty or not valid
+        if (isset($settings['requireCurrentPassword']['enabled']) &&
+            (bool)$settings['requireCurrentPassword']['enabled']
+        ) {
+            $requireCurrentPasswordResult = $this->evaluateRequireCurrentPassword($value);
+            if ($requireCurrentPasswordResult === false) {
+                return false;
+            }
+        }
+
         // Early return if no passwords are given
         if ($value->getPassword1() === '' || $value->getPassword2() === '') {
             $this->addError(
@@ -212,11 +222,41 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
      */
     protected function evaluateOldPasswordCheck(ChangePassword $changePassword)
     {
-        if ($this->oldPasswordService->checkNewEqualsOldPassword($changePassword->getPassword1())) {
+        if ($this->oldPasswordService->checkEqualsOldPassword($changePassword->getPassword1())) {
             $this->addError(
                 $this->localizationService->translate('oldPasswordFailure'),
-                1537898030
+                1570880406065
             );
         }
+    }
+
+    /**
+     * Evaluates if the current password is not empty and valid
+     *
+     * @param ChangePassword $changePassword
+     * @return bool
+     */
+    protected function evaluateRequireCurrentPassword(ChangePassword $changePassword): bool
+    {
+        $result = true;
+        $oldPasswordEmpty = $changePassword->getCurrentPassword() === '';
+        if ($oldPasswordEmpty) {
+            $result = false;
+            $this->addError(
+                $this->localizationService->translate('currentPasswordEmpty'),
+                1570880411334
+            );
+        }
+
+        if ($oldPasswordEmpty === false &&
+            !$this->oldPasswordService->checkEqualsOldPassword($changePassword->getCurrentPassword())
+        ) {
+            $result = false;
+            $this->addError(
+                $this->localizationService->translate('currentPasswordFailure'),
+                1570880417020
+            );
+        }
+        return $result;
     }
 }

@@ -25,6 +25,11 @@ class ChangePassword
     protected $password2 = '';
 
     /**
+     * @var string
+     */
+    protected $currentPassword = '';
+
+    /**
      * @return string
      */
     public function getPassword1()
@@ -54,5 +59,21 @@ class ChangePassword
     public function setPassword2(string $password2)
     {
         $this->password2 = $password2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentPassword()
+    {
+        return $this->currentPassword;
+    }
+
+    /**
+     * @param string $currentPassword
+     */
+    public function setCurrentPassword(string $currentPassword)
+    {
+        $this->currentPassword = $currentPassword;
     }
 }

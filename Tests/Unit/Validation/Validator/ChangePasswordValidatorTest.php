@@ -10,6 +10,7 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Validation\Validator;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\LocalizationService;
+use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 use Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
@@ -41,7 +42,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
     /**
      * @return array
      */
-    public function validatorReturnsExpectedResultsDataProvider()
+    public function validatePasswordComplexityDataProvider()
     {
         return [
             'no password given' => [
@@ -145,9 +146,9 @@ class ChangePasswordValidatorTest extends UnitTestCase
 
     /**
      * @test
-     * @dataProvider validatorReturnsExpectedResultsDataProvider
+     * @dataProvider validatePasswordComplexityDataProvider
      */
-    public function validatorReturnsExpectedResultsTest($password1, $password2, $expected, $settings)
+    public function validatePasswordComplexityTest($password1, $password2, $expected, $settings)
     {
         $changePassword = new ChangePassword();
         $changePassword->setPassword1($password1);
@@ -168,5 +169,75 @@ class ChangePasswordValidatorTest extends UnitTestCase
         $this->inject($this->validator, 'localizationService', $mockLocalizationService);
 
         $this->assertEquals($expected, $this->validator->validate($changePassword)->hasErrors());
+    }
+
+    /**
+     * @test
+     */
+    public function noCurrentPasswordGivenTest()
+    {
+        $changePassword = new ChangePassword();
+        $changePassword->setCurrentPassword('');
+
+        $settings = [
+            'requireCurrentPassword' => [
+                'enabled' => 1
+            ]
+        ];
+
+        $mockSettingsService = $this->getMockBuilder(SettingsService::class)
+            ->setMethods(['getSettings'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockSettingsService->expects($this->once())->method('getSettings')->will($this->returnValue($settings));
+        $this->inject($this->validator, 'settingsService', $mockSettingsService);
+
+        $mockLocalizationService = $this->getMockBuilder(LocalizationService::class)
+            ->setMethods(['translate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockLocalizationService->expects($this->any())->method('translate')->will($this->returnValue(''));
+        $this->inject($this->validator, 'localizationService', $mockLocalizationService);
+
+        $this->assertEquals(1570880411334, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
+    }
+
+    /**
+     * @test
+     */
+    public function currentPasswordWrongTest()
+    {
+        $changePassword = new ChangePassword();
+        $changePassword->setCurrentPassword('invalid');
+
+        $settings = [
+            'requireCurrentPassword' => [
+                'enabled' => 1
+            ]
+        ];
+
+        $mockSettingsService = $this->getMockBuilder(SettingsService::class)
+            ->setMethods(['getSettings'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockSettingsService->expects($this->once())->method('getSettings')->will($this->returnValue($settings));
+        $this->inject($this->validator, 'settingsService', $mockSettingsService);
+
+        $mockLocalizationService = $this->getMockBuilder(LocalizationService::class)
+            ->setMethods(['translate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockLocalizationService->expects($this->any())->method('translate')->will($this->returnValue(''));
+        $this->inject($this->validator, 'localizationService', $mockLocalizationService);
+
+        $mockOldPasswordService = $this->getMockBuilder(OldPasswordService::class)
+            ->setMethods(['checkEqualsOldPassword'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockOldPasswordService->expects($this->any())->method('checkEqualsOldPassword')
+            ->will($this->returnValue(false));
+        $this->inject($this->validator, 'oldPasswordService', $mockOldPasswordService);
+
+        $this->assertEquals(1570880417020, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
     }
 }

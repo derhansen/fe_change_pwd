@@ -27,7 +27,7 @@ class OldPasswordService
      * @throws MissingPasswordHashServiceException
      * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */
-    public function checkNewEqualsOldPassword(string $password)
+    public function checkEqualsOldPassword(string $password)
     {
         if (class_exists(PasswordHashFactory::class)) {
             $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
