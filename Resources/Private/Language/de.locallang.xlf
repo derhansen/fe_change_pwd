@@ -43,6 +43,14 @@
                 <source>The password has been updated</source>
                 <target>Ihr Passwort wurde aktualisiert</target>
             </trans-unit>
+            <trans-unit id="passwordUpdated.title">
+                <source>Password updated</source>
+                <target>Password aktualisier</target>
+            </trans-unit>
+            <trans-unit id="currentPassword">
+                <source>Current Password</source>
+                <target>Aktuelles Passwort</target>
+            </trans-unit>
             <trans-unit id="password">
                 <source>Password</source>
                 <target>Passwort</target>
@@ -70,6 +78,14 @@
             <trans-unit id="notLoggedIn">
                 <source>You need to be logged in to update your password</source>
                 <target>Sie müssen eingeloggt sein, um Ihr Passwort zu aktualisieren</target>
+            </trans-unit>
+            <trans-unit id="currentPasswordEmpty">
+                <source>Please enter your current password in the corresponding field.</source>
+                <target>Bitte geben Sie Ihr aktuelles Passwort in das dafür vorgesehene Feld ein.</target>
+            </trans-unit>
+            <trans-unit id="currentPasswordFailure">
+                <source>The current password you entered is wrong.</source>
+                <target>Das eingegebene aktuelle Passwort ist falsch.</target>
             </trans-unit>
         </body>
     </file>
