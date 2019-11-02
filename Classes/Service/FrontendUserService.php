@@ -112,6 +112,36 @@ class FrontendUserService
     }
 
     /**
+     * Returns the changeHmac for the current logged in user
+     *
+     * @return string
+     */
+    public function getChangeHmac()
+    {
+        if (!$this->isUserLoggedIn()) {
+            return '';
+        }
+
+        $userUid = $this->getFrontendUser()->user['uid'];
+        return GeneralUtility::hmac('fe_user_' . $userUid, 'fe_change_pwd');
+    }
+
+    /**
+     * Validates the given changeHmac
+     *
+     * @param string $changeHmac
+     * @return bool
+     */
+    public function validateChangeHmac($changeHmac)
+    {
+        if ($changeHmac !== '' && $changeHmac === $this->getChangeHmac()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Returns a password hash
      *
      * @param string $password
