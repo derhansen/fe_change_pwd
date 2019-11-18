@@ -85,7 +85,7 @@ class ChangePassword
     /**
      * @return string
      */
-    public function getChangeHmac()
+    public function getChangeHmac(): string
     {
         return $this->changeHmac;
     }

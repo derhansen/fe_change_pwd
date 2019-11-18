@@ -56,7 +56,7 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function initializeUpdateAction()
     {
         $changePasswordArray = $this->request->getArgument('changePassword');
-        $changeHmac = $changePasswordArray['changeHmac'] ? $changePasswordArray['changeHmac'] : '';
+        $changeHmac = $changePasswordArray['changeHmac'] ? (string)$changePasswordArray['changeHmac'] : '';
         if (!$this->frontendUserService->validateChangeHmac($changeHmac)) {
             throw new \TYPO3\CMS\Extbase\Security\Exception\InvalidHashException(
                 'Possible CSRF detected. Ensure a valid "changeHmac" is provided.',
