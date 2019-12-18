@@ -112,6 +112,37 @@ class FrontendUserService
     }
 
     /**
+     * Returns the changeHmac for the current logged in user
+     *
+     * @return string
+     */
+    public function getChangeHmac(): string
+    {
+        if (!$this->isUserLoggedIn()) {
+            return '';
+        }
+
+        $userUid = $this->getFrontendUser()->user['uid'];
+        if (!is_int($userUid) || (int)$userUid <= 0) {
+            throw new InvalidUserException('The fe_user uid is not a positive number.', 1574102778917);
+        }
+
+        $tstamp = $this->getFrontendUser()->user['tstamp'];
+        return GeneralUtility::hmac('fe_user_' . $userUid . '_' . $tstamp, 'fe_change_pwd');
+    }
+
+    /**
+     * Validates the given changeHmac
+     *
+     * @param string $changeHmac
+     * @return bool
+     */
+    public function validateChangeHmac(string $changeHmac): bool
+    {
+        return is_string($changeHmac) && $changeHmac !== '' && hash_equals($this->getChangeHmac(), $changeHmac);
+    }
+
+    /**
      * Returns a password hash
      *
      * @param string $password

@@ -117,12 +117,40 @@ the fluid templates to your needs.
 
 ## Possible Errors
 
+### No password hashing service
+
 The extension will not save a users password, if it can not be securily be hashed. If this scenario occurs,
 the following exception is shown: 
 
 `No secure password hashing service could be initialized. Please check your TYPO3 system configuration`
 
 In TYPO3 8.7, you must ensure, that the Setting `basic.FE.enabled` is enabled for the `saltedpasswords` extension.  
+
+### Possible CSRF detected
+
+When the extension detects a possible CSRF, the following message is shown:
+
+`Possible CSRF detected. Ensure a valid "changeHmac" is provided.`
+
+If you unexpectedly see this message, see ensure you add the `changeHmac` property as described in "Breaking Changes"
+for version 1.5.0
+
+## Breaking changes
+
+###  Version 1.5.0
+
+**Added CSRF protection.**
+
+If you use an own template for "Edit.html", you must add the following code inside `<f:form>...</f:form>`.
+
+```
+<f:form.hidden property="changeHmac" />
+``` 
+
+Prior to version 1.5.0, the extension did contain a CSRF vulnerabilty, if `settings.requireCurrentPassword` was
+disabled (default). In order to mitigate the issue, the property `changeHmac` has been added to the DTO. This
+property contains a HMAC, which is unique for the current logged in user. When the provided `changeHmac` does not
+match the expected value, an exception is thrown when the form is submitted.
 
 ## Thanks for sponsoring
 
