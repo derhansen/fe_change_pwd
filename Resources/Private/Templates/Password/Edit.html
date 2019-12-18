@@ -30,6 +30,7 @@
 			</f:form.validationResults>
 
 			<f:form action="update" name="changePassword" object="{changePassword}" method="post">
+				<f:form.hidden property="changeHmac" />
 				<fieldset>
 					<f:if condition="{settings.requireCurrentPassword.enabled} == 1">
 						<div>

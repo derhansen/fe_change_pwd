@@ -30,6 +30,11 @@ class ChangePassword
     protected $currentPassword = '';
 
     /**
+     * @var string
+     */
+    protected $changeHmac = '';
+
+    /**
      * @return string
      */
     public function getPassword1()
@@ -75,5 +80,21 @@ class ChangePassword
     public function setCurrentPassword(string $currentPassword)
     {
         $this->currentPassword = $currentPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChangeHmac(): string
+    {
+        return $this->changeHmac;
+    }
+
+    /**
+     * @param string $changeHmac
+     */
+    public function setChangeHmac(string $changeHmac)
+    {
+        $this->changeHmac = $changeHmac;
     }
 }
