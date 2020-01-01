@@ -159,7 +159,7 @@ class PageAccessService
         $storagePids = GeneralUtility::intExplode(',', $pidList);
         foreach ($storagePids as $startPid) {
             if ($startPid >= 0) {
-                $pids = $this->queryGenerator->getTreeList($startPid, $recursive, 0, 1);
+                $pids = (string)$this->queryGenerator->getTreeList($startPid, $recursive, 0, 1);
                 if (strlen($pids) > 0) {
                     $recursiveStoragePids .= ',' . $pids;
                 }
