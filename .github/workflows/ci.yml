@@ -1,0 +1,41 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        typo3: [^8.7, ^9.5]
+        php: ['7.0', '7.1', '7.2', '7.3']
+        exclude:
+          # exclude unsupported PHP versions for TYPO3 9.5
+          - typo3: ^9.5
+            php: ['7.0', '7.1']
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up PHP Version
+        run: |
+          sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
+          php -v
+      - name: Update Composer
+        run: |
+          sudo composer self-update
+          composer --version
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: |
+          composer require nimut/typo3-complete:${{ matrix.typo3 }} --no-progress
+          git checkout composer.json
+
+      - name: Lint PHP
+        run: phplint
+
+      - name: Unit Tests
+        run: .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/

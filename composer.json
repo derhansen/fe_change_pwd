@@ -24,7 +24,8 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "nimut/testing-framework": "4.x-dev"
+    "nimut/testing-framework": "4.x-dev",
+    "overtrue/phplint": "^1.1"
   },
   "replace": {
     "typo3-ter/force-pwd-change-fe": "self.version"
