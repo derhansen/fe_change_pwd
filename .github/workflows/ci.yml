@@ -23,7 +23,7 @@ jobs:
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v1
         with:
-          php-version: {{ matrix.php }}
+          php-version: ${{ matrix.php }}
           tools: composer
 
       - name: Validate composer.json and composer.lock
