@@ -9,9 +9,11 @@ jobs:
     strategy:
       matrix:
         typo3: [^8.7, ^9.5]
-        php: ['7.1', '7.2', '7.3']
+        php: ['7.0', '7.1', '7.2', '7.3']
         exclude:
           # exclude unsupported PHP versions for TYPO3 9.5
+          - typo3: ^9.5
+            php: '7.0'
           - typo3: ^9.5
             php: '7.1'
 
@@ -19,13 +21,11 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Set up PHP Version
-        run: |
-          sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
-          php -v
-      - name: Update Composer
-        run: |
-          sudo composer self-update
-          composer --version
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: {{ matrix.php }}
+          tools: composer
+
       - name: Validate composer.json and composer.lock
         run: composer validate
 
