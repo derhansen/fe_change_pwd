@@ -40,10 +40,3 @@ jobs:
 
       - name: Unit Tests
         run: .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
-
-      - name: Unit Tests with coverage
-        run: |
-          .Build/bin/phpunit --coverage-clover=unittest-coverage.clover --colors -c Tests/Build/UnitTests.xml
-          echo "Uploading code coverage results";
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
