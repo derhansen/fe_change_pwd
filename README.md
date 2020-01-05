@@ -132,7 +132,7 @@ When the extension detects a possible CSRF, the following message is shown:
 
 `Possible CSRF detected. Ensure a valid "changeHmac" is provided.`
 
-If you unexpectedly see this message, see ensure you add the `changeHmac` property as described in "Breaking Changes"
+If you unexpectedly see this message, ensure you add the `changeHmac` property as described in "Breaking Changes"
 for version 1.5.0
 
 ## Breaking changes
