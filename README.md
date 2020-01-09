@@ -135,6 +135,17 @@ When the extension detects a possible CSRF, the following message is shown:
 If you unexpectedly see this message, ensure you add the `changeHmac` property as described in "Breaking Changes"
 for version 1.5.0
 
+## For developers
+
+### Signal slots
+
+The extension currently contains the following signal slots:
+
+* Derhansen\\FeChangePwd\\Service\\FrontendUserService
+  * updatePasswordAfterUpdate
+
+Please refer to the class and function for signal arguments.
+
 ## Breaking changes
 
 ###  Version 1.5.0
