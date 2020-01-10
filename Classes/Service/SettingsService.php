@@ -9,6 +9,8 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class SettingsService
  */
@@ -18,22 +20,6 @@ class SettingsService
      * @var mixed
      */
     protected $settings = null;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     */
-    protected $configurationManager;
-
-    /**
-     * Injects the Configuration Manager and loads the settings
-     *
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-     */
-    public function injectConfigurationManager(
-        \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-    ) {
-        $this->configurationManager = $configurationManager;
-    }
 
     /**
      * Returns the settings
@@ -49,10 +35,8 @@ class SettingsService
                 $GLOBALS['TSFE']->getConfigArray();
             }
 
-            $this->settings = $this->configurationManager->getConfiguration(
-                \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
-                'FeChangePwd'
-            );
+            $settings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_fechangepwd.']['settings.'] ?? [];
+            $this->settings = GeneralUtility::removeDotsFromTS($settings);
         }
         return $this->settings;
     }
