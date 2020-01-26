@@ -9,7 +9,7 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
  */
 
 use Derhansen\FeChangePwd\Service\FrontendUserService;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class FrontendUserServiceTest

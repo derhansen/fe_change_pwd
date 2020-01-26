@@ -24,7 +24,7 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "nimut/testing-framework": "5.x-dev",
+    "typo3/testing-framework": "^4.9 || ^6.1",
     "overtrue/phplint": "^1.1"
   },
   "replace": {
