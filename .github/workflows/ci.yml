@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require nimut/typo3-complete:${{ matrix.typo3 }} --no-progress
+          composer require typo3/cms-core:${{ matrix.typo3 }} --no-progress
           git checkout composer.json
 
       - name: Lint PHP
