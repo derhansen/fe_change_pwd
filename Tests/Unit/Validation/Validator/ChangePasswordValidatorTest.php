@@ -30,7 +30,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
      *
      * @return void
      */
-    public function setup()
+    protected function setup()
     {
         parent::setUp();
         $this->validator = $this->getAccessibleMock(
