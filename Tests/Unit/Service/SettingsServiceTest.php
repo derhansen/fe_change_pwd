@@ -10,7 +10,7 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
 
 use Derhansen\FeChangePwd\Service\SettingsService;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Class SettingsServiceTest

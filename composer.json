@@ -19,17 +19,12 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^9.5.5 || 10.*@dev",
+    "typo3/cms-core": "^9.5.5 || ~10.2.0",
     "ext-curl": "*",
     "ext-pdo": "*"
   },
   "require-dev": {
-    "typo3/cms-backend": "^9.5.5 || 10.*@dev",
-    "typo3/cms-frontend": "^9.5.5 || 10.*@dev",
-    "typo3/cms-recordlist": "^9.5.5 || 10.*@dev",
-    "typo3/cms-extbase": "^9.5.5 || 10.*@dev",
-    "typo3/cms-fluid": "^9.5.5 || 10.*@dev",
-    "typo3/testing-framework": "^4.9 || ^6.1",
+    "nimut/testing-framework": "5.x-dev",
     "overtrue/phplint": "^1.1"
   },
   "replace": {

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        typo3: [^9.5, ^10.0, dev-master]
+        typo3: ['^9.5', '~10.2.0']
         php: ['7.2', '7.3']
 
     steps:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require typo3/cms-core:${{ matrix.typo3 }} --no-progress
+          composer require nimut/typo3-complete:"${{ matrix.typo3 }}" --no-progress --no-suggest --prefer-dist
           git checkout composer.json
 
       - name: Lint PHP

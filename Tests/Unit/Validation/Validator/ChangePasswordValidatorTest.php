@@ -13,7 +13,7 @@ use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 use Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Class ChangePasswordValidatorTest
