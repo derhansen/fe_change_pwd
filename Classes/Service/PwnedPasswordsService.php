@@ -9,6 +9,9 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Http\RequestFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class PwnedPasswordsService
  */
@@ -26,14 +29,17 @@ class PwnedPasswordsService
     public function checkPassword(string $password)
     {
         $hash = sha1($password);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::API_URL . substr($hash, 0, 5));
-        curl_setopt($ch, CURLOPT_USERAGENT, 'TYPO3 Extension fe_change_pwd');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $results = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        if (($httpCode !== 200) || empty($results)) {
+        $request = GeneralUtility::makeInstance(RequestFactory::class);
+        $response = $request->request(
+            self::API_URL . substr($hash, 0, 5),
+            'GET',
+            [
+                'User-Agent' => 'TYPO3 Extension fe_change_pwd'
+            ]
+        );
+
+        $results = $response->getBody()->getContents();
+        if (($response->getStatusCode() !== 200) || empty($results)) {
             // Something went wrong with the request, return 0 and ignore check
             return 0;
         }
