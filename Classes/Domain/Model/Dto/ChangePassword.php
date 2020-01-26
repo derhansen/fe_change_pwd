@@ -37,7 +37,7 @@ class ChangePassword
     /**
      * @return string
      */
-    public function getPassword1()
+    public function getPassword1(): string
     {
         return $this->password1;
     }
@@ -53,7 +53,7 @@ class ChangePassword
     /**
      * @return string
      */
-    public function getPassword2()
+    public function getPassword2(): string
     {
         return $this->password2;
     }
@@ -69,7 +69,7 @@ class ChangePassword
     /**
      * @return string
      */
-    public function getCurrentPassword()
+    public function getCurrentPassword(): string
     {
         return $this->currentPassword;
     }

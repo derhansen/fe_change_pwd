@@ -19,12 +19,12 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^8.7 || ^9.5",
+    "typo3/cms-core": "^9.5.5 || 10.*@dev",
     "ext-curl": "*",
     "ext-pdo": "*"
   },
   "require-dev": {
-    "nimut/testing-framework": "4.x-dev",
+    "nimut/testing-framework": "5.x-dev",
     "overtrue/phplint": "^1.1"
   },
   "replace": {

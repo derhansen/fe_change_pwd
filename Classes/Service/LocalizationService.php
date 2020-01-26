@@ -23,7 +23,7 @@ class LocalizationService
      * @param array $arguments
      * @return string
      */
-    public function translate(string $key, array $arguments = [])
+    public function translate(string $key, array $arguments = []): string
     {
         $result = LocalizationUtility::translate($key, 'fe_change_pwd', $arguments);
         if (!$result) {

@@ -124,8 +124,6 @@ the following exception is shown:
 
 `No secure password hashing service could be initialized. Please check your TYPO3 system configuration`
 
-In TYPO3 8.7, you must ensure, that the Setting `basic.FE.enabled` is enabled for the `saltedpasswords` extension.  
-
 ### Possible CSRF detected
 
 When the extension detects a possible CSRF, the following message is shown:
@@ -162,6 +160,10 @@ Prior to version 1.5.0, the extension did contain a CSRF vulnerabilty, if `setti
 disabled (default). In order to mitigate the issue, the property `changeHmac` has been added to the DTO. This
 property contains a HMAC, which is unique for the current logged in user. When the provided `changeHmac` does not
 match the expected value, an exception is thrown when the form is submitted.
+
+###  Version 2.0.0
+
+Dropped TYPO3 8.7 compatibility.
 
 ## Thanks for sponsoring
 

@@ -86,8 +86,8 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
                 'addQueryString' => true,
                 'addQueryString.' => ['exclude' => 'id'],
                 // ensure absolute URL is generated when having a valid Site
-                'forceAbsoluteUrl' => $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface
-                    && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
+                'forceAbsoluteUrl' => $request instanceof ServerRequestInterface
+                    && $request->getAttribute('site') instanceof Site
             ]);
             return new RedirectResponse($url, 307);
         }

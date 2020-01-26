@@ -9,11 +9,10 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
-use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * Class FrontendUserService
@@ -57,7 +56,7 @@ class FrontendUserService
      * @param array $feUserRecord
      * @return bool
      */
-    public function mustChangePassword(array $feUserRecord)
+    public function mustChangePassword(array $feUserRecord): bool
     {
         $reason = '';
         $result = false;
@@ -172,14 +171,11 @@ class FrontendUserService
      * @throws MissingPasswordHashServiceException
      * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */
-    protected function getPasswordHash(string $password)
+    protected function getPasswordHash(string $password): string
     {
         if (class_exists(PasswordHashFactory::class)) {
             $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
             $password = $hashInstance->getHashedPassword($password);
-        } elseif (SaltedPasswordsUtility::isUsageEnabled('FE')) {
-            $saltingInstance = SaltFactory::getSaltingInstance();
-            $password = $saltingInstance->getHashedPassword($password);
         } else {
             throw new MissingPasswordHashServiceException(
                 'No secure password hashing service could be initialized. Please check your TYPO3 system configuration',
@@ -195,9 +191,9 @@ class FrontendUserService
      *
      * @return bool
      */
-    public function isUserLoggedIn()
+    public function isUserLoggedIn(): bool
     {
-        return $GLOBALS['TSFE']->loginUser;
+        return GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user')->isLoggedIn();
     }
 
     /**

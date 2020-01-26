@@ -12,6 +12,7 @@ namespace Derhansen\FeChangePwd\Controller;
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  * Class PasswordController
@@ -69,7 +70,7 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * Update action
      *
      * @param \Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword $changePassword
-     * @validate $changePassword \Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator
+     * @Extbase\Validate(param="changePassword", validator="Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator")
      *
      * @return void
      */

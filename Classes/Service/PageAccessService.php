@@ -48,7 +48,7 @@ class PageAccessService
      *
      * @return string
      */
-    public function getRedirectMode()
+    public function getRedirectMode(): string
     {
         $settings = $this->settingsService->getSettings();
         if ((bool)$settings['redirect']['allAccessProtectedPages']) {
@@ -70,7 +70,10 @@ class PageAccessService
     {
         $settings = $this->settingsService->getSettings();
         if (!isset($settings['changePasswordPid']) || (int)$settings['changePasswordPid'] === 0) {
-            // @todo throw exception
+            throw new NoChangePasswordPidException(
+                'settings.changePasswordPid is not set or zero',
+                1580040840163
+            );
         }
         return (int)$settings['changePasswordPid'];
     }
@@ -81,7 +84,7 @@ class PageAccessService
      * @param int $pageUid
      * @return bool
      */
-    public function isIncludePage($pageUid)
+    public function isIncludePage($pageUid): bool
     {
         $settings = $this->settingsService->getSettings();
         if (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
@@ -102,7 +105,7 @@ class PageAccessService
      * @param int $pageUid
      * @return bool
      */
-    public function isExcludePage($pageUid)
+    public function isExcludePage($pageUid): bool
     {
         $settings = $this->settingsService->getSettings();
         if (isset($settings['redirect']['excludePageUids']) && $settings['redirect']['excludePageUids'] !== '') {
@@ -125,7 +128,7 @@ class PageAccessService
      * @param array $rootline
      * @return bool
      */
-    public function isAccessProtectedPageInRootline($rootline)
+    public function isAccessProtectedPageInRootline($rootline): bool
     {
         $isAccessProtected = false;
         $loop = 0;
@@ -148,7 +151,7 @@ class PageAccessService
      * @param int $recursive recursive levels
      * @return string comma separated list of ids
      */
-    protected function extendPidListByChildren($pidList = '', $recursive = 0)
+    protected function extendPidListByChildren($pidList = '', $recursive = 0): string
     {
         $recursive = (int)$recursive;
         if ($recursive <= 0) {

@@ -8,14 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        typo3: [^8.7, ^9.5]
-        php: ['7.0', '7.1', '7.2', '7.3']
-        exclude:
-          # exclude unsupported PHP versions for TYPO3 9.5
-          - typo3: ^9.5
-            php: '7.0'
-          - typo3: ^9.5
-            php: '7.1'
+        typo3: [^9.5, ^10.0, dev-master]
+        php: ['7.2', '7.3']
 
     steps:
       - uses: actions/checkout@v1
