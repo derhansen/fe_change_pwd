@@ -17,22 +17,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class FrontendUserServiceTest extends UnitTestCase
 {
     /**
-     * @var FrontendUserService
-     */
-    protected $subject;
-
-    /**
-     * Setup
-     *
-     * @return void
-     */
-    protected function setup()
-    {
-        parent::setUp();
-        $this->subject = new FrontendUserService();
-    }
-
-    /**
      * @return array
      */
     public function mustChangePasswordReturnsExpectedResultDataProvider()
@@ -72,8 +56,9 @@ class FrontendUserServiceTest extends UnitTestCase
      */
     public function mustChangePasswordReturnsExpectedResult($feUserRecord, $expected)
     {
+        $service = new FrontendUserService();
         $GLOBALS['TSFE'] = new \stdClass();
         $GLOBALS['TSFE']->fe_user = new \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication();
-        $this->assertEquals($expected, $this->subject->mustChangePassword($feUserRecord));
+        $this->assertEquals($expected, $service->mustChangePassword($feUserRecord));
     }
 }

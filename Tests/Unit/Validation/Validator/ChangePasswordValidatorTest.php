@@ -26,13 +26,10 @@ class ChangePasswordValidatorTest extends UnitTestCase
     protected $validator;
 
     /**
-     * Setup
-     *
-     * @return void
+     * Initialize validator
      */
-    protected function setup()
+    public function initialize()
     {
-        parent::setUp();
         $this->validator = $this->getAccessibleMock(
             ChangePasswordValidator::class,
             ['translateErrorMessage', 'getValidator'],
@@ -153,6 +150,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
      */
     public function validatePasswordComplexityTest($password1, $password2, $expected, $settings)
     {
+        $this->initialize();
+
         $changePassword = new ChangePassword();
         $changePassword->setPassword1($password1);
         $changePassword->setPassword2($password2);
@@ -179,6 +178,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
      */
     public function noCurrentPasswordGivenTest()
     {
+        $this->initialize();
+
         $changePassword = new ChangePassword();
         $changePassword->setCurrentPassword('');
 
@@ -210,6 +211,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
      */
     public function currentPasswordWrongTest()
     {
+        $this->initialize();
+
         $changePassword = new ChangePassword();
         $changePassword->setCurrentPassword('invalid');
 

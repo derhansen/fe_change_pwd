@@ -18,22 +18,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class SettingsServiceTest extends UnitTestCase
 {
     /**
-     * @var SettingsService
-     */
-    protected $subject;
-
-    /**
-     * Setup
-     *
-     * @return void
-     */
-    protected function setup()
-    {
-        parent::setUp();
-        $this->subject = new SettingsService();
-    }
-
-    /**
      * @return array
      */
     public function getPasswordExpiryTimestampReturnsExpectedResultDataProvider()
@@ -81,6 +65,8 @@ class SettingsServiceTest extends UnitTestCase
      */
     public function getPasswordExpiryTimestampReturnsExpectedResult($settings, $currentDate, $expected)
     {
+        $service = new SettingsService();
+
         $mockTsfe = $this->getMockBuilder(TypoScriptFrontendController::class)
             ->setMethods(['getConfigArray'])
             ->disableOriginalConstructor()
@@ -88,6 +74,6 @@ class SettingsServiceTest extends UnitTestCase
         $GLOBALS['TSFE'] = $mockTsfe;
         $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_fechangepwd.']['settings.'] = $settings;
 
-        $this->assertEquals($expected, $this->subject->getPasswordExpiryTimestamp($currentDate));
+        $this->assertEquals($expected, $service->getPasswordExpiryTimestamp($currentDate));
     }
 }
