@@ -139,8 +139,8 @@ for version 1.5.0
 
 The extension currently contains the following signal slots:
 
-* Derhansen\\FeChangePwd\\Service\\FrontendUserService
-  * updatePasswordAfterUpdate
+* Derhansen\\FeChangePwd\\Controller\\PasswordController
+  * updateActionAfterUpdatePassword
 
 Please refer to the class and function for signal arguments.
 

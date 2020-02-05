@@ -77,6 +77,16 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function updateAction(ChangePassword $changePassword)
     {
         $this->frontendUserService->updatePassword($changePassword->getPassword1());
+
+        $this->signalSlotDispatcher->dispatch(
+            __CLASS__,
+            __FUNCTION__ . 'AfterUpdatePassword',
+            [
+                $changePassword,
+                $this
+            ]
+        );
+
         if (isset($this->settings['afterPasswordChangeAction']) &&
             $this->settings['afterPasswordChangeAction'] === 'redirect') {
             $this->addFlashMessage(

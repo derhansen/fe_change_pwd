@@ -30,24 +30,11 @@ class FrontendUserService
     protected $settingsService = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     */
-    protected $signalSlotDispatcher = null;
-
-    /**
      * @param SettingsService $settingsService
      */
     public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
-    }
-
-    /**
-     * @param \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
-     */
-    public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher)
-    {
-        $this->signalSlotDispatcher = $signalSlotDispatcher;
     }
 
     /**
@@ -118,15 +105,6 @@ class FrontendUserService
                 )
             )
             ->execute();
-
-        $this->signalSlotDispatcher->dispatch(
-            __CLASS__,
-            __FUNCTION__ . 'AfterUpdate',
-            [
-                $this->getFrontendUser()->user,
-                $this
-            ]
-        );
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
