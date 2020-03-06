@@ -1,5 +1,6 @@
 [![Build Status](https://github.com/derhansen/fe_change_pwd/workflows/CI/badge.svg?branch=master)](https://github.com/derhansen/fe_change_pwd/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/derhansen/fe_change_pwd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/derhansen/fe_change_pwd/?branch=master)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 # Change password for frontend users
 
