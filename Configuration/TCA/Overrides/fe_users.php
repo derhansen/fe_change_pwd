@@ -16,6 +16,7 @@ $tmp_columns = [
             'type' => 'input',
             'renderType' => 'inputDateTime',
             'eval' => 'datetime',
+            'default' => 0,
         ]
     ],
 ];
