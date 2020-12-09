@@ -27,7 +27,7 @@ Password changes for frontend users can be enforced and passwords can expire aft
 The screenshot below shows the output of the "Change Frontend User Password" plugin after the user tried to submit  
 a weak password.
 
-![Screenshot of the plugin outpu](Documentation/Images/plugin-output.png "Output of the plugin after password validation")
+![Screenshot of the plugin output](Documentation/Images/plugin-output.png "Output of the plugin after password validation")
 
 ## Installation
 
@@ -50,8 +50,8 @@ The extension adds two new fields to the fe_users table (see screenshot)
 ![Screenshot of a fe_users](Documentation/Images/fe-user-password-settings.png "New fields in fe_users table")
 
 If the checkbox "User must change password at next login" is set and a valid `changePasswordPid` is configured, 
-the user will be redirected to the configured page after login or whe accessing pages configured in the 
-`plugin.tx_fechangepwd.settings.redirect` section.
+the user will be redirected to the configured page after login when accessing pages as configured in 
+the `plugin.tx_fechangepwd.settings.redirect` section.
 
 The password expiry date defines the date, after a user must change the password. 
 
