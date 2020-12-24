@@ -90,8 +90,8 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         if (isset($this->settings['afterPasswordChangeAction']) &&
             $this->settings['afterPasswordChangeAction'] === 'redirect') {
             $this->addFlashMessage(
-                LocalizationUtility::translate('passwordUpdated', 'fe_change_pwd'),
-                LocalizationUtility::translate('passwordUpdated.title', 'fe_change_pwd')
+                LocalizationUtility::translate('passwordUpdated', 'FeChangePwd'),
+                LocalizationUtility::translate('passwordUpdated.title', 'FeChangePwd')
             );
             $this->redirect('edit');
         }
