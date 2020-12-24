@@ -25,7 +25,7 @@ class LocalizationService
      */
     public function translate(string $key, array $arguments = [])
     {
-        $result = LocalizationUtility::translate($key, 'fe_change_pwd', $arguments);
+        $result = LocalizationUtility::translate($key, 'FeChangePwd', $arguments);
         if (!$result) {
             $result = '';
         }
