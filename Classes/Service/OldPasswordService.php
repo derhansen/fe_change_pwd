@@ -9,6 +9,7 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 
