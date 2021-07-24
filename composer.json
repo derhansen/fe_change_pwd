@@ -31,7 +31,7 @@
     "friendsofphp/php-cs-fixer": "^2.16.1"
   },
   "replace": {
-    "typo3-ter/force-pwd-change-fe": "self.version"
+    "typo3-ter/fe-change-pwd": "self.version"
   },
   "autoload": {
     "psr-4": {
