@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Middleware;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -8,6 +8,8 @@ namespace Derhansen\FeChangePwd\Middleware;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
+namespace Derhansen\FeChangePwd\Middleware;
 
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\PageAccessService;
@@ -19,7 +21,6 @@ use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -28,17 +29,21 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class ForcePasswordChangeRedirect implements MiddlewareInterface
 {
-    /**
-     * @var TypoScriptFrontendController
-     */
-    protected $controller;
+    protected PageAccessService $pageAccessService;
+    protected FrontendUserService $frontendUserService;
+    protected TypoScriptFrontendController $controller;
 
     /**
      * ForcePasswordChangeRedirect constructor.
      * @param TypoScriptFrontendController|null $controller
      */
-    public function __construct(TypoScriptFrontendController $controller = null)
-    {
+    public function __construct(
+        PageAccessService $pageAccessService,
+        FrontendUserService $frontendUserService,
+        ?TypoScriptFrontendController $controller = null
+    ) {
+        $this->pageAccessService = $pageAccessService;
+        $this->frontendUserService = $frontendUserService;
         $this->controller = $controller ?? $GLOBALS['TSFE'];
     }
 
@@ -51,25 +56,23 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $pageAccessService = $objectManager->get(PageAccessService::class);
-        $frontendUserService = $objectManager->get(FrontendUserService::class);
+        $pageId = (int)$this->controller->id;
 
         // Early return if no frontend user available, page is excluded from redirect or user is not
         // forced to change the password
         if (!isset($this->controller->fe_user->user['uid']) ||
-            !$frontendUserService->mustChangePassword($this->controller->fe_user->user) ||
-            $pageAccessService->isExcludePage($this->controller->id)
+            !$this->frontendUserService->mustChangePassword($this->controller->fe_user->user) ||
+            $this->pageAccessService->isExcludePage($this->controller->id)
         ) {
             return $handler->handle($request);
         }
 
-        switch ($pageAccessService->getRedirectMode()) {
+        switch ($this->pageAccessService->getRedirectMode()) {
             case 'allAccessProtectedPages':
-                $mustRedirect = $pageAccessService->isAccessProtectedPageInRootline($this->controller->rootLine);
+                $mustRedirect = $this->pageAccessService->isAccessProtectedPageInRootline($this->controller->rootLine);
                 break;
             case 'includePageUids':
-                $mustRedirect = $pageAccessService->isIncludePage($this->controller->id);
+                $mustRedirect = $this->pageAccessService->isIncludePage($pageId);
                 break;
             default:
                 $mustRedirect = false;
@@ -77,8 +80,8 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
 
         if ($mustRedirect) {
             $this->controller->calculateLinkVars($request->getQueryParams());
-            $parameter = $pageAccessService->getRedirectPid();
-            if ($this->controller->type && MathUtility::canBeInterpretedAsInteger($this->controller->type)) {
+            $parameter = $this->pageAccessService->getRedirectPid();
+            if ($this->controller->type && MathUtility::canBeInterpretedAsInteger($pageId)) {
                 $parameter .= ',' . $this->controller->type;
             }
             $url = GeneralUtility::makeInstance(ContentObjectRenderer::class, $this->controller)->typoLink_URL([

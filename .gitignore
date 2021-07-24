@@ -2,5 +2,6 @@
 .DS_Store
 .Build/
 composer.lock
-.php_cs.cache
 var/
+.phpunit.result.cache
+.php_cs.cache

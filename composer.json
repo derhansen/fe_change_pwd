@@ -19,13 +19,16 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^9.5.5 || ^10.4",
+    "typo3/cms-core": "~11.3.0 || dev-master",
     "ext-curl": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "php": ">=7.4"
   },
   "require-dev": {
-    "nimut/testing-framework": "5.x-dev",
-    "overtrue/phplint": "^1.1"
+    "typo3/testing-framework": "^6.6.4",
+    "overtrue/phplint": "^1.1",
+    "phpunit/phpunit": "^8.5",
+    "friendsofphp/php-cs-fixer": "^2.16.1"
   },
   "replace": {
     "typo3-ter/force-pwd-change-fe": "self.version"
@@ -46,15 +49,15 @@
   },
   "scripts": {
     "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/fe_change_pwd ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/fe_change_pwd"
+      "mkdir -p .Build/Public/typo3conf/ext/",
+      "[ -L .Build/Public/typo3conf/ext/fe_change_pwd ] || ln -snvf ../../../../. .Build/Public/typo3conf/ext/fe_change_pwd"
     ]
   },
   "extra": {
     "typo3/cms": {
       "extension-key": "fe_change_pwd",
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+      "web-dir": ".Build/Public"
     }
   }
 }

@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Service;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -9,6 +9,10 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+namespace Derhansen\FeChangePwd\Service;
+
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -19,19 +23,20 @@ class SettingsService
     /**
      * @var mixed
      */
-    protected $settings = null;
+    protected $settings;
 
     /**
      * Returns the settings
      *
      * @return array
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         if ($this->settings === null) {
             // Ensure, TSFE setup is loaded for cached pages
             if ($GLOBALS['TSFE']->tmpl === null || $GLOBALS['TSFE']->tmpl && empty($GLOBALS['TSFE']->tmpl->setup)) {
-                $GLOBALS['TSFE']->forceTemplateParsing = true;
+                GeneralUtility::makeInstance(Context::class)
+                    ->setAspect('typoscript', GeneralUtility::makeInstance(TypoScriptAspect::class, true));
                 $GLOBALS['TSFE']->getConfigArray();
             }
 
@@ -45,10 +50,10 @@ class SettingsService
      * Returns the password expiry timestamp depending on the configured setting switch. If password expiry is not
      * enabled, 0 is returned. If no password validity in days is configured, 90 days is taken as fallback
      *
-     * @param null|\DateTime $currentDate
+     * @param \DateTime|null $currentDate
      * @return int
      */
-    public function getPasswordExpiryTimestamp($currentDate = null)
+    public function getPasswordExpiryTimestamp(?\DateTime $currentDate = null): int
     {
         if (!$currentDate) {
             $currentDate = new \DateTime();

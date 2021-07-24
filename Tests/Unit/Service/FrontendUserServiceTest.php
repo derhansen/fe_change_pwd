@@ -1,5 +1,4 @@
 <?php
-namespace Derhansen\FeChangePwd\Tests\Unit\Service;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -9,7 +8,9 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
  */
 
 use Derhansen\FeChangePwd\Service\FrontendUserService;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\CMS\Core\Session\UserSessionManager;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class FrontendUserServiceTest
@@ -56,9 +57,16 @@ class FrontendUserServiceTest extends UnitTestCase
      */
     public function mustChangePasswordReturnsExpectedResult($feUserRecord, $expected)
     {
+        $userSessionManager = static::getMockBuilder(UserSessionManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $feUser = new FrontendUserAuthentication();
+        $feUser->initializeUserSessionManager($userSessionManager);
+
         $service = new FrontendUserService();
         $GLOBALS['TSFE'] = new \stdClass();
-        $GLOBALS['TSFE']->fe_user = new \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication();
-        $this->assertEquals($expected, $service->mustChangePassword($feUserRecord));
+        $GLOBALS['TSFE']->fe_user = $feUser;
+        self::assertEquals($expected, $service->mustChangePassword($feUserRecord));
     }
 }

@@ -145,6 +145,14 @@ The extension currently contains the following signal slots:
 
 Please refer to the class and function for signal arguments.
 
+## Versions
+
+| Version             | TYPO3      | PHP       | Support/Development                     |
+| ------------------- | ---------- | ----------|---------------------------------------- |
+| 3.x                 | 11.x       | 7.4 -8.x  | Features, Bugfixes, Security Updates    |
+| 2.x                 | 9.5 - 10.x | 7.2 - 7.4 | Bugfixes, Security Updates              |
+| 1.x                 | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                         |
+
 ## Breaking changes
 
 ###  Version 1.5.0
@@ -165,6 +173,10 @@ match the expected value, an exception is thrown when the form is submitted.
 ###  Version 2.0.0
 
 Dropped TYPO3 8.7 compatibility.
+
+###  Version 3.0.0
+
+Dropped TYPO3 9.5 and 10.4 compatibility.
 
 ## Thanks for sponsoring
 

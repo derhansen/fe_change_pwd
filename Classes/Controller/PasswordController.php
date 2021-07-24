@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Controller;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -9,26 +9,28 @@ namespace Derhansen\FeChangePwd\Controller;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+namespace Derhansen\FeChangePwd\Controller;
+
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class PasswordController
  */
-class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class PasswordController extends ActionController
 {
-    /**
-     * @var FrontendUserService
-     */
-    protected $frontendUserService = null;
+    protected FrontendUserService $frontendUserService;
 
     /**
      * @param FrontendUserService $frontendUserService
      */
     public function injectFrontendUserService(
-        \Derhansen\FeChangePwd\Service\FrontendUserService $frontendUserService
+        FrontendUserService $frontendUserService
     ) {
         $this->frontendUserService = $frontendUserService;
     }
@@ -36,30 +38,32 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     /**
      * Edit action
      *
-     * @return void
+     * @return ResponseInterface
      */
-    public function editAction()
+    public function editAction(): ResponseInterface
     {
-        $changePassword = $this->objectManager->get(ChangePassword::class);
+        $changePassword = new ChangePassword();
         $changePassword->setChangeHmac($this->frontendUserService->getChangeHmac());
         $this->view->assignMultiple([
             'changePasswordReason' => $this->frontendUserService->getMustChangePasswordReason(),
             'changePassword' => $changePassword
         ]);
+
+        return $this->htmlResponse();
     }
 
     /**
      * Ensure a valid changeHmac is provided
      *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Security\Exception\InvalidHashException
+     * @throws InvalidHashException
      */
     public function initializeUpdateAction()
     {
         $changePasswordArray = $this->request->getArgument('changePassword');
         $changeHmac = $changePasswordArray['changeHmac'] ? (string)$changePasswordArray['changeHmac'] : '';
         if (!$this->frontendUserService->validateChangeHmac($changeHmac)) {
-            throw new \TYPO3\CMS\Extbase\Security\Exception\InvalidHashException(
+            throw new InvalidHashException(
                 'Possible CSRF detected. Ensure a valid "changeHmac" is provided.',
                 1572672118931
             );
@@ -70,11 +74,10 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * Update action
      *
      * @param \Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword $changePassword
+     * @return ResponseInterface
      * @Extbase\Validate(param="changePassword", validator="Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator")
-     *
-     * @return void
      */
-    public function updateAction(ChangePassword $changePassword)
+    public function updateAction(ChangePassword $changePassword): ResponseInterface
     {
         $this->frontendUserService->updatePassword($changePassword->getPassword1());
 
@@ -95,6 +98,8 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             );
             $this->redirect('edit');
         }
+
+        return $this->htmlResponse();
     }
 
     /**
@@ -102,7 +107,7 @@ class PasswordController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      *
      * @return bool
      */
-    protected function getErrorFlashMessage()
+    protected function getErrorFlashMessage(): bool
     {
         return false;
     }

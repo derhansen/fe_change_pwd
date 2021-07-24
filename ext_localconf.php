@@ -1,16 +1,17 @@
 <?php
-defined('TYPO3_MODE') or die();
+
+defined('TYPO3') or die();
 
 call_user_func(function () {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'Derhansen.fe_change_pwd',
         'Pi1',
         [
-            'Password' => 'edit,update',
+            \Derhansen\FeChangePwd\Controller\PasswordController::class => 'edit,update',
         ],
         // non-cacheable actions
         [
-            'Password' => 'edit,update',
+            \Derhansen\FeChangePwd\Controller\PasswordController::class => 'edit,update',
         ]
     );
 });

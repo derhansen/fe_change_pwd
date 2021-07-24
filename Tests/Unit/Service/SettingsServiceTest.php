@@ -1,4 +1,5 @@
 <?php
+
 namespace Derhansen\FeChangePwd\Tests\Unit\Service;
 
 /*
@@ -10,7 +11,7 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
 
 use Derhansen\FeChangePwd\Service\SettingsService;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class SettingsServiceTest
@@ -67,13 +68,12 @@ class SettingsServiceTest extends UnitTestCase
     {
         $service = new SettingsService();
 
-        $mockTsfe = $this->getMockBuilder(TypoScriptFrontendController::class)
-            ->setMethods(['getConfigArray'])
+        $GLOBALS['TSFE'] = static::getMockBuilder(TypoScriptFrontendController::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $GLOBALS['TSFE'] = $mockTsfe;
+        $GLOBALS['TSFE']->tmpl = new \stdClass();
         $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_fechangepwd.']['settings.'] = $settings;
 
-        $this->assertEquals($expected, $service->getPasswordExpiryTimestamp($currentDate));
+        self::assertEquals($expected, $service->getPasswordExpiryTimestamp($currentDate));
     }
 }

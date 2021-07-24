@@ -1,5 +1,6 @@
 <?php
-defined('TYPO3_MODE') || die();
+
+defined('TYPO3') or die();
 
 $tmp_columns = [
     'must_change_password' => [
@@ -30,6 +31,6 @@ $tmp_columns = [
 );
 
 // Add the new palette:
-$GLOBALS['TCA']['fe_users']['palettes']['password_settings'] = array(
+$GLOBALS['TCA']['fe_users']['palettes']['password_settings'] = [
     'showitem' => 'must_change_password, password_expiry_date'
-);
+];

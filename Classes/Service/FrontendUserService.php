@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Service;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -9,12 +9,15 @@ namespace Derhansen\FeChangePwd\Service;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+namespace Derhansen\FeChangePwd\Service;
+
 use Derhansen\FeChangePwd\Exception\InvalidUserException;
 use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * Class FrontendUserService
@@ -26,15 +29,12 @@ class FrontendUserService
      */
     const SESSION_KEY = 'mustChangePasswordReason';
 
-    /**
-     * @var SettingsService
-     */
-    protected $settingsService = null;
+    protected SettingsService $settingsService;
 
     /**
      * @param SettingsService $settingsService
      */
-    public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
     }
@@ -81,7 +81,6 @@ class FrontendUserService
      * Updates the password of the current user if a current user session exist
      *
      * @param string $newPassword
-     * @return void
      */
     public function updatePassword(string $newPassword)
     {
@@ -181,7 +180,7 @@ class FrontendUserService
      *
      * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
      */
-    protected function getFrontendUser()
+    protected function getFrontendUser(): FrontendUserAuthentication
     {
         return $GLOBALS['TSFE']->fe_user;
     }

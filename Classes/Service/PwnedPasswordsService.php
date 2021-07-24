@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Service;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -8,6 +8,8 @@ namespace Derhansen\FeChangePwd\Service;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
+namespace Derhansen\FeChangePwd\Service;
 
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -26,7 +28,7 @@ class PwnedPasswordsService
      * @param string $password
      * @return int
      */
-    public function checkPassword(string $password)
+    public function checkPassword(string $password): int
     {
         $hash = sha1($password);
         $request = GeneralUtility::makeInstance(RequestFactory::class);
@@ -45,7 +47,7 @@ class PwnedPasswordsService
         }
 
         if (preg_match('/' . preg_quote(substr($hash, 5)) . ':([0-9]+)/ism', $results, $matches) === 1) {
-            return $matches[1];
+            return (int)$matches[1];
         }
         return 0;
     }

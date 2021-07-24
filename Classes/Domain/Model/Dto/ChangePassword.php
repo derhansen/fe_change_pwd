@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Domain\Model\Dto;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -9,30 +9,17 @@ namespace Derhansen\FeChangePwd\Domain\Model\Dto;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+namespace Derhansen\FeChangePwd\Domain\Model\Dto;
+
 /**
  * Class ChangePassword
  */
 class ChangePassword
 {
-    /**
-     * @var string
-     */
-    protected $password1 = '';
-
-    /**
-     * @var string
-     */
-    protected $password2 = '';
-
-    /**
-     * @var string
-     */
-    protected $currentPassword = '';
-
-    /**
-     * @var string
-     */
-    protected $changeHmac = '';
+    protected string $password1 = '';
+    protected string $password2 = '';
+    protected string $currentPassword = '';
+    protected string $changeHmac = '';
 
     /**
      * @return string

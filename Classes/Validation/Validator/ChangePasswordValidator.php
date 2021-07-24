@@ -1,6 +1,6 @@
 <?php
+
 declare(strict_types=1);
-namespace Derhansen\FeChangePwd\Validation\Validator;
 
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
@@ -9,81 +9,40 @@ namespace Derhansen\FeChangePwd\Validation\Validator;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+namespace Derhansen\FeChangePwd\Validation\Validator;
+
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\PwnedPasswordsService;
 use Derhansen\FeChangePwd\Service\SettingsService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
- * Class RegistrationValidator
+ * Class ChangePasswordValidator
  */
-class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
+class ChangePasswordValidator extends AbstractValidator
 {
-    /**
-     * Available password checks
-     *
-     * @var array
-     */
-    protected $checks = [
+    protected array $checks = [
         'capitalCharCheck',
         'lowerCaseCharCheck',
         'digitCheck',
         'specialCharCheck',
     ];
 
-    /**
-     * @var SettingsService
-     */
-    protected $settingsService = null;
+    protected SettingsService $settingsService;
+    protected LocalizationService $localizationService;
+    protected OldPasswordService $oldPasswordService;
+    protected PwnedPasswordsService $pwnedPasswordsService;
 
-    /**
-     * @var LocalizationService
-     */
-    protected $localizationService = null;
-
-    /**
-     * @var PwnedPasswordsService
-     */
-    protected $pwnedPasswordsService = null;
-
-    /**
-     * @var OldPasswordService
-     */
-    protected $oldPasswordService = null;
-
-    /**
-     * @param SettingsService $settingsService
-     */
-    public function injectSettingsService(\Derhansen\FeChangePwd\Service\SettingsService $settingsService)
+    public function __construct(array $options = [])
     {
-        $this->settingsService = $settingsService;
-    }
-
-    /**
-     * @param LocalizationService $localizationService
-     */
-    public function injectLocalizationService(
-        \Derhansen\FeChangePwd\Service\LocalizationService $localizationService
-    ) {
-        $this->localizationService = $localizationService;
-    }
-
-    /**
-     * @param OldPasswordService $oldPasswordService
-     */
-    public function injectOldPasswordService(\Derhansen\FeChangePwd\Service\OldPasswordService $oldPasswordService)
-    {
-        $this->oldPasswordService = $oldPasswordService;
-    }
-
-    /**
-     * @param PwnedPasswordsService $PwnedPasswordsService
-     */
-    public function injectPwnedPasswordsService(
-        \Derhansen\FeChangePwd\Service\PwnedPasswordsService $PwnedPasswordsService
-    ) {
-        $this->pwnedPasswordsService = $PwnedPasswordsService;
+        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
+        $this->localizationService = GeneralUtility::makeInstance(LocalizationService::class);
+        $this->oldPasswordService = GeneralUtility::makeInstance(OldPasswordService::class);
+        $this->pwnedPasswordsService = GeneralUtility::makeInstance(PwnedPasswordsService::class);
+        parent::__construct($options);
     }
 
     /**
@@ -93,7 +52,7 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid($value): bool
     {
         $result = true;
         $settings = $this->settingsService->getSettings();
@@ -159,7 +118,6 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
      *
      * @param ChangePassword $changePassword
      * @param int $minLength
-     * @return void
      */
     protected function evaluateMinLengthCheck(ChangePassword $changePassword, int $minLength)
     {
@@ -168,7 +126,7 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
                 $this->localizationService->translate('passwordComplexity.failure.minLength', [$minLength]),
                 1537898028
             );
-        };
+        }
     }
 
     /**
@@ -176,7 +134,6 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
      *
      * @param ChangePassword $changePassword
      * @param string $check
-     * @return void
      */
     protected function evaluatePasswordCheck(ChangePassword $changePassword, $check)
     {
@@ -201,7 +158,6 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
      * Evaluates the password using the pwnedpasswords API
      *
      * @param ChangePassword $changePassword
-     * @return void
      */
     protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword)
     {
@@ -218,7 +174,6 @@ class ChangePasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Ab
      * Evaluates the password against the current password
      *
      * @param ChangePassword $changePassword
-     * @return void
      */
     protected function evaluateOldPasswordCheck(ChangePassword $changePassword)
     {
