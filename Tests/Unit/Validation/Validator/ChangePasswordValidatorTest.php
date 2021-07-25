@@ -200,7 +200,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
         $mockLocalizationService->expects(self::any())->method('translate')->willReturn('');
         $this->validator->_set('localizationService', $mockLocalizationService);
 
-        self::assertEquals(1570880411334, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
+        self::assertEquals(1570880411, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
     }
 
     /**
@@ -238,7 +238,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
             ->willReturn(false);
         $this->validator->_set('oldPasswordService', $mockOldPasswordService);
 
-        self::assertEquals(1570880417020, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
+        self::assertEquals(1570880417, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
     }
 
     /**

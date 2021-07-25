@@ -181,7 +181,7 @@ class ChangePasswordValidator extends AbstractValidator
         if ($this->oldPasswordService->checkEqualsOldPassword($changePassword->getPassword1())) {
             $this->addError(
                 $this->localizationService->translate('oldPasswordFailure'),
-                1570880406065
+                1570880406
             );
         }
     }
@@ -200,7 +200,7 @@ class ChangePasswordValidator extends AbstractValidator
             $result = false;
             $this->addError(
                 $this->localizationService->translate('currentPasswordEmpty'),
-                1570880411334
+                1570880411
             );
         }
 
@@ -210,7 +210,7 @@ class ChangePasswordValidator extends AbstractValidator
             $result = false;
             $this->addError(
                 $this->localizationService->translate('currentPasswordFailure'),
-                1570880417020
+                1570880417
             );
         }
         return $result;
