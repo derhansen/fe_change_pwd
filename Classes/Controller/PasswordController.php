@@ -19,6 +19,7 @@ use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * Class PasswordController
@@ -69,6 +70,7 @@ class PasswordController extends ActionController
                 1572672118931
             );
         }
+        $this->setFeUserPasswordHashToArguments($changePasswordArray);
     }
 
     /**
@@ -97,6 +99,24 @@ class PasswordController extends ActionController
     }
 
     /**
+     * Sets the current fe_user password (hashed) to request argument "changePassword"
+     *
+     * @param array $changePasswordArray
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     */
+    protected function setFeUserPasswordHashToArguments(array $changePasswordArray): void
+    {
+        $changePasswordArgument = $this->arguments->getArgument('changePassword');
+        $propertyMapping = $changePasswordArgument->getPropertyMappingConfiguration();
+        $propertyMapping->allowProperties('feUserPasswordHash');
+
+        $changePasswordArray['feUserPasswordHash'] = $this->getFrontendUser()->user['password'];
+        $arguments = $this->request->getArguments();
+        $arguments['changePassword'] = $changePasswordArray;
+        $this->request->setArguments($arguments);
+    }
+
+    /**
      * Suppress default flash messages
      *
      * @return bool
@@ -104,5 +124,10 @@ class PasswordController extends ActionController
     protected function getErrorFlashMessage(): bool
     {
         return false;
+    }
+
+    protected function getFrontendUser(): FrontendUserAuthentication
+    {
+        return $GLOBALS['TSFE']->fe_user;
     }
 }

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Derhansen\FeChangePwd\Service;
 
+use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -22,18 +23,18 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 class OldPasswordService
 {
     /**
-     * Returns if the given password equals the old password
+     * Returns if the password in $changePassword equals the old password by using the given current password hash
      *
-     * @param string $password
+     * @param ChangePassword $changePassword
      * @return bool
      * @throws MissingPasswordHashServiceException
      * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */
-    public function checkEqualsOldPassword(string $password): bool
+    public function checkEqualsOldPassword(ChangePassword $changePassword): bool
     {
         if (class_exists(PasswordHashFactory::class)) {
             $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
-            $equals = $hashInstance->checkPassword($password, $this->getFrontendUser()->user['password']);
+            $equals = $hashInstance->checkPassword($changePassword->getPassword1(), $changePassword->getFeUserPasswordHash());
         } else {
             throw new MissingPasswordHashServiceException(
                 'No secure password hashing service could be initialized. Please check your TYPO3 system configuration',

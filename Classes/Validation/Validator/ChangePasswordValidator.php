@@ -178,7 +178,7 @@ class ChangePasswordValidator extends AbstractValidator
      */
     protected function evaluateOldPasswordCheck(ChangePassword $changePassword)
     {
-        if ($this->oldPasswordService->checkEqualsOldPassword($changePassword->getPassword1())) {
+        if ($this->oldPasswordService->checkEqualsOldPassword($changePassword)) {
             $this->addError(
                 $this->localizationService->translate('oldPasswordFailure'),
                 1570880406
@@ -205,7 +205,7 @@ class ChangePasswordValidator extends AbstractValidator
         }
 
         if ($oldPasswordEmpty === false &&
-            !$this->oldPasswordService->checkEqualsOldPassword($changePassword->getCurrentPassword())
+            !$this->oldPasswordService->checkEqualsOldPassword($changePassword)
         ) {
             $result = false;
             $this->addError(
