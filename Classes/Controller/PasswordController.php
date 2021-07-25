@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Derhansen\FeChangePwd\Controller;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
+use Derhansen\FeChangePwd\Event\AfterPasswordUpdatedEvent;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
@@ -81,14 +82,7 @@ class PasswordController extends ActionController
     {
         $this->frontendUserService->updatePassword($changePassword->getPassword1());
 
-        $this->signalSlotDispatcher->dispatch(
-            __CLASS__,
-            __FUNCTION__ . 'AfterUpdatePassword',
-            [
-                $changePassword,
-                $this
-            ]
-        );
+        $this->eventDispatcher->dispatch(new AfterPasswordUpdatedEvent($changePassword, $this));
 
         if (isset($this->settings['afterPasswordChangeAction']) &&
             $this->settings['afterPasswordChangeAction'] === 'redirect') {

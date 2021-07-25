@@ -136,14 +136,12 @@ for version 1.5.0
 
 ## For developers
 
-### Signal slots
+### PSR-14 events
 
-The extension currently contains the following signal slots:
+The extension currently contains the following PSR-14 event:
 
-* Derhansen\\FeChangePwd\\Controller\\PasswordController
-  * updateActionAfterUpdatePassword
-
-Please refer to the class and function for signal arguments.
+* Derhansen\FeChangePwd\Controller\PasswordController
+  * `AfterPasswordUpdatedEvent`
 
 ## Versions
 
@@ -176,7 +174,9 @@ Dropped TYPO3 8.7 compatibility.
 
 ###  Version 3.0.0
 
-Dropped TYPO3 9.5 and 10.4 compatibility.
+* Dropped TYPO3 9.5 and 10.4 compatibility.
+* Changed file extension für TypoScript files to `.typoscript`
+* Replaced signal slot with PSR-14 event 
 
 ## Thanks for sponsoring
 
