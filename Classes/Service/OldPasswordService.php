@@ -37,7 +37,7 @@ class OldPasswordService
         } else {
             throw new MissingPasswordHashServiceException(
                 'No secure password hashing service could be initialized. Please check your TYPO3 system configuration',
-                1557550040515
+                1557550040
             );
         }
 
