@@ -59,7 +59,8 @@ class ChangePasswordValidator extends AbstractValidator
 
         // Early return if old password is required, but either empty or not valid
         if (isset($settings['requireCurrentPassword']['enabled']) &&
-            (bool)$settings['requireCurrentPassword']['enabled']
+            (bool)$settings['requireCurrentPassword']['enabled'] &&
+            !$value->getSkipCurrentPasswordCheck()
         ) {
             $requireCurrentPasswordResult = $this->evaluateRequireCurrentPassword($value);
             if ($requireCurrentPasswordResult === false) {

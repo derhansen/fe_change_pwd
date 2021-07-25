@@ -240,4 +240,36 @@ class ChangePasswordValidatorTest extends UnitTestCase
 
         self::assertEquals(1570880417020, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
     }
+
+    /**
+     * @test
+     */
+    public function currentPasswordValidationSkipped()
+    {
+        $this->initialize();
+
+        $changePassword = new ChangePassword();
+        $changePassword->setCurrentPassword('123456');
+        $changePassword->setSkipCurrentPasswordCheck(true);
+
+        $settings = [
+            'requireCurrentPassword' => [
+                'enabled' => 1
+            ]
+        ];
+
+        $mockSettingsService = static::getMockBuilder(SettingsService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockSettingsService->expects(self::once())->method('getSettings')->willReturn($settings);
+        $this->validator->_set('settingsService', $mockSettingsService);
+
+        $mockLocalizationService = static::getMockBuilder(LocalizationService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockLocalizationService->expects(self::any())->method('translate')->willReturn('');
+        $this->validator->_set('localizationService', $mockLocalizationService);
+
+        self::assertEquals(1537701950, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
+    }
 }
