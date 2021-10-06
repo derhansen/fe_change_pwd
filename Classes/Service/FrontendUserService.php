@@ -139,7 +139,7 @@ class FrontendUserService
      */
     public function validateChangeHmac(string $changeHmac): bool
     {
-        return is_string($changeHmac) && $changeHmac !== '' && hash_equals($this->getChangeHmac(), $changeHmac);
+        return $changeHmac !== '' && hash_equals($this->getChangeHmac(), $changeHmac);
     }
 
     /**

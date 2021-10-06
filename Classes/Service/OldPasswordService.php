@@ -34,7 +34,10 @@ class OldPasswordService
     {
         if (class_exists(PasswordHashFactory::class)) {
             $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
-            $equals = $hashInstance->checkPassword($changePassword->getPassword1(), $changePassword->getFeUserPasswordHash());
+            $equals = $hashInstance->checkPassword(
+                $changePassword->getPassword1(),
+                $changePassword->getFeUserPasswordHash()
+            );
         } else {
             throw new MissingPasswordHashServiceException(
                 'No secure password hashing service could be initialized. Please check your TYPO3 system configuration',
