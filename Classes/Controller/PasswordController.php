@@ -48,7 +48,7 @@ class PasswordController extends ActionController
         $changePassword->setChangeHmac($this->frontendUserService->getChangeHmac());
         $this->view->assignMultiple([
             'changePasswordReason' => $this->frontendUserService->getMustChangePasswordReason(),
-            'changePassword' => $changePassword
+            'changePassword' => $changePassword,
         ]);
 
         return $this->htmlResponse();

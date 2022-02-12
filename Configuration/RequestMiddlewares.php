@@ -8,6 +8,6 @@ return [
             'after' => [
                 'typo3/cms-frontend/page-resolver',
             ],
-        ]
-    ]
+        ],
+    ],
 ];

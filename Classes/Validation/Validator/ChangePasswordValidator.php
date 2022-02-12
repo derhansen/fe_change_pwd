@@ -142,7 +142,7 @@ class ChangePasswordValidator extends AbstractValidator
             'capitalCharCheck' => '/[A-Z]/',
             'lowerCaseCharCheck' => '/[a-z]/',
             'digitCheck' => '/[0-9]/',
-            'specialCharCheck' => '/[^0-9a-z]/i'
+            'specialCharCheck' => '/[^0-9a-z]/i',
         ];
 
         if (isset($patterns[$check])) {

@@ -50,13 +50,13 @@ class ChangePasswordValidatorTest extends UnitTestCase
                 '',
                 '',
                 true,
-                []
+                [],
             ],
             'passwords not equal' => [
                 'password1',
                 'password2',
                 true,
-                []
+                [],
             ],
             'length below min length' => [
                 'password',
@@ -69,8 +69,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
                         'lowerCaseCharCheck' => 0,
                         'digitCheck' => 0,
                         'specialCharCheck' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'no capital char' => [
                 'password',
@@ -83,8 +83,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
                         'lowerCaseCharCheck' => 0,
                         'digitCheck' => 0,
                         'specialCharCheck' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'no lower case char' => [
                 'PASSWORD',
@@ -97,8 +97,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
                         'lowerCaseCharCheck' => 1,
                         'digitCheck' => 0,
                         'specialCharCheck' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'no digit' => [
                 'password',
@@ -111,8 +111,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
                         'lowerCaseCharCheck' => 0,
                         'digitCheck' => 1,
                         'specialCharCheck' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'no special char' => [
                 'password',
@@ -125,8 +125,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
                         'lowerCaseCharCheck' => 0,
                         'digitCheck' => 0,
                         'specialCharCheck' => 1,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'strong password' => [
                 'Th!s_i$_a_$+r0ng_passw0rd#',
@@ -139,8 +139,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
                         'lowerCaseCharCheck' => 1,
                         'digitCheck' => 1,
                         'specialCharCheck' => 1,
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
@@ -184,8 +184,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
 
         $settings = [
             'requireCurrentPassword' => [
-                'enabled' => 1
-            ]
+                'enabled' => 1,
+            ],
         ];
 
         $mockSettingsService = static::getMockBuilder(SettingsService::class)
@@ -215,8 +215,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
 
         $settings = [
             'requireCurrentPassword' => [
-                'enabled' => 1
-            ]
+                'enabled' => 1,
+            ],
         ];
 
         $mockSettingsService = static::getMockBuilder(SettingsService::class)
@@ -254,8 +254,8 @@ class ChangePasswordValidatorTest extends UnitTestCase
 
         $settings = [
             'requireCurrentPassword' => [
-                'enabled' => 1
-            ]
+                'enabled' => 1,
+            ],
         ];
 
         $mockSettingsService = static::getMockBuilder(SettingsService::class)
