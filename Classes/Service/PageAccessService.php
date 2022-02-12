@@ -41,7 +41,7 @@ class PageAccessService
     public function getRedirectMode(): string
     {
         $settings = $this->settingsService->getSettings();
-        if ((bool)$settings['redirect']['allAccessProtectedPages']) {
+        if (($settings['redirect']['allAccessProtectedPages'] ?? false)) {
             $redirectMode = 'allAccessProtectedPages';
         } elseif (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
             $redirectMode = 'includePageUids';
