@@ -1,5 +1,5 @@
 {
-  "name": "derhansen/fe_change_pwd",
+  "name": "derhansen/fe-change-pwd",
   "type": "typo3-cms-extension",
   "description": "Plugin to enable password change for frontend users. Contains configurable password rules and password change enforcement.",
   "homepage": "https://github.com/derhansen/fe_change_pwd",
