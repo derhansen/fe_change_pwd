@@ -8,7 +8,8 @@ defined('TYPO3') or die();
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'fe_change_pwd',
     'Pi1',
-    'LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:plugin.title'
+    'LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:plugin.title',
+    'ext-fechangepwd-default'
 );
 
 /**
