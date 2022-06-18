@@ -65,7 +65,6 @@
   "extra": {
     "typo3/cms": {
       "extension-key": "fe_change_pwd",
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/Public"
     }
   }
