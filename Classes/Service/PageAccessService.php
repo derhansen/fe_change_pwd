@@ -197,7 +197,7 @@ class PageAccessService
                 $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix((string)$permClause));
             }
             $statement = $queryBuilder->execute();
-            while ($row = $statement->fetch()) {
+            while ($row = $statement->fetchAssociative()) {
                 if ($begin <= 0) {
                     $theList .= ',' . $row['uid'];
                 }
