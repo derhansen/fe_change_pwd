@@ -125,7 +125,7 @@ class PageAccessService
         foreach ($rootline as $rootlinePage) {
             $isPublic = ($rootlinePage['fe_group'] === '' || $rootlinePage['fe_group'] === '0');
             $extendToSubpages = (bool)$rootlinePage['extendToSubpages'];
-            if (!$isPublic || (!$isPublic && $extendToSubpages && $loop >= 1)) {
+            if (!$isPublic || ($extendToSubpages && $loop >= 1)) {
                 $isAccessProtected = true;
                 break;
             }
