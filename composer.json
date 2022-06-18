@@ -33,7 +33,10 @@
     "typo3/testing-framework": "^6.6.4",
     "overtrue/phplint": "^1.1",
     "phpunit/phpunit": "^8.5",
-    "friendsofphp/php-cs-fixer": "^3.0"
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "saschaegerer/phpstan-typo3": "^1.1.2",
+    "phpstan/extension-installer": "^1.1",
+    "jangregor/phpstan-prophecy": "^1.0"
   },
   "replace": {
     "typo3-ter/fe-change-pwd": "self.version"
@@ -53,7 +56,8 @@
     "bin-dir": ".Build/bin",
     "allow-plugins": {
       "typo3/class-alias-loader": true,
-      "typo3/cms-composer-installers": true
+      "typo3/cms-composer-installers": true,
+      "phpstan/extension-installer": true
     }
   },
   "scripts": {
