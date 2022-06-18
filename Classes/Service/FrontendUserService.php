@@ -31,10 +31,7 @@ class FrontendUserService
 
     protected SettingsService $settingsService;
 
-    /**
-     * @param SettingsService $settingsService
-     */
-    public function injectSettingsService(SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService): void
     {
         $this->settingsService = $settingsService;
     }
@@ -82,7 +79,7 @@ class FrontendUserService
      *
      * @param string $newPassword
      */
-    public function updatePassword(string $newPassword)
+    public function updatePassword(string $newPassword): void
     {
         if (!$this->isUserLoggedIn()) {
             return;

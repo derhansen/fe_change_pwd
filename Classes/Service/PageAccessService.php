@@ -25,10 +25,7 @@ class PageAccessService
 {
     protected SettingsService $settingsService;
 
-    /**
-     * @param SettingsService $settingsService
-     */
-    public function injectSettingsService(SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService): void
     {
         $this->settingsService = $settingsService;
     }

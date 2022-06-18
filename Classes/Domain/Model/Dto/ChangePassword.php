@@ -28,7 +28,7 @@ class ChangePassword
         return $this->password1;
     }
 
-    public function setPassword1(string $password1)
+    public function setPassword1(string $password1): void
     {
         $this->password1 = $password1;
     }
@@ -38,7 +38,7 @@ class ChangePassword
         return $this->password2;
     }
 
-    public function setPassword2(string $password2)
+    public function setPassword2(string $password2): void
     {
         $this->password2 = $password2;
     }
@@ -48,7 +48,7 @@ class ChangePassword
         return $this->currentPassword;
     }
 
-    public function setCurrentPassword(string $currentPassword)
+    public function setCurrentPassword(string $currentPassword): void
     {
         $this->currentPassword = $currentPassword;
     }
@@ -58,7 +58,7 @@ class ChangePassword
         return $this->changeHmac;
     }
 
-    public function setChangeHmac(string $changeHmac)
+    public function setChangeHmac(string $changeHmac): void
     {
         $this->changeHmac = $changeHmac;
     }

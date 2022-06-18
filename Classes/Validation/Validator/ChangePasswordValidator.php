@@ -120,7 +120,7 @@ class ChangePasswordValidator extends AbstractValidator
      * @param ChangePassword $changePassword
      * @param int $minLength
      */
-    protected function evaluateMinLengthCheck(ChangePassword $changePassword, int $minLength)
+    protected function evaluateMinLengthCheck(ChangePassword $changePassword, int $minLength): void
     {
         if (strlen($changePassword->getPassword1()) < $minLength) {
             $this->addError(
@@ -136,7 +136,7 @@ class ChangePasswordValidator extends AbstractValidator
      * @param ChangePassword $changePassword
      * @param string $check
      */
-    protected function evaluatePasswordCheck(ChangePassword $changePassword, $check)
+    protected function evaluatePasswordCheck(ChangePassword $changePassword, string $check): void
     {
         $patterns = [
             'capitalCharCheck' => '/[A-Z]/',
@@ -160,7 +160,7 @@ class ChangePasswordValidator extends AbstractValidator
      *
      * @param ChangePassword $changePassword
      */
-    protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword)
+    protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword): void
     {
         $foundCount = $this->pwnedPasswordsService->checkPassword($changePassword->getPassword1());
         if ($foundCount > 0) {
@@ -176,7 +176,7 @@ class ChangePasswordValidator extends AbstractValidator
      *
      * @param ChangePassword $changePassword
      */
-    protected function evaluateOldPasswordCheck(ChangePassword $changePassword)
+    protected function evaluateOldPasswordCheck(ChangePassword $changePassword): void
     {
         if ($this->oldPasswordService->checkEqualsOldPassword($changePassword)) {
             $this->addError(

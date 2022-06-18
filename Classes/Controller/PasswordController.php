@@ -28,12 +28,8 @@ class PasswordController extends ActionController
 {
     protected FrontendUserService $frontendUserService;
 
-    /**
-     * @param FrontendUserService $frontendUserService
-     */
-    public function injectFrontendUserService(
-        FrontendUserService $frontendUserService
-    ) {
+    public function injectFrontendUserService(FrontendUserService $frontendUserService): void
+    {
         $this->frontendUserService = $frontendUserService;
     }
 
@@ -60,7 +56,7 @@ class PasswordController extends ActionController
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      * @throws InvalidHashException
      */
-    public function initializeUpdateAction()
+    public function initializeUpdateAction(): void
     {
         $changePasswordArray = $this->request->getArgument('changePassword');
         $changeHmac = $changePasswordArray['changeHmac'] ? (string)$changePasswordArray['changeHmac'] : '';
