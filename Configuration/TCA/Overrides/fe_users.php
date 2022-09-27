@@ -8,7 +8,7 @@ $tmp_columns = [
         'label' => 'LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:label.must_change_password',
         'config' => [
             'type' => 'check',
-        ]
+        ],
     ],
     'password_expiry_date' => [
         'exclude' => true,
@@ -18,7 +18,7 @@ $tmp_columns = [
             'renderType' => 'inputDateTime',
             'eval' => 'datetime',
             'default' => 0,
-        ]
+        ],
     ],
 ];
 
@@ -32,5 +32,5 @@ $tmp_columns = [
 
 // Add the new palette:
 $GLOBALS['TCA']['fe_users']['palettes']['password_settings'] = [
-    'showitem' => 'must_change_password, password_expiry_date'
+    'showitem' => 'must_change_password, password_expiry_date',
 ];

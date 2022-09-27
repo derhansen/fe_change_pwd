@@ -25,10 +25,7 @@ class PageAccessService
 {
     protected SettingsService $settingsService;
 
-    /**
-     * @param SettingsService $settingsService
-     */
-    public function injectSettingsService(SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService): void
     {
         $this->settingsService = $settingsService;
     }
@@ -125,7 +122,7 @@ class PageAccessService
         foreach ($rootline as $rootlinePage) {
             $isPublic = ($rootlinePage['fe_group'] === '' || $rootlinePage['fe_group'] === '0');
             $extendToSubpages = (bool)$rootlinePage['extendToSubpages'];
-            if (!$isPublic || (!$isPublic && $extendToSubpages && $loop >= 1)) {
+            if (!$isPublic || ($extendToSubpages && $loop >= 1)) {
                 $isAccessProtected = true;
                 break;
             }
@@ -151,7 +148,7 @@ class PageAccessService
         $storagePids = GeneralUtility::intExplode(',', $pidList);
         foreach ($storagePids as $startPid) {
             if ($startPid >= 0) {
-                $pids = (string)$this->getTreeList($startPid, $recursive, 0, 1);
+                $pids = (string)$this->getTreeList($startPid, $recursive, 0, '1');
                 if (strlen($pids) > 0) {
                     $recursiveStoragePids .= ',' . $pids;
                 }
@@ -197,7 +194,7 @@ class PageAccessService
                 $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix((string)$permClause));
             }
             $statement = $queryBuilder->execute();
-            while ($row = $statement->fetch()) {
+            while ($row = $statement->fetchAssociative()) {
                 if ($begin <= 0) {
                     $theList .= ',' . $row['uid'];
                 }

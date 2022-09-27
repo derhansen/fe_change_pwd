@@ -27,36 +27,36 @@ class SettingsServiceTest extends UnitTestCase
             'no settings' => [
                 [],
                 new \DateTime(),
-                0
+                0,
             ],
             'passwordExpiration disabled' => [
                 [
                     'passwordExpiration' => [
-                        'enabled' => 0
-                    ]
+                        'enabled' => 0,
+                    ],
                 ],
                 new \DateTime(),
-                0
+                0,
             ],
             'default validityInDays of 90 days if not set' => [
                 [
                     'passwordExpiration' => [
-                        'enabled' => 1
-                    ]
+                        'enabled' => 1,
+                    ],
                 ],
                 \DateTime::createFromFormat('d.m.Y H:i:s e', '01.01.2018 00:00:00 UTC'),
-                1522540800
+                1522540800,
             ],
             'sets configured validityInDays' => [
                 [
                     'passwordExpiration' => [
                         'enabled' => 1,
-                        'validityInDays' => 30
-                    ]
+                        'validityInDays' => 30,
+                    ],
                 ],
                 \DateTime::createFromFormat('d.m.Y H:i:s e', '01.01.2018 00:00:00 UTC'),
-                1517356800
-            ]
+                1517356800,
+            ],
         ];
     }
 

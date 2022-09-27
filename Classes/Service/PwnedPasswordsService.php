@@ -36,7 +36,7 @@ class PwnedPasswordsService
             self::API_URL . substr($hash, 0, 5),
             'GET',
             [
-                'User-Agent' => 'TYPO3 Extension fe_change_pwd'
+                'User-Agent' => 'TYPO3 Extension fe_change_pwd',
             ]
         );
 

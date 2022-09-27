@@ -25,28 +25,28 @@ class FrontendUserServiceTest extends UnitTestCase
         return [
             'no frontend user' => [
                 [],
-                false
+                false,
             ],
             'must change password' => [
                 [
                     'must_change_password' => 1,
-                    'password_expiry_date' => 0
+                    'password_expiry_date' => 0,
                 ],
-                true
+                true,
             ],
             'password expired' => [
                 [
                     'must_change_password' => 0,
-                    'password_expiry_date' => 1538194307
+                    'password_expiry_date' => 1538194307,
                 ],
-                true
+                true,
             ],
             'password not expired and no password change required' => [
                 [
                     'must_change_password' => 0,
-                    'password_expiry_date' => 0
+                    'password_expiry_date' => 0,
                 ],
-                false
+                false,
             ],
         ];
     }

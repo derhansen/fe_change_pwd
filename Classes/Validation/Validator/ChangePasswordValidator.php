@@ -120,7 +120,7 @@ class ChangePasswordValidator extends AbstractValidator
      * @param ChangePassword $changePassword
      * @param int $minLength
      */
-    protected function evaluateMinLengthCheck(ChangePassword $changePassword, int $minLength)
+    protected function evaluateMinLengthCheck(ChangePassword $changePassword, int $minLength): void
     {
         if (strlen($changePassword->getPassword1()) < $minLength) {
             $this->addError(
@@ -136,13 +136,13 @@ class ChangePasswordValidator extends AbstractValidator
      * @param ChangePassword $changePassword
      * @param string $check
      */
-    protected function evaluatePasswordCheck(ChangePassword $changePassword, $check)
+    protected function evaluatePasswordCheck(ChangePassword $changePassword, string $check): void
     {
         $patterns = [
             'capitalCharCheck' => '/[A-Z]/',
             'lowerCaseCharCheck' => '/[a-z]/',
             'digitCheck' => '/[0-9]/',
-            'specialCharCheck' => '/[^0-9a-z]/i'
+            'specialCharCheck' => '/[^0-9a-z]/i',
         ];
 
         if (isset($patterns[$check])) {
@@ -160,7 +160,7 @@ class ChangePasswordValidator extends AbstractValidator
      *
      * @param ChangePassword $changePassword
      */
-    protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword)
+    protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword): void
     {
         $foundCount = $this->pwnedPasswordsService->checkPassword($changePassword->getPassword1());
         if ($foundCount > 0) {
@@ -176,9 +176,12 @@ class ChangePasswordValidator extends AbstractValidator
      *
      * @param ChangePassword $changePassword
      */
-    protected function evaluateOldPasswordCheck(ChangePassword $changePassword)
+    protected function evaluateOldPasswordCheck(ChangePassword $changePassword): void
     {
-        if ($this->oldPasswordService->checkEqualsOldPassword($changePassword)) {
+        if ($this->oldPasswordService->checkEqualsOldPassword(
+            $changePassword->getPassword1(),
+            $changePassword->getFeUserPasswordHash()
+        )) {
             $this->addError(
                 $this->localizationService->translate('oldPasswordFailure'),
                 1570880406
@@ -205,7 +208,10 @@ class ChangePasswordValidator extends AbstractValidator
         }
 
         if ($oldPasswordEmpty === false &&
-            !$this->oldPasswordService->checkEqualsOldPassword($changePassword)
+            !$this->oldPasswordService->checkEqualsOldPassword(
+                $changePassword->getCurrentPassword(),
+                $changePassword->getFeUserPasswordHash()
+            )
         ) {
             $result = false;
             $this->addError(

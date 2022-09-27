@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace Derhansen\FeChangePwd\Service;
 
-use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * Class OldPasswordsService
@@ -23,20 +21,20 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 class OldPasswordService
 {
     /**
-     * Returns if the password in $changePassword equals the old password by using the given current password hash
+     * Returns if the given $passwordToCheck is equals the old password by using the given current password hash
      *
-     * @param ChangePassword $changePassword
+     * @param string $passwordToCheck
+     * @param string $oldPasswordHash
      * @return bool
      * @throws MissingPasswordHashServiceException
-     * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */
-    public function checkEqualsOldPassword(ChangePassword $changePassword): bool
+    public function checkEqualsOldPassword(string $passwordToCheck, string $oldPasswordHash): bool
     {
         if (class_exists(PasswordHashFactory::class)) {
             $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
             $equals = $hashInstance->checkPassword(
-                $changePassword->getPassword1(),
-                $changePassword->getFeUserPasswordHash()
+                $passwordToCheck,
+                $oldPasswordHash
             );
         } else {
             throw new MissingPasswordHashServiceException(
@@ -46,15 +44,5 @@ class OldPasswordService
         }
 
         return $equals;
-    }
-
-    /**
-     * Returns the frontendUserAuthentication
-     *
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
-     */
-    protected function getFrontendUser(): FrontendUserAuthentication
-    {
-        return $GLOBALS['TSFE']->fe_user;
     }
 }
