@@ -47,14 +47,4 @@ class OldPasswordService
 
         return $equals;
     }
-
-    /**
-     * Returns the frontendUserAuthentication
-     *
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
-     */
-    protected function getFrontendUser(): FrontendUserAuthentication
-    {
-        return $GLOBALS['TSFE']->fe_user;
-    }
 }
