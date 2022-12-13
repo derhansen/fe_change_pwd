@@ -14,6 +14,7 @@ use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Session\SessionManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -110,6 +111,15 @@ class FrontendUserService
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
+
+        // Destroy all sessions of the user except the current one
+        $sessionManager = GeneralUtility::makeInstance(SessionManager::class);
+        $sessionBackend = $sessionManager->getSessionBackend('FE');
+        $sessionManager->invalidateAllSessionsByUserId(
+            $sessionBackend,
+            (int)$this->getFrontendUser()->user['uid'],
+            $this->getFrontendUser()
+        );
     }
 
     /**
