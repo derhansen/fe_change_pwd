@@ -6,9 +6,6 @@ namespace Derhansen\FeChangePwd\Exception;
 
 use Exception;
 
-/**
- * No changePasswordPid exception
- */
 class NoChangePasswordPidException extends Exception
 {
 }

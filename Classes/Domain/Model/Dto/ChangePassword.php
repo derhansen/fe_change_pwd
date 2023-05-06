@@ -11,9 +11,6 @@ declare(strict_types=1);
 
 namespace Derhansen\FeChangePwd\Domain\Model\Dto;
 
-/**
- * Class ChangePassword
- */
 class ChangePassword
 {
     protected string $password1 = '';

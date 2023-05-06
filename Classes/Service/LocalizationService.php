@@ -14,16 +14,12 @@ namespace Derhansen\FeChangePwd\Service;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Class LocalizationService - wrapper class for LocalizationUtility so calls can be mocked in tests
+ * Wrapper class for LocalizationUtility so calls can be mocked in tests
  */
 class LocalizationService
 {
     /**
-     * Translates the given key with the given argumens
-     *
-     * @param string $key
-     * @param array $arguments
-     * @return string
+     * Translates the given key with the given arguments
      */
     public function translate(string $key, array $arguments = []): string
     {

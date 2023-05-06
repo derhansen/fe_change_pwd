@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class PwnedPasswordsService
 {
-    const API_URL = 'https://api.pwnedpasswords.com/range/';
+    public const API_URL = 'https://api.pwnedpasswords.com/range/';
 
     /**
      * Checks the given password against data breaches using the haveibeenpwned.com API

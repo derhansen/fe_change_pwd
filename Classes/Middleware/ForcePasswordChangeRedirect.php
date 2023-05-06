@@ -13,84 +13,72 @@ namespace Derhansen\FeChangePwd\Middleware;
 
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\PageAccessService;
+use Derhansen\FeChangePwd\Service\SettingsService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * This middleware redirects the current frontend user to a configured page if the user must change the password
  */
 class ForcePasswordChangeRedirect implements MiddlewareInterface
 {
-    protected PageAccessService $pageAccessService;
-    protected FrontendUserService $frontendUserService;
-    protected TypoScriptFrontendController $controller;
-
-    /**
-     * ForcePasswordChangeRedirect constructor.
-     * @param TypoScriptFrontendController|null $controller
-     */
     public function __construct(
-        PageAccessService $pageAccessService,
-        FrontendUserService $frontendUserService,
-        ?TypoScriptFrontendController $controller = null
+        protected PageAccessService $pageAccessService,
+        protected FrontendUserService $frontendUserService,
+        protected SettingsService $settingsService
     ) {
-        $this->pageAccessService = $pageAccessService;
-        $this->frontendUserService = $frontendUserService;
-        $this->controller = $controller ?? $GLOBALS['TSFE'];
     }
 
     /**
      * Check if the user must change the password and redirect to configured PID
-     *
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return RedirectResponse|ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $pageId = (int)$this->controller->id;
+        $typoScriptFrontendController = $request->getAttribute('frontend.controller');
+        $frontendUser = $request->getAttribute('frontend.user');
+        $pageUid = $typoScriptFrontendController->id;
+
+        $settings = $this->settingsService->getSettings($request);
 
         // Early return if no frontend user available, page is excluded from redirect or user is not
         // forced to change the password
-        if (!isset($this->controller->fe_user->user['uid']) ||
-            !$this->frontendUserService->mustChangePassword($this->controller->fe_user->user) ||
-            $this->pageAccessService->isExcludePage($this->controller->id)
+        if (!isset($frontendUser->user['uid']) ||
+            !$this->frontendUserService->mustChangePassword($frontendUser->user) ||
+            $this->pageAccessService->isExcludePage($pageUid, $settings)
         ) {
             return $handler->handle($request);
         }
 
-        switch ($this->pageAccessService->getRedirectMode()) {
+        switch ($this->pageAccessService->getRedirectMode($settings)) {
             case 'allAccessProtectedPages':
-                $mustRedirect = $this->pageAccessService->isAccessProtectedPageInRootline($this->controller->rootLine);
+                $mustRedirect = $this->pageAccessService->isAccessProtectedPageInRootline($typoScriptFrontendController->rootLine);
                 break;
             case 'includePageUids':
-                $mustRedirect = $this->pageAccessService->isIncludePage($pageId);
+                $mustRedirect = $this->pageAccessService->isIncludePage($pageUid, $settings);
                 break;
             default:
                 $mustRedirect = false;
         }
 
         if ($mustRedirect) {
-            $this->controller->calculateLinkVars($request->getQueryParams());
-            $parameter = $this->pageAccessService->getRedirectPid();
-            if ($this->controller->type && MathUtility::canBeInterpretedAsInteger($pageId)) {
-                $parameter .= ',' . $this->controller->type;
+            $typoScriptFrontendController->calculateLinkVars($request->getQueryParams());
+            $parameter = $this->pageAccessService->getRedirectPid($settings);
+            if (MathUtility::canBeInterpretedAsInteger($pageUid) &&
+                $typoScriptFrontendController->getPageArguments()->getPageType()
+            ) {
+                $parameter .= ',' . $typoScriptFrontendController->getPageArguments()->getPageType();
             }
-            $url = GeneralUtility::makeInstance(ContentObjectRenderer::class, $this->controller)->typoLink_URL([
+            $url = GeneralUtility::makeInstance(ContentObjectRenderer::class, $typoScriptFrontendController)->typoLink_URL([
                 'parameter' => $parameter,
                 'addQueryString' => true,
                 'addQueryString.' => ['exclude' => 'id'],
-                // ensure absolute URL is generated when having a valid Site
-                'forceAbsoluteUrl' => $request instanceof ServerRequestInterface
-                    && $request->getAttribute('site') instanceof Site,
+                'forceAbsoluteUrl' => true,
             ]);
             return new RedirectResponse($url, 307);
         }

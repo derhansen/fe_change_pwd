@@ -21,14 +21,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
- * Class FrontendUserService
+ * Service class with frontend user helper functions
  */
 class FrontendUserService
 {
-    /**
-     * The session key
-     */
-    const SESSION_KEY = 'mustChangePasswordReason';
+    public const SESSION_KEY = 'mustChangePasswordReason';
 
     protected SettingsService $settingsService;
 
@@ -39,9 +36,6 @@ class FrontendUserService
 
     /**
      * Returns if the frontend user must change the password
-     *
-     * @param array $feUserRecord
-     * @return bool
      */
     public function mustChangePassword(array $feUserRecord): bool
     {
@@ -67,20 +61,16 @@ class FrontendUserService
 
     /**
      * Returns the reason for the password change stored in the session
-     *
-     * @return mixed
      */
-    public function getMustChangePasswordReason()
+    public function getMustChangePasswordReason(): string
     {
-        return $this->getFrontendUser()->getKey('ses', self::SESSION_KEY);
+        return (string)$this->getFrontendUser()->getKey('ses', self::SESSION_KEY);
     }
 
     /**
      * Updates the password of the current user if a current user session exist
-     *
-     * @param string $newPassword
      */
-    public function updatePassword(string $newPassword): void
+    public function updatePassword(string $newPassword, array $settings): void
     {
         if (!$this->isUserLoggedIn()) {
             return;
@@ -95,7 +85,7 @@ class FrontendUserService
         $queryBuilder->update($userTable)
             ->set('password', $password)
             ->set('must_change_password', 0)
-            ->set('password_expiry_date', $this->settingsService->getPasswordExpiryTimestamp())
+            ->set('password_expiry_date', $this->settingsService->getPasswordExpiryTimestamp($settings))
             ->set('tstamp', (int)$GLOBALS['EXEC_TIME'])
             ->where(
                 $queryBuilder->expr()->eq(
@@ -103,7 +93,7 @@ class FrontendUserService
                     $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
@@ -120,8 +110,6 @@ class FrontendUserService
 
     /**
      * Returns the changeHmac for the current logged in user
-     *
-     * @return string
      */
     public function getChangeHmac(): string
     {
@@ -140,9 +128,6 @@ class FrontendUserService
 
     /**
      * Validates the given changeHmac
-     *
-     * @param string $changeHmac
-     * @return bool
      */
     public function validateChangeHmac(string $changeHmac): bool
     {
@@ -151,11 +136,6 @@ class FrontendUserService
 
     /**
      * Returns a password hash
-     *
-     * @param string $password
-     * @return string
-     * @throws MissingPasswordHashServiceException
-     * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */
     protected function getPasswordHash(string $password): string
     {
@@ -174,8 +154,6 @@ class FrontendUserService
 
     /**
      * Returns is there is a current user login
-     *
-     * @return bool
      */
     public function isUserLoggedIn(): bool
     {
@@ -184,8 +162,6 @@ class FrontendUserService
 
     /**
      * Returns the frontendUserAuthentication
-     *
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
      */
     protected function getFrontendUser(): FrontendUserAuthentication
     {

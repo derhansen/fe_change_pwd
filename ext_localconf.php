@@ -2,16 +2,19 @@
 
 defined('TYPO3') or die();
 
+use Derhansen\FeChangePwd\Controller\PasswordController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 call_user_func(function () {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    ExtensionUtility::configurePlugin(
         'fe_change_pwd',
         'Pi1',
         [
-            \Derhansen\FeChangePwd\Controller\PasswordController::class => 'edit,update',
+            PasswordController::class => 'edit,update',
         ],
         // non-cacheable actions
         [
-            \Derhansen\FeChangePwd\Controller\PasswordController::class => 'edit,update',
+            PasswordController::class => 'edit,update',
         ]
     );
 });

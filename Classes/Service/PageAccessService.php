@@ -12,32 +12,22 @@ declare(strict_types=1);
 namespace Derhansen\FeChangePwd\Service;
 
 use Derhansen\FeChangePwd\Exception\NoChangePasswordPidException;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
- * Class PageAccessService
+ * Class with various functions for page redirects and page permission settings
  */
 class PageAccessService
 {
-    protected SettingsService $settingsService;
-
-    public function injectSettingsService(SettingsService $settingsService): void
-    {
-        $this->settingsService = $settingsService;
-    }
-
     /**
      * Returns the redirect mode
-     *
-     * @return string
      */
-    public function getRedirectMode(): string
+    public function getRedirectMode(array $settings): string
     {
-        $settings = $this->settingsService->getSettings();
         if (($settings['redirect']['allAccessProtectedPages'] ?? false)) {
             $redirectMode = 'allAccessProtectedPages';
         } elseif (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
@@ -50,12 +40,9 @@ class PageAccessService
 
     /**
      * Returns the configured redirect PID
-     *
-     * @return mixed
      */
-    public function getRedirectPid()
+    public function getRedirectPid(array $settings): int
     {
-        $settings = $this->settingsService->getSettings();
         if (!isset($settings['changePasswordPid']) || (int)$settings['changePasswordPid'] === 0) {
             throw new NoChangePasswordPidException(
                 'settings.changePasswordPid is not set or zero',
@@ -67,13 +54,9 @@ class PageAccessService
 
     /**
      * Returns, if the given page uid is configured as included for redirects
-     *
-     * @param int $pageUid
-     * @return bool
      */
-    public function isIncludePage(int $pageUid): bool
+    public function isIncludePage(int $pageUid, array $settings): bool
     {
-        $settings = $this->settingsService->getSettings();
         if (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
             $includePids = $this->extendPidListByChildren(
                 $settings['redirect']['includePageUids'],
@@ -88,13 +71,9 @@ class PageAccessService
 
     /**
      * Returns, if the given page uid is configured as excluded from redirects
-     *
-     * @param int $pageUid
-     * @return bool
      */
-    public function isExcludePage(int $pageUid): bool
+    public function isExcludePage(int $pageUid, array $settings): bool
     {
-        $settings = $this->settingsService->getSettings();
         if (isset($settings['redirect']['excludePageUids']) && $settings['redirect']['excludePageUids'] !== '') {
             $excludePids = $this->extendPidListByChildren(
                 $settings['redirect']['excludePageUids'],
@@ -111,9 +90,6 @@ class PageAccessService
 
     /**
      * Returns, if the there is an access protected page in the rootline respecting 'extendToSubpages' setting
-     *
-     * @param array $rootline
-     * @return bool
      */
     public function isAccessProtectedPageInRootline(array $rootline): bool
     {
@@ -132,11 +108,7 @@ class PageAccessService
     }
 
     /**
-     * Find all ids from given ids and level
-     *
-     * @param string $pidList comma separated list of ids
-     * @param int $recursive recursive levels
-     * @return string comma separated list of ids
+     * Find all ids from given comma separated list of PIDs and level
      */
     protected function extendPidListByChildren(string $pidList = '', int $recursive = 0): string
     {
@@ -147,59 +119,50 @@ class PageAccessService
         $recursiveStoragePids = $pidList;
         $storagePids = GeneralUtility::intExplode(',', $pidList);
         foreach ($storagePids as $startPid) {
-            if ($startPid >= 0) {
-                $pids = (string)$this->getTreeList($startPid, $recursive, 0, '1');
-                if (strlen($pids) > 0) {
-                    $recursiveStoragePids .= ',' . $pids;
-                }
+            $pids = $this->getTreeList($startPid, $recursive);
+            if ($pids !== '') {
+                $recursiveStoragePids .= ',' . $pids;
             }
         }
-        return StringUtility::uniqueList($recursiveStoragePids);
+
+        return $recursiveStoragePids;
     }
 
     /**
-     * Recursively fetch all descendants of a given page. Original function from TYPO3 core used, since
-     * QueryGenerator is deprecated since #92080
-     *
-     * @param int $id uid of the page
-     * @param int $depth
-     * @param int $begin
-     * @param string $permClause
-     * @return string comma separated list of descendant pages
+     * Recursively fetch all descendants of a given page
      */
-    protected function getTreeList($id, $depth, $begin = 0, $permClause = '')
+    protected function getTreeList(int $id, int $depth, int $begin = 0, string $permClause = ''): string
     {
-        $depth = (int)$depth;
-        $begin = (int)$begin;
-        $id = (int)$id;
         if ($id < 0) {
-            $id = abs($id);
+            $id = (int)abs($id);
         }
+
         if ($begin === 0) {
             $theList = $id;
         } else {
             $theList = '';
         }
+
         if ($id && $depth > 0) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
             $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
             $queryBuilder->select('uid')
                 ->from('pages')
                 ->where(
-                    $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)),
+                    $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($id, Connection::PARAM_INT)),
                     $queryBuilder->expr()->eq('sys_language_uid', 0)
                 )
                 ->orderBy('uid');
             if ($permClause !== '') {
-                $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix((string)$permClause));
+                $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($permClause));
             }
-            $statement = $queryBuilder->execute();
+            $statement = $queryBuilder->executeQuery();
             while ($row = $statement->fetchAssociative()) {
                 if ($begin <= 0) {
                     $theList .= ',' . $row['uid'];
                 }
                 if ($depth > 1) {
-                    $theSubList = $this->getTreeList($row['uid'], $depth - 1, $begin - 1, $permClause);
+                    $theSubList = self::getTreeList((int)$row['uid'], $depth - 1, $begin - 1, $permClause);
                     if (!empty($theList) && !empty($theSubList) && ($theSubList[0] !== ',')) {
                         $theList .= ',';
                     }
@@ -207,6 +170,7 @@ class PageAccessService
                 }
             }
         }
-        return $theList;
+
+        return (string)$theList;
     }
 }

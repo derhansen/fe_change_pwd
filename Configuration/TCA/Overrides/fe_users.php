@@ -2,6 +2,8 @@
 
 defined('TYPO3') or die();
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 $tmp_columns = [
     'must_change_password' => [
         'exclude' => true,
@@ -22,8 +24,8 @@ $tmp_columns = [
     ],
 ];
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $tmp_columns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+ExtensionManagementUtility::addTCAcolumns('fe_users', $tmp_columns);
+ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
     '--palette--;LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:label.password_settings;password_settings',
     '',

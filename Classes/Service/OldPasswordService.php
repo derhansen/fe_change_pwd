@@ -22,11 +22,6 @@ class OldPasswordService
 {
     /**
      * Returns if the given $passwordToCheck is equals the old password by using the given current password hash
-     *
-     * @param string $passwordToCheck
-     * @param string $oldPasswordHash
-     * @return bool
-     * @throws MissingPasswordHashServiceException
      */
     public function checkEqualsOldPassword(string $passwordToCheck, string $oldPasswordHash): bool
     {

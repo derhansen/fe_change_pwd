@@ -21,9 +21,6 @@ use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
-/**
- * Class PasswordController
- */
 class PasswordController extends ActionController
 {
     protected FrontendUserService $frontendUserService;
@@ -35,8 +32,6 @@ class PasswordController extends ActionController
 
     /**
      * Edit action
-     *
-     * @return ResponseInterface
      */
     public function editAction(): ResponseInterface
     {
@@ -52,9 +47,6 @@ class PasswordController extends ActionController
 
     /**
      * Ensure a valid changeHmac is provided
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws InvalidHashException
      */
     public function initializeUpdateAction(): void
     {
@@ -72,13 +64,11 @@ class PasswordController extends ActionController
     /**
      * Update action
      *
-     * @param \Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword $changePassword
-     * @return ResponseInterface
      * @Extbase\Validate(param="changePassword", validator="Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator")
      */
     public function updateAction(ChangePassword $changePassword): ResponseInterface
     {
-        $this->frontendUserService->updatePassword($changePassword->getPassword1());
+        $this->frontendUserService->updatePassword($changePassword->getPassword1(), $this->settings);
 
         $this->eventDispatcher->dispatch(new AfterPasswordUpdatedEvent($changePassword, $this));
 
@@ -88,7 +78,7 @@ class PasswordController extends ActionController
                 LocalizationUtility::translate('passwordUpdated', 'FeChangePwd'),
                 LocalizationUtility::translate('passwordUpdated.title', 'FeChangePwd')
             );
-            $this->redirect('edit');
+            return $this->redirect('edit');
         }
 
         return $this->htmlResponse();
@@ -96,9 +86,6 @@ class PasswordController extends ActionController
 
     /**
      * Sets the current fe_user password (hashed) to request argument "changePassword"
-     *
-     * @param array $changePasswordArray
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     protected function setFeUserPasswordHashToArguments(array $changePasswordArray): void
     {
@@ -109,13 +96,11 @@ class PasswordController extends ActionController
         $changePasswordArray['feUserPasswordHash'] = $this->getFrontendUser()->user['password'];
         $arguments = $this->request->getArguments();
         $arguments['changePassword'] = $changePasswordArray;
-        $this->request->setArguments($arguments);
+        $this->request = $this->request->withArguments($arguments);
     }
 
     /**
      * Suppress default flash messages
-     *
-     * @return bool
      */
     protected function getErrorFlashMessage(): bool
     {
@@ -124,6 +109,6 @@ class PasswordController extends ActionController
 
     protected function getFrontendUser(): FrontendUserAuthentication
     {
-        return $GLOBALS['TSFE']->fe_user;
+        return $this->request->getAttribute('frontend.user');
     }
 }

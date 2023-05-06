@@ -16,11 +16,12 @@ use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\PwnedPasswordsService;
 use Derhansen\FeChangePwd\Service\SettingsService;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
- * Class ChangePasswordValidator
+ * Validator to validate data from the ChangePassword DTO
  */
 class ChangePasswordValidator extends AbstractValidator
 {
@@ -42,20 +43,17 @@ class ChangePasswordValidator extends AbstractValidator
         $this->localizationService = GeneralUtility::makeInstance(LocalizationService::class);
         $this->oldPasswordService = GeneralUtility::makeInstance(OldPasswordService::class);
         $this->pwnedPasswordsService = GeneralUtility::makeInstance(PwnedPasswordsService::class);
-        parent::__construct($options);
     }
 
     /**
      * Validates the password of the given ChangePassword object against the configured password complexity
      *
      * @param ChangePassword $value
-     *
-     * @return bool
      */
-    protected function isValid($value): bool
+    protected function isValid($value): void
     {
         $result = true;
-        $settings = $this->settingsService->getSettings();
+        $settings = $this->settingsService->getSettings($this->getRequest());
 
         // Early return if old password is required, but either empty or not valid
         if (isset($settings['requireCurrentPassword']['enabled']) &&
@@ -64,7 +62,7 @@ class ChangePasswordValidator extends AbstractValidator
         ) {
             $requireCurrentPasswordResult = $this->evaluateRequireCurrentPassword($value);
             if ($requireCurrentPasswordResult === false) {
-                return false;
+                return;
             }
         }
 
@@ -75,7 +73,7 @@ class ChangePasswordValidator extends AbstractValidator
                 1537701950
             );
 
-            return false;
+            return;
         }
 
         if ($value->getPassword1() !== $value->getPassword2()) {
@@ -84,7 +82,7 @@ class ChangePasswordValidator extends AbstractValidator
                 1537701950
             );
             // Early return, no other checks need to be done if passwords do not match
-            return false;
+            return;
         }
 
         if (isset($settings['passwordComplexity']['minLength'])) {
@@ -107,11 +105,7 @@ class ChangePasswordValidator extends AbstractValidator
             $this->evaluateOldPasswordCheck($value);
         }
 
-        if ($this->result->hasErrors()) {
-            $result = false;
-        }
-
-        return $result;
+        return;
     }
 
     /**
@@ -191,9 +185,6 @@ class ChangePasswordValidator extends AbstractValidator
 
     /**
      * Evaluates if the current password is not empty and valid
-     *
-     * @param ChangePassword $changePassword
-     * @return bool
      */
     protected function evaluateRequireCurrentPassword(ChangePassword $changePassword): bool
     {
@@ -220,5 +211,10 @@ class ChangePasswordValidator extends AbstractValidator
             );
         }
         return $result;
+    }
+
+    protected function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }
