@@ -30,7 +30,7 @@ plugin.tx_fechangepwd {
 
         # If enabled, it is required to enter the current password in order to set a new one
         requireCurrentPassword {
-            enabled = 0
+            enabled = 1
         }
 
         # If enabled, the password for password breaches using the haveibeenpwned.com API
