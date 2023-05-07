@@ -13,6 +13,7 @@ namespace Derhansen\FeChangePwd\Controller;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Event\AfterPasswordUpdatedEvent;
+use Derhansen\FeChangePwd\Exception\MissingFeatureToggleException;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Configuration\Features;
@@ -20,7 +21,6 @@ use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 class PasswordController extends ActionController
 {
@@ -28,6 +28,16 @@ class PasswordController extends ActionController
         protected readonly FrontendUserService $frontendUserService,
         protected readonly Features $features,
     ) {
+    }
+
+    public function initializeAction(): void
+    {
+        if (!$this->features->isFeatureEnabled('security.usePasswordPolicyForFrontendUsers')) {
+            throw new MissingFeatureToggleException(
+                'Extension fe_change_pwd relies on TYPO3 password policies being enabled. Please activate security.usePasswordPolicyForFrontendUsers feature toggle.',
+                1683482651
+            );
+        }
     }
 
     /**
@@ -55,7 +65,7 @@ class PasswordController extends ActionController
         if (!$this->frontendUserService->validateChangeHmac($changeHmac)) {
             throw new InvalidHashException(
                 'Possible CSRF detected. Ensure a valid "changeHmac" is provided.',
-                1572672118931
+                1572672118
             );
         }
     }
@@ -89,10 +99,5 @@ class PasswordController extends ActionController
     protected function getErrorFlashMessage(): bool
     {
         return false;
-    }
-
-    protected function getFrontendUser(): FrontendUserAuthentication
-    {
-        return $this->request->getAttribute('frontend.user');
     }
 }
