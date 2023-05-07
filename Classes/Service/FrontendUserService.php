@@ -93,7 +93,7 @@ class FrontendUserService
                     $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
                 )
             )
-            ->executeQuery();
+            ->executeStatement();
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
