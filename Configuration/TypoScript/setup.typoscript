@@ -20,26 +20,8 @@ plugin.tx_fechangepwd {
         # The pid to redirect to if a password change is required (usually the page with the Plugin of the extension)
         changePasswordPid =
 
-        passwordComplexity {
-            minLength = 6
-            capitalCharCheck = 1
-            lowerCaseCharCheck = 1
-            digitCheck = 1
-            specialCharCheck = 1
-        }
-
         # If enabled, it is required to enter the current password in order to set a new one
         requireCurrentPassword {
-            enabled = 1
-        }
-
-        # If enabled, the password for password breaches using the haveibeenpwned.com API
-        pwnedpasswordsCheck {
-            enabled = 1
-        }
-
-        # If enabled, the new password is checked against the old password, so a user must choose a different password.
-        oldPasswordCheck {
             enabled = 1
         }
 

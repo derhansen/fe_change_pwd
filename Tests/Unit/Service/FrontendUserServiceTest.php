@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
  *
@@ -12,15 +14,9 @@ use TYPO3\CMS\Core\Session\UserSessionManager;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * Class FrontendUserServiceTest
- */
 class FrontendUserServiceTest extends UnitTestCase
 {
-    /**
-     * @return array
-     */
-    public function mustChangePasswordReturnsExpectedResultDataProvider()
+    public static function mustChangePasswordReturnsExpectedResultDataProvider(): array
     {
         return [
             'no frontend user' => [
@@ -55,9 +51,9 @@ class FrontendUserServiceTest extends UnitTestCase
      * @test
      * @dataProvider mustChangePasswordReturnsExpectedResultDataProvider
      */
-    public function mustChangePasswordReturnsExpectedResult($feUserRecord, $expected)
+    public function mustChangePasswordReturnsExpectedResult(array $feUserRecord, bool $expected): void
     {
-        $userSessionManager = static::getMockBuilder(UserSessionManager::class)
+        $userSessionManager = $this->getMockBuilder(UserSessionManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 

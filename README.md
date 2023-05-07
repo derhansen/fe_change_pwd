@@ -6,32 +6,30 @@
 
 ## What does it do?
 
-This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. Additionally
-the extension allows to define password rules for frontend user passwords and can also check if the password
-was part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API.
+This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. The new user
+password is validated against the TYPO3 password policy for frontend users.
 
 Password changes for frontend users can be enforced and passwords can expire after a certain amount of days.
 
 **Features:**
 
 * Change password plugin
-* Configurable password rules (upper case char, lower case char, digit, special char)
+* Validates the password against the TYPO3 password policies for frontend users
 * Force password change for frontend users
 * Redirect to configured page when password change is required (uses PSR-15 Middleware in TYPO3 v9)
 * Password expiration after a configurable amount of days
-* Optional check if password has been part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API and the k-Anonymity model
 * Optional require the current password in order to change it
 
 ## Screenshot
 
-The screenshot below shows the output of the "Change Frontend User Password" plugin after the user tried to submit  
+The screenshot below shows the output of the "Change Frontend User Password" plugin after the user tried to submit
 a weak password.
 
 ![Screenshot of the plugin output](Documentation/Images/plugin-output.png "Output of the plugin after password validation")
 
 ## Installation
 
-1) Install the extension from the TYPO3 Extension Repository or using composer and add the Static Typoscript 
+1) Install the extension from the TYPO3 Extension Repository or using composer and add the Static Typoscript
 "Change password for frontend users" to your TypoScript template.
 
 2) Create a new page and make sure, that the page is only visible to logged in frontend users.
@@ -49,46 +47,27 @@ The extension adds two new fields to the fe_users table (see screenshot)
 
 ![Screenshot of a fe_users](Documentation/Images/fe-user-password-settings.png "New fields in fe_users table")
 
-If the checkbox "User must change password at next login" is set and a valid `changePasswordPid` is configured, 
-the user will be redirected to the configured page after login when accessing pages as configured in 
+If the checkbox "User must change password at next login" is set and a valid `changePasswordPid` is configured,
+the user will be redirected to the configured page after login when accessing pages as configured in
 the `plugin.tx_fechangepwd.settings.redirect` section.
 
-The password expiry date defines the date, after a user must change the password. 
+The password expiry date defines the date, after a user must change the password.
 
 **Tip:** If you quickly want all frontend users to change their passwords, you can use a simple SQL statement
 to set the field in the database like shown in this example `UPDATE fe_users set must_change_password=1;`
 
 ## TypoScript configuration settings
 
-The following TypoScript settings are available. 
+The following TypoScript settings are available.
 
 **plugin.tx_fechangepwd.settings**
 
-* `changePasswordPid` *(integer)* The pid to redirect to if a password change is required. This is usually the 
+* `changePasswordPid` *(integer)* The pid to redirect to if a password change is required. This is usually the
 page with the Plugin of the extension
-
-**plugin.tx_fechangepwd.settings.passwordComplexity**
-
-* `minLength` *(integer)* Minimum length for the password.
-* `capitalCharCheck` *(bool)* Is set to `1`, the password must at least contain one capital character.
-* `lowerCaseCharCheck` *(bool)* Is set to `1`, the password must at least contain one lower case character
-* `digitCheck` *(bool)* Is set to `1`, the password must at least contain one digit
-* `specialCharCheck` *(bool)* Is set to `1`, the password must at least contain one special character
 
 **plugin.tx_fechangepwd.settings.requireCurrentPassword**
 
-* `enabled` *(bool)* If set to `1`, the user must enter the current password in order to set a new password.
-
-**plugin.tx_fechangepwd.settings.pwnedpasswordsCheck**
-
-* `enabled` *(bool)* If set to `1`, the new password is checked using the haveibeenpwned.com API to verify, that the 
-password has not been exposed in a data breach. Note, that the API uses a k-Anonymity model, so no passwords are 
-submitted to the external service. Read more about it [here](https://haveibeenpwned.com/API/v2#SearchingPwnedPasswordsByRange)
-
-**plugin.tx_fechangepwd.settings.oldPasswordCheck**
-
-* `enabled` *(bool)* If set to `1`, it is checked, if the new password equals the old password and if so, the user
-must choose a different password.
+* `enabled` *(bool)* If set to `1`, the user must enter the current password in order to set a new password. Default setting is `1`.
 
 **plugin.tx_fechangepwd.settings.passwordExpiration**
 
@@ -97,31 +76,31 @@ must choose a different password.
 
 **plugin.tx_fechangepwd.settings.redirect**
 
-* `allAccessProtectedPages` *(bool)* If set to `1`, a redirect to the configured `changePasswordPid` will be forced 
+* `allAccessProtectedPages` *(bool)* If set to `1`, a redirect to the configured `changePasswordPid` will be forced
 for all access protected pages. Note, that if this option is set, the `includePageUids` is ignored!
 * `includePageUids` *(string)* A redirect to the configured changePasswordPid will be forced for the configured PIDs separated by a comma
-* `includePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `includePageUids`. Use this option, 
+* `includePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `includePageUids`. Use this option,
 if you e.g. want to force a redirect for a page and all subpages
 * `excludePageUids` (string) No redirect will be forced for the configured PIDs separated by a comma
-* `excludePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `excludePageUids`. Use this option, 
+* `excludePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `excludePageUids`. Use this option,
 if you e.g. want to exclude a page and all subpages for the redirect
 
 **plugin.tx_fechangepwd.settings.afterPasswordChangeAction**
 
-* `redirect` *(string)* Redirects the user to the "update" action and adds a flash message, that the password has been updated. 
+* `redirect` *(string)* Redirects the user to the "update" action and adds a flash message, that the password has been updated.
 * `view` *(string)* Shows the view for the update action with a message, that the password has been updated
 
 ## Styling
 
-The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template) 
+The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template)
 the fluid templates to your needs.
 
 ## Possible Errors
 
 ### No password hashing service
 
-The extension will not save a users password, if it can not be securily be hashed. If this scenario occurs,
-the following exception is shown: 
+The extension will not save a users password, if it can not be hashed. If this scenario occurs,
+the following exception is shown:
 
 `No secure password hashing service could be initialized. Please check your TYPO3 system configuration`
 
@@ -143,15 +122,31 @@ The extension currently contains the following PSR-14 event:
 * Derhansen\FeChangePwd\Controller\PasswordController
   * `AfterPasswordUpdatedEvent`
 
+Additionally, the extension also dispatches the TYPO3 core PSR-14 event
+`TYPO3\CMS\Core\PasswordPolicy\Event\EnrichPasswordValidationContextDataEvent`
+
+If additional user data has to be considered for password validation, please
+use this event to add the data to the `ContextData` DTO.
+
 ## Versions
 
-| Version             | TYPO3      | PHP       | Support/Development                     |
-| ------------------- | ---------- | ----------|---------------------------------------- |
-| 3.x                 | 11.x       | 7.4 -8.x  | Features, Bugfixes, Security Updates    |
-| 2.x                 | 9.5 - 10.x | 7.2 - 7.4 | Bugfixes, Security Updates              |
-| 1.x                 | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                         |
+| Version | TYPO3      | PHP       | Support/Development                  |
+|---------|------------|-----------|--------------------------------------|
+| 4.x     | 12.4       | 8.1 -8.2  | Features, Bugfixes, Security Updates |
+| 3.x     | 11.5       | 7.4 -8.1  | Features, Bugfixes, Security Updates |
+| 2.x     | 9.5 - 10.4 | 7.2 - 7.4 | Security Updates                     |
+| 1.x     | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                      |
 
 ## Breaking changes
+
+### Version 4.0.0
+
+This version contains major breaking changes, since now the TYPO3 password
+policy is used for password validation.
+
+* All password validators have been removed in favor to TYPO3 password policies. Make sure to check, if the TYPO3 default password policy suits your needs
+* The pwned password check has been removed. If this check is required, please use TYPO3 extension [add_pwd_policy](https://github.com/derhansen/add_pwd_policy) in the password policy for frontend users
+* The extension now requires the current user password by default. This check can be disabled in settings using `requireCurrentPassword`
 
 ###  Version 1.5.0
 
@@ -161,7 +156,7 @@ If you use an own template for "Edit.html", you must add the following code insi
 
 ```
 <f:form.hidden property="changeHmac" />
-``` 
+```
 
 Prior to version 1.5.0, the extension did contain a CSRF vulnerabilty, if `settings.requireCurrentPassword` was
 disabled (default). In order to mitigate the issue, the property `changeHmac` has been added to the DTO. This
@@ -176,15 +171,15 @@ Dropped TYPO3 8.7 compatibility.
 
 * Dropped TYPO3 9.5 and 10.4 compatibility.
 * Changed file extension für TypoScript files to `.typoscript`
-* Replaced signal slot with PSR-14 event 
+* Replaced signal slot with PSR-14 event
+
+###  Version 4.0.0
+
+* Dropped TYPO3 11.5 compatibility.
 
 ## Thanks for sponsoring
 
-* Thanks to [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this 
+* Thanks to [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this
 extension and for supporting open source software.
 
 * Thanks to [t3site.com](https://www.t3site.com/) for sponsoring the "Require current password" feature.
-
-## Additional thanks
-
-Also a big thanks to Troy Hunt for his remarkable work and the [haveibeenpwned.com](https://haveibeenpwned.com/) service and API. 

@@ -15,6 +15,7 @@ use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Event\AfterPasswordUpdatedEvent;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
@@ -23,11 +24,10 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 class PasswordController extends ActionController
 {
-    protected FrontendUserService $frontendUserService;
-
-    public function injectFrontendUserService(FrontendUserService $frontendUserService): void
-    {
-        $this->frontendUserService = $frontendUserService;
+    public function __construct(
+        protected readonly FrontendUserService $frontendUserService,
+        protected readonly Features $features,
+    ) {
     }
 
     /**
@@ -58,7 +58,6 @@ class PasswordController extends ActionController
                 1572672118931
             );
         }
-        $this->setFeUserPasswordHashToArguments($changePasswordArray);
     }
 
     /**
@@ -82,21 +81,6 @@ class PasswordController extends ActionController
         }
 
         return $this->htmlResponse();
-    }
-
-    /**
-     * Sets the current fe_user password (hashed) to request argument "changePassword"
-     */
-    protected function setFeUserPasswordHashToArguments(array $changePasswordArray): void
-    {
-        $changePasswordArgument = $this->arguments->getArgument('changePassword');
-        $propertyMapping = $changePasswordArgument->getPropertyMappingConfiguration();
-        $propertyMapping->allowProperties('feUserPasswordHash');
-
-        $changePasswordArray['feUserPasswordHash'] = $this->getFrontendUser()->user['password'];
-        $arguments = $this->request->getArguments();
-        $arguments['changePassword'] = $changePasswordArray;
-        $this->request = $this->request->withArguments($arguments);
     }
 
     /**

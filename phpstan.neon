@@ -9,3 +9,8 @@ parameters:
 
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: true
+
+    typo3:
+        requestGetAttributeMapping:
+            frontend.controller: TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+            frontend.typoscript: TYPO3\CMS\Core\TypoScript\FrontendTypoScript

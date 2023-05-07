@@ -16,7 +16,6 @@ class ChangePassword
     protected string $password1 = '';
     protected string $password2 = '';
     protected string $currentPassword = '';
-    protected string $feUserPasswordHash = '';
     protected string $changeHmac = '';
     protected bool $skipCurrentPasswordCheck = false;
 
@@ -68,15 +67,5 @@ class ChangePassword
     public function setSkipCurrentPasswordCheck(bool $skipCurrentPasswordCheck): void
     {
         $this->skipCurrentPasswordCheck = $skipCurrentPasswordCheck;
-    }
-
-    public function getFeUserPasswordHash(): string
-    {
-        return $this->feUserPasswordHash;
-    }
-
-    public function setFeUserPasswordHash(string $feUserPasswordHash): void
-    {
-        $this->feUserPasswordHash = $feUserPasswordHash;
     }
 }

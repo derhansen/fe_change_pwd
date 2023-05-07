@@ -14,9 +14,14 @@ namespace Derhansen\FeChangePwd\Validation\Validator;
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\OldPasswordService;
-use Derhansen\FeChangePwd\Service\PwnedPasswordsService;
 use Derhansen\FeChangePwd\Service\SettingsService;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\PasswordPolicy\Event\EnrichPasswordValidationContextDataEvent;
+use TYPO3\CMS\Core\PasswordPolicy\PasswordPolicyAction;
+use TYPO3\CMS\Core\PasswordPolicy\PasswordPolicyValidator;
+use TYPO3\CMS\Core\PasswordPolicy\Validator\Dto\ContextData;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
@@ -25,24 +30,17 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
  */
 class ChangePasswordValidator extends AbstractValidator
 {
-    protected array $checks = [
-        'capitalCharCheck',
-        'lowerCaseCharCheck',
-        'digitCheck',
-        'specialCharCheck',
-    ];
-
     protected SettingsService $settingsService;
     protected LocalizationService $localizationService;
     protected OldPasswordService $oldPasswordService;
-    protected PwnedPasswordsService $pwnedPasswordsService;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(array $options = [])
     {
         $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
         $this->localizationService = GeneralUtility::makeInstance(LocalizationService::class);
         $this->oldPasswordService = GeneralUtility::makeInstance(OldPasswordService::class);
-        $this->pwnedPasswordsService = GeneralUtility::makeInstance(PwnedPasswordsService::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
     /**
@@ -52,7 +50,6 @@ class ChangePasswordValidator extends AbstractValidator
      */
     protected function isValid($value): void
     {
-        $result = true;
         $settings = $this->settingsService->getSettings($this->getRequest());
 
         // Early return if old password is required, but either empty or not valid
@@ -85,101 +82,33 @@ class ChangePasswordValidator extends AbstractValidator
             return;
         }
 
-        if (isset($settings['passwordComplexity']['minLength'])) {
-            $this->evaluateMinLengthCheck($value, (int)$settings['passwordComplexity']['minLength']);
-        }
+        $userData = $this->getFrontendUser()->user ?? [];
 
-        foreach ($this->checks as $check) {
-            if (isset($settings['passwordComplexity'][$check]) &&
-                (bool)$settings['passwordComplexity'][$check]
-            ) {
-                $this->evaluatePasswordCheck($value, $check);
-            }
-        }
+        // Validate against password policy
+        $passwordPolicyValidator = $this->getPasswordPolicyValidator();
+        $contextData = new ContextData(
+            loginMode: 'FE',
+            currentPasswordHash: $userData['password']
+        );
+        $contextData->setData('currentUsername', $userData['username']);
+        $contextData->setData('currentFirstname', $userData['first_name']);
+        $contextData->setData('currentLastname', $userData['last_name']);
+        $event = $this->eventDispatcher->dispatch(
+            new EnrichPasswordValidationContextDataEvent(
+                $contextData,
+                $userData,
+                self::class
+            )
+        );
+        $contextData = $event->getContextData();
 
-        if (isset($settings['pwnedpasswordsCheck']['enabled']) && (bool)$settings['pwnedpasswordsCheck']['enabled']) {
-            $this->evaluatePwnedPasswordCheck($value);
-        }
-
-        if (isset($settings['oldPasswordCheck']['enabled']) && (bool)$settings['oldPasswordCheck']['enabled']) {
-            $this->evaluateOldPasswordCheck($value);
-        }
-
-        return;
-    }
-
-    /**
-     * Checks if the password complexity in regards to minimum password length in met
-     *
-     * @param ChangePassword $changePassword
-     * @param int $minLength
-     */
-    protected function evaluateMinLengthCheck(ChangePassword $changePassword, int $minLength): void
-    {
-        if (strlen($changePassword->getPassword1()) < $minLength) {
-            $this->addError(
-                $this->localizationService->translate('passwordComplexity.failure.minLength', [$minLength]),
-                1537898028
-            );
-        }
-    }
-
-    /**
-     * Evaluates the password complexity in regards to the given check
-     *
-     * @param ChangePassword $changePassword
-     * @param string $check
-     */
-    protected function evaluatePasswordCheck(ChangePassword $changePassword, string $check): void
-    {
-        $patterns = [
-            'capitalCharCheck' => '/[A-Z]/',
-            'lowerCaseCharCheck' => '/[a-z]/',
-            'digitCheck' => '/[0-9]/',
-            'specialCharCheck' => '/[^0-9a-z]/i',
-        ];
-
-        if (isset($patterns[$check])) {
-            if (!preg_match($patterns[$check], $changePassword->getPassword1()) > 0) {
+        if (!$passwordPolicyValidator->isValidPassword($value->getPassword1(), $contextData)) {
+            foreach ($passwordPolicyValidator->getValidationErrors() as $validationError) {
                 $this->addError(
-                    $this->localizationService->translate('passwordComplexity.failure.' . $check),
-                    1537898029
+                    $validationError,
+                    1683436079
                 );
             }
-        }
-    }
-
-    /**
-     * Evaluates the password using the pwnedpasswords API
-     *
-     * @param ChangePassword $changePassword
-     */
-    protected function evaluatePwnedPasswordCheck(ChangePassword $changePassword): void
-    {
-        $foundCount = $this->pwnedPasswordsService->checkPassword($changePassword->getPassword1());
-        if ($foundCount > 0) {
-            $this->addError(
-                $this->localizationService->translate('pwnedPasswordFailure', [$foundCount]),
-                1537898030
-            );
-        }
-    }
-
-    /**
-     * Evaluates the password against the current password
-     *
-     * @param ChangePassword $changePassword
-     */
-    protected function evaluateOldPasswordCheck(ChangePassword $changePassword): void
-    {
-        if ($this->oldPasswordService->checkEqualsOldPassword(
-            $changePassword->getPassword1(),
-            $changePassword->getFeUserPasswordHash()
-        )) {
-            $this->addError(
-                $this->localizationService->translate('oldPasswordFailure'),
-                1570880406
-            );
         }
     }
 
@@ -201,7 +130,7 @@ class ChangePasswordValidator extends AbstractValidator
         if ($oldPasswordEmpty === false &&
             !$this->oldPasswordService->checkEqualsOldPassword(
                 $changePassword->getCurrentPassword(),
-                $changePassword->getFeUserPasswordHash()
+                $this->getFrontendUser()->user['password']
             )
         ) {
             $result = false;
@@ -211,6 +140,21 @@ class ChangePasswordValidator extends AbstractValidator
             );
         }
         return $result;
+    }
+
+    protected function getPasswordPolicyValidator(): PasswordPolicyValidator
+    {
+        $passwordPolicy = $GLOBALS['TYPO3_CONF_VARS']['FE']['passwordPolicy'] ?? 'default';
+        return GeneralUtility::makeInstance(
+            PasswordPolicyValidator::class,
+            PasswordPolicyAction::UPDATE_USER_PASSWORD,
+            is_string($passwordPolicy) ? $passwordPolicy : ''
+        );
+    }
+
+    protected function getFrontendUser(): AbstractUserAuthentication
+    {
+        return $this->getRequest()->getAttribute('frontend.user');
     }
 
     protected function getRequest(): ServerRequestInterface

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Derhansen\FeChangePwd\Tests\Unit\Service;
 
 /*
@@ -10,18 +12,11 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
  */
 
 use Derhansen\FeChangePwd\Service\SettingsService;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * Class SettingsServiceTest
- */
 class SettingsServiceTest extends UnitTestCase
 {
-    /**
-     * @return array
-     */
-    public function getPasswordExpiryTimestampReturnsExpectedResultDataProvider()
+    public static function getPasswordExpiryTimestampReturnsExpectedResultDataProvider(): array
     {
         return [
             'no settings' => [
@@ -64,16 +59,14 @@ class SettingsServiceTest extends UnitTestCase
      * @test
      * @dataProvider getPasswordExpiryTimestampReturnsExpectedResultDataProvider
      */
-    public function getPasswordExpiryTimestampReturnsExpectedResult($settings, $currentDate, $expected)
-    {
+    public function getPasswordExpiryTimestampReturnsExpectedResult(
+        array $settings,
+        \DateTime $currentDate,
+        int $expected
+    ): void {
         $service = new SettingsService();
-
-        $GLOBALS['TSFE'] = static::getMockBuilder(TypoScriptFrontendController::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $GLOBALS['TSFE']->tmpl = new \stdClass();
-        $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_fechangepwd.']['settings.'] = $settings;
-
-        self::assertEquals($expected, $service->getPasswordExpiryTimestamp($currentDate));
+        self::assertEquals($expected, $service->getPasswordExpiryTimestamp($settings, $currentDate));
     }
+
+    // @todo getSettings Test
 }
