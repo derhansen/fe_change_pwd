@@ -139,7 +139,7 @@ use this event to add the data to the `ContextData` DTO.
 
 ## Breaking changes
 
-### Version 4.0.0
+###  Version 4.0.0
 
 This version contains major breaking changes, since now the TYPO3 password
 policy is used for password validation.
@@ -147,6 +147,18 @@ policy is used for password validation.
 * All password validators have been removed in favor to TYPO3 password policies. Make sure to check, if the TYPO3 default password policy suits your needs
 * The pwned password check has been removed. If this check is required, please use TYPO3 extension [add_pwd_policy](https://github.com/derhansen/add_pwd_policy) in the password policy for frontend users
 * The extension now requires the current user password by default. This check can be disabled in settings using `requireCurrentPassword`
+* The extension requires TYPO3 `security.usePasswordPolicyForFrontendUsers` feature toggle to be active
+* Dropped TYPO3 11.5 compatibility.
+
+###  Version 3.0.0
+
+* Dropped TYPO3 9.5 and 10.4 compatibility.
+* Changed file extension für TypoScript files to `.typoscript`
+* Replaced signal slot with PSR-14 event
+
+###  Version 2.0.0
+
+Dropped TYPO3 8.7 compatibility.
 
 ###  Version 1.5.0
 
@@ -158,24 +170,10 @@ If you use an own template for "Edit.html", you must add the following code insi
 <f:form.hidden property="changeHmac" />
 ```
 
-Prior to version 1.5.0, the extension did contain a CSRF vulnerabilty, if `settings.requireCurrentPassword` was
+Prior to version 1.5.0, the extension did contain a CSRF vulnerability, if `settings.requireCurrentPassword` was
 disabled (default). In order to mitigate the issue, the property `changeHmac` has been added to the DTO. This
-property contains a HMAC, which is unique for the current logged in user. When the provided `changeHmac` does not
+property contains a HMAC, which is unique for the current logged-in user. When the provided `changeHmac` does not
 match the expected value, an exception is thrown when the form is submitted.
-
-###  Version 2.0.0
-
-Dropped TYPO3 8.7 compatibility.
-
-###  Version 3.0.0
-
-* Dropped TYPO3 9.5 and 10.4 compatibility.
-* Changed file extension für TypoScript files to `.typoscript`
-* Replaced signal slot with PSR-14 event
-
-###  Version 4.0.0
-
-* Dropped TYPO3 11.5 compatibility.
 
 ## Thanks for sponsoring
 
