@@ -27,11 +27,10 @@ class FrontendUserService
 {
     public const SESSION_KEY = 'mustChangePasswordReason';
 
-    protected SettingsService $settingsService;
-
-    public function injectSettingsService(SettingsService $settingsService): void
-    {
-        $this->settingsService = $settingsService;
+    public function __construct(
+        protected readonly SettingsService $settingsService,
+        protected readonly Context $context
+    ) {
     }
 
     /**
@@ -86,7 +85,7 @@ class FrontendUserService
             ->set('password', $password)
             ->set('must_change_password', 0)
             ->set('password_expiry_date', $this->settingsService->getPasswordExpiryTimestamp($settings))
-            ->set('tstamp', (int)$GLOBALS['EXEC_TIME'])
+            ->set('tstamp', $this->context->getPropertyFromAspect('date', 'timestamp'))
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
@@ -157,7 +156,7 @@ class FrontendUserService
      */
     public function isUserLoggedIn(): bool
     {
-        return GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user')->isLoggedIn();
+        return $this->context->getAspect('frontend.user')->isLoggedIn();
     }
 
     /**
