@@ -10,6 +10,8 @@ declare(strict_types=1);
  */
 
 use Derhansen\FeChangePwd\Service\FrontendUserService;
+use Derhansen\FeChangePwd\Service\SettingsService;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Session\UserSessionManager;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -60,7 +62,10 @@ class FrontendUserServiceTest extends UnitTestCase
         $feUser = new FrontendUserAuthentication();
         $feUser->initializeUserSessionManager($userSessionManager);
 
-        $service = new FrontendUserService();
+        $mockSettingsService = $this->createMock(SettingsService::class);
+        $mockContext = $this->createMock(Context::class);
+
+        $service = new FrontendUserService($mockSettingsService, $mockContext);
         $GLOBALS['TSFE'] = new \stdClass();
         $GLOBALS['TSFE']->fe_user = $feUser;
         self::assertEquals($expected, $service->mustChangePassword($feUserRecord));
