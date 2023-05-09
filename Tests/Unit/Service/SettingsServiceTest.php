@@ -67,6 +67,4 @@ class SettingsServiceTest extends UnitTestCase
         $service = new SettingsService();
         self::assertEquals($expected, $service->getPasswordExpiryTimestamp($settings, $currentDate));
     }
-
-    // @todo getSettings Test
 }
