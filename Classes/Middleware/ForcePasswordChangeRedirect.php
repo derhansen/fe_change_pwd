@@ -44,12 +44,15 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
         $frontendUser = $request->getAttribute('frontend.user');
         $pageUid = $typoScriptFrontendController->id;
 
+        // Early return, if no frontend user
+        if (!isset($frontendUser->user['uid'])) {
+            return $handler->handle($request);
+        }
+
         $settings = $this->settingsService->getSettings($request);
 
-        // Early return if no frontend user available, page is excluded from redirect or user is not
-        // forced to change the password
-        if (!isset($frontendUser->user['uid']) ||
-            !$this->frontendUserService->mustChangePassword($frontendUser->user) ||
+        // Early return if page is excluded from redirect or user is not forced to change the password
+        if (!$this->frontendUserService->mustChangePassword($frontendUser->user) ||
             $this->pageAccessService->isExcludePage($pageUid, $settings)
         ) {
             return $handler->handle($request);
