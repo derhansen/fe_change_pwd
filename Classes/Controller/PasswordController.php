@@ -27,8 +27,7 @@ class PasswordController extends ActionController
     public function __construct(
         protected readonly FrontendUserService $frontendUserService,
         protected readonly Features $features,
-    ) {
-    }
+    ) {}
 
     public function initializeAction(): void
     {

@@ -32,8 +32,7 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
         protected PageAccessService $pageAccessService,
         protected FrontendUserService $frontendUserService,
         protected SettingsService $settingsService
-    ) {
-    }
+    ) {}
 
     /**
      * Check if the user must change the password and redirect to configured PID

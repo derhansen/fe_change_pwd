@@ -6,6 +6,4 @@ namespace Derhansen\FeChangePwd\Exception;
 
 use Exception;
 
-class MissingPasswordHashServiceException extends Exception
-{
-}
+class MissingPasswordHashServiceException extends Exception {}

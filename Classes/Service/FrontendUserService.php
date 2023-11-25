@@ -30,8 +30,7 @@ class FrontendUserService
     public function __construct(
         protected readonly SettingsService $settingsService,
         protected readonly Context $context
-    ) {
-    }
+    ) {}
 
     /**
      * Returns if the frontend user must change the password
