@@ -16,9 +16,7 @@ $tmp_columns = [
         'exclude' => true,
         'label' => 'LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:label.password_expiry_date',
         'config' => [
-            'type' => 'input',
-            'renderType' => 'inputDateTime',
-            'eval' => 'datetime',
+            'type' => 'datetime',
             'default' => 0,
         ],
     ],
