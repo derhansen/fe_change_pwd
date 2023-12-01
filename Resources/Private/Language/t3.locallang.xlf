@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2018-22-26T19:47:02Z" product-name="fe_change_pwd" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="passwordFieldsEmptyOrNotBothFilledOut">
+        <source>You must fill out both password fields</source>
+        <target>crwdns298734:0crwdne298734:0</target>
+      </trans-unit>
+      <trans-unit id="passwordsDoNotMatch">
+        <source>The passwords do not match</source>
+        <target>crwdns298736:0crwdne298736:0</target>
+      </trans-unit>
+      <trans-unit id="passwordComplexity.failure.minLength">
+        <source>The password must at least have a length of %1s chars</source>
+        <target>crwdns298738:0%1scrwdne298738:0</target>
+      </trans-unit>
+      <trans-unit id="passwordComplexity.failure.capitalCharCheck">
+        <source>The password must at least contain one capital char</source>
+        <target>crwdns298740:0crwdne298740:0</target>
+      </trans-unit>
+      <trans-unit id="passwordComplexity.failure.lowerCaseCharCheck">
+        <source>The password must at least contain one lower case char</source>
+        <target>crwdns298742:0crwdne298742:0</target>
+      </trans-unit>
+      <trans-unit id="passwordComplexity.failure.digitCheck">
+        <source>The password must at least contain one digit</source>
+        <target>crwdns298744:0crwdne298744:0</target>
+      </trans-unit>
+      <trans-unit id="passwordComplexity.failure.specialCharCheck">
+        <source>The password must at least contain one special char</source>
+        <target>crwdns298746:0crwdne298746:0</target>
+      </trans-unit>
+      <trans-unit id="pwnedPasswordFailure">
+        <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
+        <target>crwdns298748:0%1scrwdne298748:0</target>
+      </trans-unit>
+      <trans-unit id="oldPasswordFailure">
+        <source>This password can not be used, because it equals the old password.</source>
+        <target>crwdns298750:0crwdne298750:0</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated">
+        <source>The password has been updated</source>
+        <target>crwdns298752:0crwdne298752:0</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated.title">
+        <source>Password updated</source>
+        <target>crwdns298754:0crwdne298754:0</target>
+      </trans-unit>
+      <trans-unit id="currentPassword">
+        <source>Current Password</source>
+        <target>crwdns298756:0crwdne298756:0</target>
+      </trans-unit>
+      <trans-unit id="password">
+        <source>Password</source>
+        <target>crwdns298758:0crwdne298758:0</target>
+      </trans-unit>
+      <trans-unit id="repeatPassword">
+        <source>Repeat Password</source>
+        <target>crwdns298760:0crwdne298760:0</target>
+      </trans-unit>
+      <trans-unit id="update">
+        <source>Update</source>
+        <target>crwdns298762:0crwdne298762:0</target>
+      </trans-unit>
+      <trans-unit id="validationErrorHeader">
+        <source>Please check your input for the following errors:</source>
+        <target>crwdns298764:0crwdne298764:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.forcedChange">
+        <source>You must change your password</source>
+        <target>crwdns298766:0crwdne298766:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.passwordExpired">
+        <source>Your password has expired and must be changed</source>
+        <target>crwdns298768:0crwdne298768:0</target>
+      </trans-unit>
+      <trans-unit id="notLoggedIn">
+        <source>You need to be logged in to update your password</source>
+        <target>crwdns298770:0crwdne298770:0</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordEmpty">
+        <source>Please enter your current password in the corresponding field.</source>
+        <target>crwdns298772:0crwdne298772:0</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordFailure">
+        <source>The current password you entered is wrong.</source>
+        <target>crwdns298774:0crwdne298774:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
