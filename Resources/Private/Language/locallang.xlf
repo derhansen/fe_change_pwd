@@ -9,21 +9,6 @@
             <trans-unit id="passwordsDoNotMatch">
                 <source>The passwords do not match</source>
             </trans-unit>
-            <trans-unit id="passwordComplexity.failure.minLength">
-                <source>The password must at least have a length of %1s chars</source>
-            </trans-unit>
-            <trans-unit id="passwordComplexity.failure.capitalCharCheck">
-                <source>The password must at least contain one capital char</source>
-            </trans-unit>
-            <trans-unit id="passwordComplexity.failure.lowerCaseCharCheck">
-                <source>The password must at least contain one lower case char</source>
-            </trans-unit>
-            <trans-unit id="passwordComplexity.failure.digitCheck">
-                <source>The password must at least contain one digit</source>
-            </trans-unit>
-            <trans-unit id="passwordComplexity.failure.specialCharCheck">
-                <source>The password must at least contain one special char</source>
-            </trans-unit>
             <trans-unit id="pwnedPasswordFailure">
                 <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
             </trans-unit>
