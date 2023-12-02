@@ -21,7 +21,7 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Password expiration after a configurable amount of days
 * Optional check if password has been part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API and the k-Anonymity model
 * Optional require the current password in order to change it
-* Optional require a change password code, which can be sent to the users email address, in order to change the password
+* Optional require a change password code, which is sent to the users email address, in order to change the password
 
 ## Screenshot
 
