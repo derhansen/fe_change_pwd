@@ -27,7 +27,7 @@ plugin.tx_fechangepwd {
 
         # If enabled, it is required to enter an change password code, which the user can request by email using the plugin
         requireChangePasswordCode {
-            enabled = 1
+            enabled = 0
             validityInMinutes = 5
         }
 
