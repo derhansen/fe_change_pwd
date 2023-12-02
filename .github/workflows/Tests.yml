@@ -24,6 +24,12 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
       - name: Install dependencies
         run: |
           cd .Build
