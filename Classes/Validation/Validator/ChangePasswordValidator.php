@@ -12,12 +12,15 @@ declare(strict_types=1);
 namespace Derhansen\FeChangePwd\Validation\Validator;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
+use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\PwnedPasswordsService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Class ChangePasswordValidator
@@ -66,6 +69,14 @@ class ChangePasswordValidator extends AbstractValidator
             if ($requireCurrentPasswordResult === false) {
                 return false;
             }
+        }
+
+        // Early return if change password code is required, but either empty or not valid
+        if (isset($settings['requireChangePasswordCode']['enabled']) &&
+            (bool)$settings['requireChangePasswordCode']['enabled'] &&
+            $this->evaluateChangePasswordCode($value) === false
+        ) {
+            return false;
         }
 
         // Early return if no passwords are given
@@ -220,5 +231,47 @@ class ChangePasswordValidator extends AbstractValidator
             );
         }
         return $result;
+    }
+
+    /**
+     * Evaluates the change password code
+     */
+    protected function evaluateChangePasswordCode(ChangePassword $changePassword): bool
+    {
+        $currentHash = $this->getFrontendUser()->user['change_password_code_hash'] ?? '';
+        $calculatedHash = GeneralUtility::hmac($changePassword->getChangePasswordCode(), FrontendUserService::class);
+        $expirationTime = (int)($this->getFrontendUser()->user['change_password_code_expiry_date'] ?? 0);
+
+        if (empty($changePassword->getChangePasswordCode())) {
+            $this->addError(
+                $this->localizationService->translate('changePasswordCode.empty'),
+                1701451678
+            );
+            return false;
+        }
+
+        if ($currentHash === '' ||
+            $expirationTime === 0 ||
+            $expirationTime < time() ||
+            !hash_equals($currentHash, $calculatedHash)
+        ) {
+            $this->addError(
+                $this->localizationService->translate('changePasswordCode.invalidOrExpired'),
+                1701451180
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function getFrontendUser(): FrontendUserAuthentication
+    {
+        return $this->getTypoScriptFrontendController()->fe_user;
+    }
+
+    protected function getTypoScriptFrontendController(): ?TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'] ?? null;
     }
 }

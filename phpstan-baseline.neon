@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$request of method TYPO3\\\\CMS\\\\Core\\\\Mail\\\\FluidEmail\\:\\:setRequest\\(\\) expects Psr\\\\Http\\\\Message\\\\ServerRequestInterface, TYPO3\\\\CMS\\\\Extbase\\\\Mvc\\\\RequestInterface given\\.$#"
+			count: 1
+			path: Classes/Service/FrontendUserService.php

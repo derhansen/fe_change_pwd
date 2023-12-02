@@ -33,6 +33,12 @@ plugin.tx_fechangepwd {
             enabled = 0
         }
 
+        # If enabled, it is required to enter an change password code, which the user can request by email using the plugin
+        requireChangePasswordCode {
+            enabled = 0
+            validityInMinutes = 5
+        }
+
         # If enabled, the password for password breaches using the haveibeenpwned.com API
         pwnedpasswordsCheck {
             enabled = 1

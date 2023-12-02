@@ -40,6 +40,15 @@
 							<f:form.password id="currentPassword" property="currentPassword" />
 						</div>
 					</f:if>
+					<f:if condition="{settings.requireChangePasswordCode.enabled} == 1">
+						<div>
+							<label for="changePasswordCode">
+								<f:translate key="changePasswordCode" />
+							</label>
+							<f:form.textfield type="number" id="changePasswordCode" property="changePasswordCode" />
+							<f:link.action action="sendChangePasswordCode"><f:translate key="link.sendChangePasswordCode" /></f:link.action>
+						</div>
+					</f:if>
 					<div>
 						<label for="password1">
 							<f:translate key="password" />

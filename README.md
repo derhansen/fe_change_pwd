@@ -21,6 +21,7 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Password expiration after a configurable amount of days
 * Optional check if password has been part of a data breach using the [haveibeenpwned.com](https://haveibeenpwned.com/) API and the k-Anonymity model
 * Optional require the current password in order to change it
+* Optional require a change password code, which can be sent to the users email address, in order to change the password
 
 ## Screenshot
 
@@ -79,6 +80,11 @@ page with the Plugin of the extension
 
 * `enabled` *(bool)* If set to `1`, the user must enter the current password in order to set a new password.
 
+**plugin.tx_fechangepwd.settings.requireChangePasswordCode**
+
+* `enabled` *(bool)* If set to `1`, the user must enter a change password code, which will be sent to the users email address,  in order to set a new password. Default setting is `0`.
+* `validityInMinutes` *(integer)* The time in minutes the change password code is valid, when it has been requested by the user.
+
 **plugin.tx_fechangepwd.settings.pwnedpasswordsCheck**
 
 * `enabled` *(bool)* If set to `1`, the new password is checked using the haveibeenpwned.com API to verify, that the 
@@ -115,6 +121,12 @@ if you e.g. want to exclude a page and all subpages for the redirect
 
 The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template) 
 the fluid templates to your needs.
+
+## Overriding Fluid email templates
+
+If the email template used for the "change password code" email need to be overridden, this can
+be changed in `$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][750]` or by adding e template
+override for the `ChangePasswordCode` template.
 
 ## Possible Errors
 

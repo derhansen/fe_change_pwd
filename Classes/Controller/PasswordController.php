@@ -13,8 +13,10 @@ namespace Derhansen\FeChangePwd\Controller;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Event\AfterPasswordUpdatedEvent;
+use Derhansen\FeChangePwd\Exception\InvalidEmailAddressException;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
@@ -110,6 +112,28 @@ class PasswordController extends ActionController
         $arguments = $this->request->getArguments();
         $arguments['changePassword'] = $changePasswordArray;
         $this->request->setArguments($arguments);
+    }
+
+    /**
+     * Sends an email with the verification code to the current frontend user
+     */
+    public function sendChangePasswordCodeAction(): ResponseInterface
+    {
+        try {
+            $this->frontendUserService->sendChangePasswordCodeEmail($this->settings, $this->request);
+            $this->addFlashMessage(
+                LocalizationUtility::translate('changePasswordCodeSent', 'FeChangePwd'),
+                LocalizationUtility::translate('changePasswordCodeSent.title', 'FeChangePwd')
+            );
+        } catch (InvalidEmailAddressException $exception) {
+            $this->addFlashMessage(
+                LocalizationUtility::translate('changePasswordCodeInvalidEmail', 'FeChangePwd'),
+                LocalizationUtility::translate('changePasswordCodeInvalidEmail.title', 'FeChangePwd'),
+                AbstractMessage::ERROR
+            );
+        }
+
+        return $this->redirect('edit');
     }
 
     /**
