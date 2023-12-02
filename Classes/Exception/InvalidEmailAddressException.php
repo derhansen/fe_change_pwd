@@ -6,4 +6,4 @@ namespace Derhansen\FeChangePwd\Exception;
 
 use Exception;
 
-class MissingPasswordHashServiceException extends Exception {}
+class InvalidEmailAddressException extends Exception {}

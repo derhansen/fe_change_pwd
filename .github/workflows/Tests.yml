@@ -1,4 +1,4 @@
-name: CI
+name: Tests
 
 on: [push, pull_request]
 
@@ -24,10 +24,17 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
       - name: Install dependencies
         run: |
+          cd .Build
           composer require typo3/cms-core:${{ matrix.typo3 }} --no-progress
           git checkout composer.json
 
       - name: Unit Tests
-        run: .Build/bin/phpunit --colors -c Tests/Build/UnitTests.xml
+        run: .Build/vendor/bin/phpunit --colors -c .Build/phpunit/UnitTests.xml

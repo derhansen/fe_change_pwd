@@ -6,6 +6,4 @@ namespace Derhansen\FeChangePwd\Exception;
 
 use Exception;
 
-class MissingFeatureToggleException extends Exception
-{
-}
+class MissingFeatureToggleException extends Exception {}

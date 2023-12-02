@@ -17,12 +17,18 @@ plugin.tx_fechangepwd {
         }
     }
     settings {
-        # The pid to redirect to if a password change is required (usually the page with the Plugin of the extension)
+        # The pid to redirect to if a password change is required (usually the page with the plugin of the extension)
         changePasswordPid =
 
         # If enabled, it is required to enter the current password in order to set a new one
         requireCurrentPassword {
             enabled = 1
+        }
+
+        # If enabled, it is required to enter an change password code, which the user can request by email using the plugin
+        requireChangePasswordCode {
+            enabled = 0
+            validityInMinutes = 5
         }
 
         # If enabled, passwords saved with the extension will expire after the configured amount of days

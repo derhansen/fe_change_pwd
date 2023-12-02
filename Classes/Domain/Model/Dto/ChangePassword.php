@@ -16,6 +16,7 @@ class ChangePassword
     protected string $password1 = '';
     protected string $password2 = '';
     protected string $currentPassword = '';
+    protected string $changePasswordCode = '';
     protected string $changeHmac = '';
     protected bool $skipCurrentPasswordCheck = false;
 
@@ -47,6 +48,16 @@ class ChangePassword
     public function setCurrentPassword(string $currentPassword): void
     {
         $this->currentPassword = $currentPassword;
+    }
+
+    public function getChangePasswordCode(): string
+    {
+        return $this->changePasswordCode;
+    }
+
+    public function setChangePasswordCode(string $changePasswordCode): void
+    {
+        $this->changePasswordCode = $changePasswordCode;
     }
 
     public function getChangeHmac(): string

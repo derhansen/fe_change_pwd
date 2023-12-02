@@ -6,6 +6,4 @@ namespace Derhansen\FeChangePwd\Exception;
 
 use Exception;
 
-class InvalidUserException extends Exception
-{
-}
+class InvalidUserException extends Exception {}
