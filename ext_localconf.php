@@ -10,11 +10,16 @@ call_user_func(function () {
         'fe_change_pwd',
         'Pi1',
         [
-            PasswordController::class => 'edit,update',
+            PasswordController::class => 'edit,update,sendChangePasswordCode',
         ],
         // non-cacheable actions
         [
-            PasswordController::class => 'edit,update',
+            PasswordController::class => 'edit,update,sendChangePasswordCode',
         ]
     );
+
+    // Define template override for Fluid email
+    if (!isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][750])) {
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][750] = 'EXT:fe_change_pwd/Resources/Private/Templates/Email';
+    }
 });
