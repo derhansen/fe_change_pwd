@@ -3,4 +3,4 @@ parameters:
 		-
 			message: "#^Constructor of class Derhansen\\\\FeChangePwd\\\\Validation\\\\Validator\\\\ChangePasswordValidator has an unused parameter \\$options\\.$#"
 			count: 1
-			path: Classes/Validation/Validator/ChangePasswordValidator.php
+			path: ../../Classes/Validation/Validator/ChangePasswordValidator.php
