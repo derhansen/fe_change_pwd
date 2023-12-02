@@ -102,6 +102,12 @@ if you e.g. want to exclude a page and all subpages for the redirect
 The extension output is completely unstyled. Feel free to [override](https://stackoverflow.com/questions/39724833/best-way-to-overwrite-a-extension-template)
 the fluid templates to your needs.
 
+## Overriding Fluid email templates
+
+If the email template used for the "change password code" email need to be overridden, this can
+be changed in `$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][750]` or by adding e template
+override for the `ChangePasswordCode` template.
+
 ## Possible Errors
 
 ### No password hashing service
@@ -134,12 +140,6 @@ Additionally, the extension also dispatches the TYPO3 core PSR-14 event
 
 If additional user data has to be considered for password validation, please
 use this event to add the data to the `ContextData` DTO.
-
-### Overriding Fluid email templates
-
-If the email template used for the "change password code" email need to be overridden, this can 
-be changed in `$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][750]` or by adding e template
-override for the `ChangePasswordCode` template. 
 
 ## Versions
 
