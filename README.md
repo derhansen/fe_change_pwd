@@ -1,6 +1,5 @@
-[![Tests](https://github.com/derhansen/fe_change_pwd/actions/workflows/Tests.yml/badge.svg)](https://github.com/derhansen/fe_change_pwd/actions/workflows/Tests.yml)
-[![Build Status](https://github.com/derhansen/fe_change_pwd/workflows/CI/badge.svg?branch=master)](https://github.com/derhansen/fe_change_pwd/actions)
-[![Code Quality Checks](https://github.com/derhansen/fe_change_pwd/actions/workflows/CodeQuality.yml/badge.svg)](https://github.com/derhansen/fe_change_pwd/actions/workflows/CodeQuality.yml)
+[![Tests](https://github.com/derhansen/fe_change_pwd/actions/workflows/Tests.yml/badge.svg?branch=3.x)](https://github.com/derhansen/fe_change_pwd/actions/workflows/Tests.yml)
+[![Code Quality Checks](https://github.com/derhansen/fe_change_pwd/actions/workflows/CodeQuality.yml/badge.svg?branch=3.x)](https://github.com/derhansen/fe_change_pwd/actions/workflows/CodeQuality.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/derhansen/fe_change_pwd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/derhansen/fe_change_pwd/?branch=master)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
