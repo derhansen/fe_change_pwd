@@ -20,7 +20,7 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Redirect to configured page when password change is required
 * Password expiration after a configurable amount of days
 * Optional require the current password in order to change the password
-* Optional require a change password code, which can be sent to the users email address, in order to change the password
+* Optional require a change password code, which is sent to the users email address, in order to change the password
 
 ## Screenshot
 
