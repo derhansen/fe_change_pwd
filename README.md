@@ -17,9 +17,10 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Change password plugin
 * Validates the password against the TYPO3 password policies for frontend users
 * Force password change for frontend users
-* Redirect to configured page when password change is required (uses PSR-15 Middleware in TYPO3 v9)
+* Redirect to configured page when password change is required
 * Password expiration after a configurable amount of days
-* Optional require the current password in order to change it
+* Optional require the current password in order to change the password
+* Optional require a change password code, which can be sent to the users email address, in order to change the password
 
 ## Screenshot
 
@@ -69,6 +70,11 @@ page with the Plugin of the extension
 **plugin.tx_fechangepwd.settings.requireCurrentPassword**
 
 * `enabled` *(bool)* If set to `1`, the user must enter the current password in order to set a new password. Default setting is `1`.
+
+**plugin.tx_fechangepwd.settings.requireChangePasswordCode**
+
+* `enabled` *(bool)* If set to `1`, the user must enter a change password code, which will be sent to the users email address,  in order to set a new password. Default setting is `0`.
+* `validityInMinutes` *(integer)* The time in minutes the change password code is valid, when it has been requested by the user.
 
 **plugin.tx_fechangepwd.settings.passwordExpiration**
 
@@ -128,6 +134,12 @@ Additionally, the extension also dispatches the TYPO3 core PSR-14 event
 
 If additional user data has to be considered for password validation, please
 use this event to add the data to the `ContextData` DTO.
+
+### Overriding Fluid email templates
+
+If the email template used for the "change password code" email need to be overridden, this can 
+be changed in `$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][750]` or by adding e template
+override for the `ChangePasswordCode` template. 
 
 ## Versions
 
