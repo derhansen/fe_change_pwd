@@ -3,36 +3,126 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2018-22-26T19:47:02Z" product-name="fe_change_pwd" target-language="de">
     <header/>
     <body>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        </body>
+      <trans-unit id="passwordFieldsEmptyOrNotBothFilledOut" approved="yes">
+        <source>You must fill out both password fields</source>
+        <target state="final">Sie müssen beide Passwort-Felder ausfüllen</target>
+      </trans-unit>
+      <trans-unit id="passwordsDoNotMatch" approved="yes">
+        <source>The passwords do not match</source>
+        <target state="final">Die Passwörter stimmen nicht überein</target>
+      </trans-unit>
+      <trans-unit id="pwnedPasswordFailure" approved="yes">
+        <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
+        <target state="final">Dieses Passwort ist durch Datendiebstahl bekannt und kommt %1s mal in der haveibeenpwned.com Datenbank vor. Bitte wählen Sie ein anderes Passwort.</target>
+      </trans-unit>
+      <trans-unit id="oldPasswordFailure" approved="yes">
+        <source>This password can not be used, because it equals the old password.</source>
+        <target state="final">Dieses Passwort kann nicht verwendet werden, da es dem aktuellen Passwort entspricht.</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated" approved="yes">
+        <source>The password has been updated</source>
+        <target state="final">Ihr Passwort wurde aktualisiert</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated.title" approved="yes">
+        <source>Password updated</source>
+        <target state="final">Password aktualisiert</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode" approved="yes">
+        <source>Change password code</source>
+        <target state="final">Passwortänderungscode</target>
+      </trans-unit>
+      <trans-unit id="link.sendChangePasswordCode" approved="yes">
+        <source>Send change password code</source>
+        <target state="final">Passwortänderungscode anfordern</target>
+      </trans-unit>
+      <trans-unit id="currentPassword" approved="yes">
+        <source>Current Password</source>
+        <target state="final">Aktuelles Passwort</target>
+      </trans-unit>
+      <trans-unit id="password" approved="yes">
+        <source>Password</source>
+        <target state="final">Passwort</target>
+      </trans-unit>
+      <trans-unit id="repeatPassword" approved="yes">
+        <source>Repeat Password</source>
+        <target state="final">Passwort wiederholen</target>
+      </trans-unit>
+      <trans-unit id="update" approved="yes">
+        <source>Update</source>
+        <target state="final">Aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="validationErrorHeader" approved="yes">
+        <source>Please check your input for the following errors:</source>
+        <target state="final">Bitte überprüfen Sie Ihre Eingabe auf folgende Fehler:</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.forcedChange" approved="yes">
+        <source>You must change your password</source>
+        <target state="final">Sie müssen Ihr Passwort ändern</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.passwordExpired" approved="yes">
+        <source>Your password has expired and must be changed</source>
+        <target state="final">Ihr Passwort ist abgelaufen und muss geändert werden</target>
+      </trans-unit>
+      <trans-unit id="notLoggedIn" approved="yes">
+        <source>You need to be logged in to update your password</source>
+        <target state="final">Sie müssen eingeloggt sein, um Ihr Passwort zu aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordEmpty" approved="yes">
+        <source>Please enter your current password in the corresponding field.</source>
+        <target state="final">Bitte geben Sie Ihr aktuelles Passwort in das dafür vorgesehene Feld ein.</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordFailure" approved="yes">
+        <source>The current password you entered is wrong.</source>
+        <target state="final">Das eingegebene aktuelle Passwort ist falsch.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.empty" approved="yes">
+        <source>You must enter the change password code.</source>
+        <target state="final">Sie müssen den Passwortänderungscode eingeben.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.invalidOrExpired" approved="yes">
+        <source>The given change password code is invalid or has expired.</source>
+        <target state="final">Der eingegebene Passwortänderungscode ist ungültig oder abgelaufen.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeSent" approved="yes">
+        <source>The change password code has been sent to your email address.</source>
+        <target state="final">Der Passwortänderungscode wurde an Ihre E-Mail-Adresse gesandt.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeSent.title" approved="yes">
+        <source>Change password code sent</source>
+        <target state="final">Passwortänderungscode versandt</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeInvalidEmail" approved="yes">
+        <source>Change password code could not be sent, because no valid email address is configured for your acccount.</source>
+        <target state="final">Der Passwortänderungscode konnte nicht versandt werden, weil Ihr Benutzerkonto keine gültige E-Mail-Adresse enthält.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeInvalidEmail.title" approved="yes">
+        <source>Invalid email address</source>
+        <target state="final">Ungültige E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.subject" approved="yes">
+        <source>Your change password code</source>
+        <target state="final">Ihr Passwortänderungscode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.title" approved="yes">
+        <source>Change password code</source>
+        <target state="final">Passwortänderungscode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.introduction" approved="yes">
+        <source>Please find below the change password code you requested.</source>
+        <target state="final">Unten finden Sie den von Ihnen angeforderten Passwortänderungscode.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.code" approved="yes">
+        <source>Code</source>
+        <target state="final">Passwortänderungscode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.validUntil" approved="yes">
+        <source>Valid until</source>
+        <target state="final">Gültig bis</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.notice" approved="yes">
+        <source>The change password code can be used multiple times either until the validity date is reached or until the password has been successfully changed.</source>
+        <target state="final">Der Passwortänderungscode kann mehrfach verwendet werden, bis das Gültigkeitsdatum erreicht ist oder bis das Passwort erfolgreich geändert wurde.</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
