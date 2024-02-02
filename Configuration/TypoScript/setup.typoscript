@@ -29,6 +29,8 @@ plugin.tx_fechangepwd {
         requireChangePasswordCode {
             enabled = 0
             validityInMinutes = 5
+            senderEmail =
+            senderName =
         }
 
         # If enabled, passwords saved with the extension will expire after the configured amount of days

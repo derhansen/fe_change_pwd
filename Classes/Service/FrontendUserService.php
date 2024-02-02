@@ -14,6 +14,7 @@ namespace Derhansen\FeChangePwd\Service;
 use Derhansen\FeChangePwd\Exception\InvalidEmailAddressException;
 use Derhansen\FeChangePwd\Exception\InvalidUserException;
 use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
+use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -174,6 +175,13 @@ class FrontendUserService
         $email = GeneralUtility::makeInstance(FluidEmail::class);
         $email->setRequest($request);
         $email->setTemplate('ChangePasswordCode');
+
+        $senderEmail = $settings['requireChangePasswordCode']['senderEmail'] ?? false;
+        $sendername = $settings['requireChangePasswordCode']['senderName'] ?? '';
+        if ($senderEmail && GeneralUtility::validEmail($senderEmail)) {
+            $email->from(new Address($senderEmail, $sendername));
+        }
+
         $email->to($recipientEmail);
         $email->format(FluidEmail::FORMAT_HTML);
         $email->assignMultiple([
