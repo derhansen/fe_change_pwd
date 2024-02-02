@@ -32,14 +32,6 @@
 			<f:form action="update" name="changePassword" object="{changePassword}" method="post">
 				<f:form.hidden property="changeHmac" />
 				<fieldset>
-					<f:if condition="{settings.requireCurrentPassword.enabled} == 1">
-						<div>
-							<label for="currentPassword">
-								<f:translate key="currentPassword" />
-							</label>
-							<f:form.password id="currentPassword" property="currentPassword" />
-						</div>
-					</f:if>
 					<f:if condition="{settings.requireChangePasswordCode.enabled} == 1">
 						<div>
 							<label for="changePasswordCode">
@@ -47,6 +39,14 @@
 							</label>
 							<f:form.textfield type="number" id="changePasswordCode" property="changePasswordCode" />
 							<f:link.action action="sendChangePasswordCode"><f:translate key="link.sendChangePasswordCode" /></f:link.action>
+						</div>
+					</f:if>
+					<f:if condition="{settings.requireCurrentPassword.enabled} == 1">
+						<div>
+							<label for="currentPassword">
+								<f:translate key="currentPassword" />
+							</label>
+							<f:form.password id="currentPassword" property="currentPassword" />
 						</div>
 					</f:if>
 					<div>
