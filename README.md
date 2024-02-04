@@ -148,8 +148,8 @@ use this event to add the data to the `ContextData` DTO.
 
 | Version | TYPO3      | PHP       | Support/Development                  |
 |---------|------------|-----------|--------------------------------------|
-| 4.x     | 12.4       | 8.1 -8.2  | Features, Bugfixes, Security Updates |
-| 3.x     | 11.5       | 7.4 -8.1  | Features, Bugfixes, Security Updates |
+| 4.x     | 12.4       | 8.1 - 8.3 | Features, Bugfixes, Security Updates |
+| 3.x     | 11.5       | 7.4 - 8.3 | Features, Bugfixes, Security Updates |
 | 2.x     | 9.5 - 10.4 | 7.2 - 7.4 | Security Updates                     |
 | 1.x     | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                      |
 
