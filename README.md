@@ -193,7 +193,9 @@ match the expected value, an exception is thrown when the form is submitted.
 
 ## Thanks for sponsoring
 
-* Thanks to [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this
-extension and for supporting open source software.
+* Thanks to [Wikafi sprl](https://www.wikafi.be) for sponsoring the initial development of this extension.
 
 * Thanks to [t3site.com](https://www.t3site.com/) for sponsoring the "Require current password" feature.
+
+* Thanks to [cron IT GmbH](https://www.cron.eu/) for sponsoring the "Require change password code" feature.
+
