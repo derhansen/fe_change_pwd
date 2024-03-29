@@ -3,36 +3,70 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2018-22-26T19:47:02Z" product-name="fe_change_pwd" target-language="da">
     <header/>
     <body>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        </body>
+      <trans-unit id="passwordFieldsEmptyOrNotBothFilledOut" approved="yes">
+        <source>You must fill out both password fields</source>
+        <target state="final">Du skal udfylde begge adgangskode-felter</target>
+      </trans-unit>
+      <trans-unit id="passwordsDoNotMatch" approved="yes">
+        <source>The passwords do not match</source>
+        <target state="final">Adgangskoderne matcher ikke</target>
+      </trans-unit>
+      <trans-unit id="pwnedPasswordFailure" approved="yes">
+        <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
+        <target state="final">Denne adgangskode optræder i et datasikkerhedsbrud og er fundet %1s gange i haveibeenpwned.com databasen. Vælg venligst en anden adgangskode.</target>
+      </trans-unit>
+      <trans-unit id="oldPasswordFailure" approved="yes">
+        <source>This password can not be used, because it equals the old password.</source>
+        <target state="final">Denne adgangskode kan ikke benyttes, fordi den er det samme som tidligere adgangskode.</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated" approved="yes">
+        <source>The password has been updated</source>
+        <target state="final">Din adgangskode er opdateret</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated.title" approved="yes">
+        <source>Password updated</source>
+        <target state="final">Adgangskode opdateret</target>
+      </trans-unit>
+      <trans-unit id="currentPassword" approved="yes">
+        <source>Current Password</source>
+        <target state="final">Nuværende adgangskode</target>
+      </trans-unit>
+      <trans-unit id="password" approved="yes">
+        <source>Password</source>
+        <target state="final">Kodeord</target>
+      </trans-unit>
+      <trans-unit id="repeatPassword" approved="yes">
+        <source>Repeat Password</source>
+        <target state="final">Gentag adgangskode</target>
+      </trans-unit>
+      <trans-unit id="update" approved="yes">
+        <source>Update</source>
+        <target state="final">Opdatér</target>
+      </trans-unit>
+      <trans-unit id="validationErrorHeader" approved="yes">
+        <source>Please check your input for the following errors:</source>
+        <target state="final">Tjek venligst din indtastning for følgende fejl:</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.forcedChange" approved="yes">
+        <source>You must change your password</source>
+        <target state="final">Din skal ændre din adgangskode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.passwordExpired" approved="yes">
+        <source>Your password has expired and must be changed</source>
+        <target state="final">Din adgangskode er udløbet og skal ændres</target>
+      </trans-unit>
+      <trans-unit id="notLoggedIn" approved="yes">
+        <source>You need to be logged in to update your password</source>
+        <target state="final">Du skal være logget på for at ændre din adgangskode</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordEmpty" approved="yes">
+        <source>Please enter your current password in the corresponding field.</source>
+        <target state="final">Indtast venligst din aktuelle adgangskode i det tilsvarende felt.</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordFailure" approved="yes">
+        <source>The current password you entered is wrong.</source>
+        <target state="final">Den aktuelle adgangskode du indtastede er forkert.</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
