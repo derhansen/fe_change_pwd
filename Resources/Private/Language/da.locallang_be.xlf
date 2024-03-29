@@ -3,10 +3,22 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2018-22-17T19:47:01Z" product-name="fe_change_pwd" target-language="da">
     <header/>
     <body>
-			
-			
-			
-			
-		</body>
+      <trans-unit id="plugin.title" approved="yes">
+        <source>Change Frontend User Password</source>
+        <target state="final">Skift Frontendbruger adgangskode</target>
+      </trans-unit>
+      <trans-unit id="label.must_change_password" approved="yes">
+        <source>User must change password at next login</source>
+        <target state="final">Bruger skal skifte adgangskode ved næste log ind</target>
+      </trans-unit>
+      <trans-unit id="label.password_expiry_date" approved="yes">
+        <source>Password expiry date</source>
+        <target state="final">Adgangskode udløbsdato</target>
+      </trans-unit>
+      <trans-unit id="label.password_settings" approved="yes">
+        <source>Password settings</source>
+        <target state="final">Adgangskode indstillinger</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
