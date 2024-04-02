@@ -114,6 +114,7 @@ class FrontendUserService
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
+        $this->getFrontendUser()->storeSessionData();
 
         // Destroy all sessions of the user except the current one
         $sessionManager = GeneralUtility::makeInstance(SessionManager::class);
