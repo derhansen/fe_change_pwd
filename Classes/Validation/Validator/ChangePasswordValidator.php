@@ -197,9 +197,4 @@ class ChangePasswordValidator extends AbstractValidator
     {
         return $this->getRequest()->getAttribute('frontend.user');
     }
-
-    protected function getRequest(): ServerRequestInterface
-    {
-        return $GLOBALS['TYPO3_REQUEST'];
-    }
 }
