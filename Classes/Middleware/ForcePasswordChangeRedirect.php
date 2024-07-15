@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace Derhansen\FeChangePwd\Middleware;
 
+use Derhansen\FeChangePwd\Event\ModifyRedirectUrlParameterEvent;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\PageAccessService;
 use Derhansen\FeChangePwd\Service\SettingsService;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -30,7 +32,8 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
     public function __construct(
         protected PageAccessService $pageAccessService,
         protected FrontendUserService $frontendUserService,
-        protected SettingsService $settingsService
+        protected SettingsService $settingsService,
+        protected EventDispatcherInterface $eventDispatcher
     ) {}
 
     /**
@@ -79,9 +82,13 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
             $site = $request->getAttribute('site');
             $router = $site->getRouter();
 
-            $parameter = ['_language' => $language];
-            // @todo: Provide PSR-14 event to modify parameter
-            $url = (string)$router->generateUri($redirectPid, $parameter);
+            $event = $this->eventDispatcher->dispatch(new ModifyRedirectUrlParameterEvent(
+                $request,
+                $redirectPid,
+                ['_language' => $language]
+            ));
+
+            $url = (string)$router->generateUri($event->getRedirectPid(), $event->getParameter());
             return new RedirectResponse($url, 307);
         }
 

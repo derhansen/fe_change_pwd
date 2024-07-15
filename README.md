@@ -141,10 +141,12 @@ for version 1.5.0
 
 ### PSR-14 events
 
-The extension currently contains the following PSR-14 event:
+The extension currently contains the following PSR-14 events:
 
 * Derhansen\FeChangePwd\Controller\PasswordController
   * `AfterPasswordUpdatedEvent`
+* Derhansen\FeChangePwd\Middleware\ForcePasswordChangeRedirect
+  * `ModifyRedirectUrlParameterEvent`
 
 Additionally, the extension also dispatches the TYPO3 core PSR-14 event
 `TYPO3\CMS\Core\PasswordPolicy\Event\EnrichPasswordValidationContextDataEvent`
