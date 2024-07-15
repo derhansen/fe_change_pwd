@@ -17,8 +17,8 @@ use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\OldPasswordService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\PasswordPolicy\Event\EnrichPasswordValidationContextDataEvent;
 use TYPO3\CMS\Core\PasswordPolicy\PasswordPolicyAction;
 use TYPO3\CMS\Core\PasswordPolicy\PasswordPolicyValidator;
@@ -35,6 +35,7 @@ class ChangePasswordValidator extends AbstractValidator
     protected LocalizationService $localizationService;
     protected OldPasswordService $oldPasswordService;
     protected EventDispatcherInterface $eventDispatcher;
+    protected HashService $hashService;
 
     public function __construct(array $options = [])
     {
@@ -42,6 +43,7 @@ class ChangePasswordValidator extends AbstractValidator
         $this->localizationService = GeneralUtility::makeInstance(LocalizationService::class);
         $this->oldPasswordService = GeneralUtility::makeInstance(OldPasswordService::class);
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $this->hashService = GeneralUtility::makeInstance(HashService::class);
     }
 
     /**
@@ -51,7 +53,7 @@ class ChangePasswordValidator extends AbstractValidator
      */
     protected function isValid($value): void
     {
-        $settings = $this->settingsService->getSettings($this->getRequest());
+        $settings = $this->settingsService->getTypoScriptSettings($this->getRequest());
 
         // Early return if old password is required, but either empty or not valid
         if (isset($settings['requireCurrentPassword']['enabled']) &&
@@ -157,7 +159,7 @@ class ChangePasswordValidator extends AbstractValidator
     protected function evaluateChangePasswordCode(ChangePassword $changePassword): bool
     {
         $currentHash = $this->getFrontendUser()->user['change_password_code_hash'] ?? '';
-        $calculatedHash = GeneralUtility::hmac($changePassword->getChangePasswordCode(), FrontendUserService::class);
+        $calculatedHash = $this->hashService->hmac($changePassword->getChangePasswordCode(), FrontendUserService::class);
         $expirationTime = (int)($this->getFrontendUser()->user['change_password_code_expiry_date'] ?? 0);
 
         if (empty($changePassword->getChangePasswordCode())) {

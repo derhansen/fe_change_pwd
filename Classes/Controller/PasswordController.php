@@ -14,10 +14,10 @@ namespace Derhansen\FeChangePwd\Controller;
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Event\AfterPasswordUpdatedEvent;
 use Derhansen\FeChangePwd\Exception\InvalidEmailAddressException;
-use Derhansen\FeChangePwd\Exception\MissingFeatureToggleException;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
+use Derhansen\FeChangePwd\Service\SettingsService;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Configuration\Features;
+use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -28,18 +28,8 @@ class PasswordController extends ActionController
 {
     public function __construct(
         protected readonly FrontendUserService $frontendUserService,
-        protected readonly Features $features,
+        protected readonly SettingsService $settingsService,
     ) {}
-
-    public function initializeAction(): void
-    {
-        if (!$this->features->isFeatureEnabled('security.usePasswordPolicyForFrontendUsers')) {
-            throw new MissingFeatureToggleException(
-                'Extension fe_change_pwd relies on TYPO3 password policies being enabled. Please activate security.usePasswordPolicyForFrontendUsers feature toggle.',
-                1683482651
-            );
-        }
-    }
 
     /**
      * Edit action
@@ -47,10 +37,11 @@ class PasswordController extends ActionController
     public function editAction(): ResponseInterface
     {
         $changePassword = new ChangePassword();
-        $changePassword->setChangeHmac($this->frontendUserService->getChangeHmac());
+        $changePassword->setChangeHmac($this->frontendUserService->getChangeHmac($this->request));
         $this->view->assignMultiple([
-            'changePasswordReason' => $this->frontendUserService->getMustChangePasswordReason(),
+            'changePasswordReason' => $this->frontendUserService->getMustChangePasswordReason($this->request),
             'changePassword' => $changePassword,
+            'siteSettings' => $this->settingsService->getSiteSettings($this->request),
         ]);
 
         return $this->htmlResponse();
@@ -63,7 +54,7 @@ class PasswordController extends ActionController
     {
         $changePasswordArray = $this->request->getArgument('changePassword');
         $changeHmac = $changePasswordArray['changeHmac'] ? (string)$changePasswordArray['changeHmac'] : '';
-        if (!$this->frontendUserService->validateChangeHmac($changeHmac)) {
+        if (!$this->frontendUserService->validateChangeHmac($this->request, $changeHmac)) {
             throw new InvalidHashException(
                 'Possible CSRF detected. Ensure a valid "changeHmac" is provided.',
                 1572672118
@@ -78,7 +69,7 @@ class PasswordController extends ActionController
      */
     public function updateAction(ChangePassword $changePassword): ResponseInterface
     {
-        $this->frontendUserService->updatePassword($changePassword->getPassword1(), $this->settings);
+        $this->frontendUserService->updatePassword($this->request, $changePassword->getPassword1(), $this->settings);
 
         $this->eventDispatcher->dispatch(new AfterPasswordUpdatedEvent($changePassword, $this));
 
@@ -122,5 +113,10 @@ class PasswordController extends ActionController
     protected function getErrorFlashMessage(): bool
     {
         return false;
+    }
+
+    protected function getFrontendUser(): AbstractUserAuthentication
+    {
+        return $this->request->getAttribute('frontend.user');
     }
 }

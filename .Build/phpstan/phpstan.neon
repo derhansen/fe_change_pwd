@@ -7,5 +7,9 @@ parameters:
         - ../../Classes/
         - ../../Configuration/
 
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        -  identifier: missingType.iterableValue
     reportUnmatchedIgnoredErrors: true
+    typo3:
+        requestGetAttributeMapping:
+            frontend.page.information: \TYPO3\CMS\Frontend\Page\PageInformation

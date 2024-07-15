@@ -1,0 +1,31 @@
+settings:
+  fe_change_pwd.changePasswordPid:
+    default: 0
+    label: 'Change password Page'
+    type: int
+    description: 'The pid to redirect to if a password change is required (usually the page with the plugin of the extension)'
+  fe_change_pwd.redirect.allAccessProtectedPages:
+    default: true
+    label: 'Redirect for all access protected pages'
+    type: bool
+    description: 'If true, a redirect to the configured changePasswordPid will be forced for all access protected pages, if the user password has expired. Overrides includePageUids setting!'
+  fe_change_pwd.redirect.includePageUids:
+    default: ''
+    label: 'Include Page UIDs'
+    type: string
+    description: 'If set, a redirect to the configured changePasswordPid will be forced for the configured PIDs'
+  fe_change_pwd.redirect.includePageUidsRecursionLevel:
+    default: 0
+    label: 'Include Page UIDs recursion level'
+    type: int
+    description: 'If > 0, all page uids configured in includePageUids will be resolved by the given recursion level'
+  fe_change_pwd.redirect.excludePageUids:
+    default: ''
+    label: 'Exclude Page UIDs'
+    type: string
+    description: 'List of PIDs to exclude from redirect checks'
+  fe_change_pwd.redirect.excludePageUidsRecursionLevel:
+    default: 0
+    label: 'Exclude Page UIDs recursion level'
+    type: int
+    description: 'If > 0, all page uids configured in excludePageUids will be resolved by the given recursion level'

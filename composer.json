@@ -19,13 +19,10 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^12.4",
+    "typo3/cms-core": "^13.2",
     "ext-curl": "*",
     "ext-pdo": "*",
-    "php": ">=8.1"
-  },
-  "replace": {
-    "typo3-ter/fe-change-pwd": "self.version"
+    "php": ">=8.2"
   },
   "autoload": {
     "psr-4": {

@@ -14,15 +14,17 @@ namespace Derhansen\FeChangePwd\Service;
 use Derhansen\FeChangePwd\Exception\InvalidEmailAddressException;
 use Derhansen\FeChangePwd\Exception\InvalidUserException;
 use Derhansen\FeChangePwd\Exception\MissingPasswordHashServiceException;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Session\SessionManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
@@ -34,19 +36,20 @@ class FrontendUserService
 
     public function __construct(
         protected readonly SettingsService $settingsService,
-        protected readonly Context $context
+        protected readonly Context $context,
+        protected readonly HashService $hashService
     ) {}
 
     /**
      * Returns if the frontend user must change the password
      */
-    public function mustChangePassword(array $feUserRecord): bool
+    public function mustChangePassword(ServerRequestInterface $request, array $feUserRecord): bool
     {
         $reason = '';
         $result = false;
-        $mustChangePassword = $feUserRecord['must_change_password'] ?? 0;
+        $mustChangePassword = (bool)($feUserRecord['must_change_password'] ?? 0);
         $passwordExpiryTimestamp = $feUserRecord['password_expiry_date'] ?? 0;
-        if ((bool)$mustChangePassword) {
+        if ($mustChangePassword) {
             $reason = 'forcedChange';
             $result = true;
         } elseif (((int)$passwordExpiryTimestamp > 0 && (int)$passwordExpiryTimestamp < time())) {
@@ -56,8 +59,9 @@ class FrontendUserService
 
         if ($result) {
             // Store reason for password change in user session
-            $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, $reason);
-            $this->getFrontendUser()->storeSessionData();
+            $frontendUser = $this->getFrontendUser($request);
+            $frontendUser->setKey('ses', self::SESSION_KEY, $reason);
+            $frontendUser->storeSessionData();
         }
         return $result;
     }
@@ -65,15 +69,15 @@ class FrontendUserService
     /**
      * Returns the reason for the password change stored in the session
      */
-    public function getMustChangePasswordReason(): string
+    public function getMustChangePasswordReason(ServerRequestInterface $request): string
     {
-        return (string)$this->getFrontendUser()->getKey('ses', self::SESSION_KEY);
+        return (string)$this->getFrontendUser($request)->getKey('ses', self::SESSION_KEY);
     }
 
     /**
      * Updates the password of the current user if a current user session exist
      */
-    public function updatePassword(string $newPassword, array $settings): void
+    public function updatePassword(ServerRequestInterface $request, string $newPassword, array $settings): void
     {
         if (!$this->isUserLoggedIn()) {
             return;
@@ -81,8 +85,8 @@ class FrontendUserService
 
         $password = $this->getPasswordHash($newPassword);
 
-        $userTable = $this->getFrontendUser()->user_table;
-        $userUid = $this->getFrontendUser()->user['uid'];
+        $userTable = $this->getFrontendUser($request)->user_table;
+        $userUid = $this->getFrontendUser($request)->user['uid'];
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($userTable);
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder->update($userTable)
@@ -95,58 +99,61 @@ class FrontendUserService
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
                 )
             )
             ->executeStatement();
 
         // Unset reason for password change in user session
-        $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
-        $this->getFrontendUser()->storeSessionData();
+        $frontendUser = $this->getFrontendUser($request);
+        $frontendUser->setKey('ses', self::SESSION_KEY, null);
+        $frontendUser->storeSessionData();
 
         // Destroy all sessions of the user except the current one
         $sessionManager = GeneralUtility::makeInstance(SessionManager::class);
         $sessionBackend = $sessionManager->getSessionBackend('FE');
         $sessionManager->invalidateAllSessionsByUserId(
             $sessionBackend,
-            (int)$this->getFrontendUser()->user['uid'],
-            $this->getFrontendUser()
+            (int)$frontendUser->user['uid'],
+            $frontendUser
         );
     }
 
     /**
      * Returns the changeHmac for the current logged in user
      */
-    public function getChangeHmac(): string
+    public function getChangeHmac(ServerRequestInterface $request): string
     {
         if (!$this->isUserLoggedIn()) {
             return '';
         }
 
-        $userUid = $this->getFrontendUser()->user['uid'];
+        $frontendUser = $this->getFrontendUser($request);
+        $userUid = $frontendUser->user['uid'];
         if (!is_int($userUid) || (int)$userUid <= 0) {
             throw new InvalidUserException('The fe_user uid is not a positive number.', 1574102778917);
         }
 
-        $tstamp = $this->getFrontendUser()->user['tstamp'];
-        return GeneralUtility::hmac('fe_user_' . $userUid . '_' . $tstamp, 'fe_change_pwd');
+        $tstamp = $frontendUser->user['tstamp'];
+        return $this->hashService->hmac('fe_user_' . $userUid . '_' . $tstamp, 'fe_change_pwd');
     }
 
     /**
      * Validates the given changeHmac
      */
-    public function validateChangeHmac(string $changeHmac): bool
+    public function validateChangeHmac(ServerRequestInterface $request, string $changeHmac): bool
     {
-        return $changeHmac !== '' && hash_equals($this->getChangeHmac(), $changeHmac);
+        return $changeHmac !== '' && hash_equals($this->getChangeHmac($request), $changeHmac);
     }
 
     /**
      * Generates the change password code, saves it to the current frontend user record and sends an email
      * containing the change password code to the user
      */
-    public function sendChangePasswordCodeEmail(array $settings, RequestInterface $request): void
+    public function sendChangePasswordCodeEmail(array $settings, ServerRequestInterface $request): void
     {
-        $recipientEmail = $this->getFrontendUser()->user['email'] ?? '';
+        $frontendUser = $this->getFrontendUser($request);
+        $recipientEmail = $frontendUser->user['email'] ?? '';
         if (!GeneralUtility::validEmail($recipientEmail)) {
             throw new InvalidEmailAddressException('Email address of frontend user is not valid');
         }
@@ -155,22 +162,22 @@ class FrontendUserService
         $validUntil = (new \DateTime())
             ->modify('+' . ($settings['requireChangePasswordCode']['validityInMinutes'] ?? 5) . ' minutes');
 
-        $userTable = $this->getFrontendUser()->user_table;
-        $userUid = $this->getFrontendUser()->user['uid'];
+        $userTable = $frontendUser->user_table;
+        $userUid = $frontendUser->user['uid'];
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($userTable);
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder->update($userTable)
-            ->set('change_password_code_hash', GeneralUtility::hmac($changePasswordCode, self::class))
+            ->set('change_password_code_hash', $this->hashService->hmac($changePasswordCode, self::class))
             ->set('change_password_code_expiry_date', $validUntil->getTimestamp())
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
                 )
             )
             ->executeStatement();
 
-        $userData = $this->getFrontendUser()->user;
+        $userData = $frontendUser->user;
         unset($userData['password']);
 
         $email = GeneralUtility::makeInstance(FluidEmail::class);
@@ -211,19 +218,13 @@ class FrontendUserService
         return $password;
     }
 
-    /**
-     * Returns is there is a current user login
-     */
     public function isUserLoggedIn(): bool
     {
         return $this->context->getAspect('frontend.user')->isLoggedIn();
     }
 
-    /**
-     * Returns the frontendUserAuthentication
-     */
-    protected function getFrontendUser(): FrontendUserAuthentication
+    protected function getFrontendUser(ServerRequestInterface $request): FrontendUserAuthentication
     {
-        return $GLOBALS['TSFE']->fe_user;
+        return $request->getAttribute('frontend.user');
     }
 }

@@ -12,6 +12,8 @@ namespace Derhansen\FeChangePwd\Tests\Unit\Service;
  */
 
 use Derhansen\FeChangePwd\Service\SettingsService;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class SettingsServiceTest extends UnitTestCase
@@ -55,10 +57,8 @@ class SettingsServiceTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider getPasswordExpiryTimestampReturnsExpectedResultDataProvider
-     */
+    #[DataProvider('getPasswordExpiryTimestampReturnsExpectedResultDataProvider')]
+    #[Test]
     public function getPasswordExpiryTimestampReturnsExpectedResult(
         array $settings,
         \DateTime $currentDate,

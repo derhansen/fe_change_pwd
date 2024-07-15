@@ -13,6 +13,7 @@ use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Service\LocalizationService;
 use Derhansen\FeChangePwd\Service\SettingsService;
 use Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -23,9 +24,6 @@ class ChangePasswordValidatorTest extends UnitTestCase
 {
     protected ChangePasswordValidator $validator;
 
-    /**
-     * Initialize validator
-     */
     public function initialize(): void
     {
         $this->validator = $this->getAccessibleMock(
@@ -35,13 +33,10 @@ class ChangePasswordValidatorTest extends UnitTestCase
             '',
             false
         );
-
-        $GLOBALS['TYPO3_REQUEST'] = new ServerRequest();
+        $this->validator->setRequest(new ServerRequest());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noCurrentPasswordGivenTest(): void
     {
         $this->initialize();
@@ -58,7 +53,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
         $mockSettingsService = $this->getMockBuilder(SettingsService::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $mockSettingsService->expects(self::once())->method('getSettings')->willReturn($settings);
+        $mockSettingsService->expects(self::once())->method('getTypoScriptSettings')->willReturn($settings);
         $this->validator->_set('settingsService', $mockSettingsService);
 
         $mockLocalizationService = $this->getMockBuilder(LocalizationService::class)
@@ -70,9 +65,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
         self::assertEquals(1570880411, $this->validator->validate($changePassword)->getErrors()[0]->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function currentPasswordValidationSkipped(): void
     {
         $this->initialize();
@@ -90,7 +83,7 @@ class ChangePasswordValidatorTest extends UnitTestCase
         $mockSettingsService = $this->getMockBuilder(SettingsService::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $mockSettingsService->expects(self::once())->method('getSettings')->willReturn($settings);
+        $mockSettingsService->expects(self::once())->method('getTypoScriptSettings')->willReturn($settings);
         $this->validator->_set('settingsService', $mockSettingsService);
 
         $mockLocalizationService = $this->getMockBuilder(LocalizationService::class)

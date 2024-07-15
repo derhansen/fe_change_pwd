@@ -17,9 +17,6 @@ plugin.tx_fechangepwd {
         }
     }
     settings {
-        # The pid to redirect to if a password change is required (usually the page with the plugin of the extension)
-        changePasswordPid =
-
         # If enabled, it is required to enter the current password in order to set a new one
         requireCurrentPassword {
             enabled = 1
@@ -37,24 +34,6 @@ plugin.tx_fechangepwd {
         passwordExpiration {
             enabled = 0
             validityInDays = 90
-        }
-
-        redirect {
-            # If set, a redirect to the configured changePasswordPid will be forced for all access protected pages
-            # Overrides includePageUids setting!
-            allAccessProtectedPages = 1
-
-            # If set, a redirect to the configured changePasswordPid will be forced for the configured PIDs
-            includePageUids =
-
-            # If > 0, all page uids configured in includePageUids will be resolved by the given recursion level
-            includePageUidsRecursionLevel = 0
-
-            # List of PIDs to exclude from redirect checks
-            excludePageUids =
-
-            # If > 0, all page uids configured in excludePageUids will be resolved by the given recursion level
-            excludePageUidsRecursionLevel = 0
         }
 
         # What to do after a successful password change (allowed values are "redirect" or "view")

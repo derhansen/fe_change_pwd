@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Derhansen\FeChangePwd\Tests\Unit\Service;
+
 /*
  * This file is part of the Extension "fe_change_pwd" for TYPO3 CMS.
  *
@@ -11,8 +13,13 @@ declare(strict_types=1);
 
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\SettingsService;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Crypto\HashService;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Session\UserSessionManager;
+use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -49,10 +56,8 @@ class FrontendUserServiceTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider mustChangePasswordReturnsExpectedResultDataProvider
-     */
+    #[DataProvider('mustChangePasswordReturnsExpectedResultDataProvider')]
+    #[Test]
     public function mustChangePasswordReturnsExpectedResult(array $feUserRecord, bool $expected): void
     {
         $userSessionManager = $this->getMockBuilder(UserSessionManager::class)
@@ -64,10 +69,11 @@ class FrontendUserServiceTest extends UnitTestCase
 
         $mockSettingsService = $this->createMock(SettingsService::class);
         $mockContext = $this->createMock(Context::class);
+        $hashService = new HashService();
 
-        $service = new FrontendUserService($mockSettingsService, $mockContext);
-        $GLOBALS['TSFE'] = new \stdClass();
-        $GLOBALS['TSFE']->fe_user = $feUser;
-        self::assertEquals($expected, $service->mustChangePassword($feUserRecord));
+        $service = new FrontendUserService($mockSettingsService, $mockContext, $hashService);
+        $serverRequest = (new ServerRequest())->withAttribute('extbase', new ExtbaseRequestParameters());
+        $serverRequest = $serverRequest->withAttribute('frontend.user', $feUser);
+        self::assertEquals($expected, $service->mustChangePassword($serverRequest, $feUserRecord));
     }
 }

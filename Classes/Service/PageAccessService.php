@@ -26,11 +26,13 @@ class PageAccessService
     /**
      * Returns the redirect mode
      */
-    public function getRedirectMode(array $settings): string
+    public function getRedirectMode(array $siteSettings): string
     {
-        if (($settings['redirect']['allAccessProtectedPages'] ?? false)) {
+        if (($siteSettings['redirect']['allAccessProtectedPages'] ?? false)) {
             $redirectMode = 'allAccessProtectedPages';
-        } elseif (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
+        } elseif (isset($siteSettings['redirect']['includePageUids']) &&
+            $siteSettings['redirect']['includePageUids'] !== ''
+        ) {
             $redirectMode = 'includePageUids';
         } else {
             $redirectMode = '';
@@ -41,26 +43,28 @@ class PageAccessService
     /**
      * Returns the configured redirect PID
      */
-    public function getRedirectPid(array $settings): int
+    public function getRedirectPid(array $siteSettings): int
     {
-        if (!isset($settings['changePasswordPid']) || (int)$settings['changePasswordPid'] === 0) {
+        if (!isset($siteSettings['changePasswordPid']) || (int)$siteSettings['changePasswordPid'] === 0) {
             throw new NoChangePasswordPidException(
-                'settings.changePasswordPid is not set or zero',
-                1580040840163
+                'Site setting fe_change_pwd.changePasswordPid is not defined or zero',
+                1580040840
             );
         }
-        return (int)$settings['changePasswordPid'];
+        return (int)$siteSettings['changePasswordPid'];
     }
 
     /**
      * Returns, if the given page uid is configured as included for redirects
      */
-    public function isIncludePage(int $pageUid, array $settings): bool
+    public function isIncludePage(int $pageUid, array $siteSettings): bool
     {
-        if (isset($settings['redirect']['includePageUids']) && $settings['redirect']['includePageUids'] !== '') {
+        if (isset($siteSettings['redirect']['includePageUids']) &&
+            $siteSettings['redirect']['includePageUids'] !== ''
+        ) {
             $includePids = $this->extendPidListByChildren(
-                $settings['redirect']['includePageUids'],
-                (int)$settings['redirect']['includePageUidsRecursionLevel']
+                $siteSettings['redirect']['includePageUids'],
+                (int)$siteSettings['redirect']['includePageUidsRecursionLevel']
             );
             $includePids = GeneralUtility::intExplode(',', $includePids, true);
         } else {
@@ -72,19 +76,21 @@ class PageAccessService
     /**
      * Returns, if the given page uid is configured as excluded from redirects
      */
-    public function isExcludePage(int $pageUid, array $settings): bool
+    public function isExcludePage(int $pageUid, array $siteSettings): bool
     {
-        if (isset($settings['redirect']['excludePageUids']) && $settings['redirect']['excludePageUids'] !== '') {
+        if (isset($siteSettings['redirect']['excludePageUids']) &&
+            $siteSettings['redirect']['excludePageUids'] !== ''
+        ) {
             $excludePids = $this->extendPidListByChildren(
-                $settings['redirect']['excludePageUids'],
-                (int)$settings['redirect']['excludePageUidsRecursionLevel']
+                $siteSettings['redirect']['excludePageUids'],
+                (int)$siteSettings['redirect']['excludePageUidsRecursionLevel']
             );
             $excludePids = GeneralUtility::intExplode(',', $excludePids, true);
         } else {
             $excludePids = [];
         }
         // Always add the changePasswordPid as exclude PID
-        $excludePids[] = (int)$settings['changePasswordPid'];
+        $excludePids[] = (int)$siteSettings['changePasswordPid'];
         return in_array($pageUid, $excludePids, true);
     }
 

@@ -35,14 +35,18 @@ a weak password.
 1) Install the extension from the TYPO3 Extension Repository or using composer and add the Static Typoscript
 "Change password for frontend users" to your TypoScript template.
 
-2) Create a new page and make sure, that the page is only visible to logged in frontend users.
+2) Add the site set "Change password for frontend users" to your site
 
-3) Add the Plugin "Change Frontend User Password" to the page created in step 2
+3) Create a new page and make sure, that the page is only visible to logged in frontend users.
 
-4) Change TypoScript settings to your needs. Please note, that if you want to use the password change enforcement,
-you **must** set `settings.changePasswordPid` to the page uid of the page created in step 2
+4) Add the Plugin "Change Frontend User Password" to the page created in step 2
 
-5) Optionally change the path to the extension templates in TypoScript and modify the templates to your needs.
+5) Change Site settings to your needs. Please note, that if you want to use the password change enforcement,
+   you **must** set `fe_change_pwd.changePasswordPid` to the page uid of the page created in step 2
+
+6) Change TypoScript settings to your needs.
+
+7) Optionally change the path to the extension templates in TypoScript and modify the templates to your needs.
 
 ## New fe_user fields
 
@@ -59,14 +63,29 @@ The password expiry date defines the date, after a user must change the password
 **Tip:** If you quickly want all frontend users to change their passwords, you can use a simple SQL statement
 to set the field in the database like shown in this example `UPDATE fe_users set must_change_password=1;`
 
+## Site configuration settings
+
+* `fe_change_pwd.changePasswordPid` *(integer)* The pid to redirect to if a password change is required. This is usually the
+  page with the Plugin of the extension
+
+* `fe_change_pwd.redirect.allAccessProtectedPages` *(bool)* If set to `1`, a
+  redirect to the configured `fe_change_pwd.changePasswordPid` will be forced
+  for all access protected pages. Note, that if this option is set, the
+  `includePageUids` is ignored!
+* `fe_change_pwd.redirect.includePageUids` *(string)* A redirect to the configured
+  changePasswordPid will be forced for the configured PIDs separated by a comma
+* `fe_change_pwd.redirect.includePageUidsRecursionLevel` *(integer)* The recursion
+  level for all pages configured in `fe_change_pwd.redirect.includePageUids`. Use
+  this option, if you e.g. want to force a redirect for a page and all subpages
+* `fe_change_pwd.redirect.excludePageUids` (string) No redirect will be forced
+  for the configured PIDs separated by a comma
+* `fe_change_pwd.redirect.excludePageUidsRecursionLevel` *(integer)* The
+  recursion level for all pages configured in `fe_change_pwd.redirect.excludePageUids`.
+  Use this option, if you e.g. want to exclude a page and all subpages for the redirect
+
 ## TypoScript configuration settings
 
 The following TypoScript settings are available.
-
-**plugin.tx_fechangepwd.settings**
-
-* `changePasswordPid` *(integer)* The pid to redirect to if a password change is required. This is usually the
-page with the Plugin of the extension
 
 **plugin.tx_fechangepwd.settings.requireCurrentPassword**
 
@@ -76,24 +95,13 @@ page with the Plugin of the extension
 
 * `enabled` *(bool)* If set to `1`, the user must enter a change password code, which will be sent to the users email address,  in order to set a new password. Default setting is `0`.
 * `validityInMinutes` *(integer)* The time in minutes the change password code is valid, when it has been requested by the user.
-* `senderEmail` *(string)* Sender email address for email send to user  
-* `senderName` *(string)* Sender name for email sent to user 
+* `senderEmail` *(string)* Sender email address for email send to user
+* `senderName` *(string)* Sender name for email sent to user
 
 **plugin.tx_fechangepwd.settings.passwordExpiration**
 
 * `enabled` *(bool)* Is set to `1`, new passwords will expire after the configured amount of days
 * `validityInDays` *(integer)* The amount of days, a new password is valid before it needs to be changed
-
-**plugin.tx_fechangepwd.settings.redirect**
-
-* `allAccessProtectedPages` *(bool)* If set to `1`, a redirect to the configured `changePasswordPid` will be forced
-for all access protected pages. Note, that if this option is set, the `includePageUids` is ignored!
-* `includePageUids` *(string)* A redirect to the configured changePasswordPid will be forced for the configured PIDs separated by a comma
-* `includePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `includePageUids`. Use this option,
-if you e.g. want to force a redirect for a page and all subpages
-* `excludePageUids` (string) No redirect will be forced for the configured PIDs separated by a comma
-* `excludePageUidsRecursionLevel` *(integer)* The recursion level for all pages configured in `excludePageUids`. Use this option,
-if you e.g. want to exclude a page and all subpages for the redirect
 
 **plugin.tx_fechangepwd.settings.afterPasswordChangeAction**
 
@@ -148,22 +156,43 @@ use this event to add the data to the `ContextData` DTO.
 
 | Version | TYPO3      | PHP       | Support/Development                  |
 |---------|------------|-----------|--------------------------------------|
-| 4.x     | 12.4       | 8.1 - 8.3 | Features, Bugfixes, Security Updates |
-| 3.x     | 11.5       | 7.4 - 8.3 | Features, Bugfixes, Security Updates |
-| 2.x     | 9.5 - 10.4 | 7.2 - 7.4 | Security Updates                     |
+| 5.x     | 13.4       | 8.2 - 8.4 | Features, Bugfixes, Security Updates |
+| 4.x     | 12.4       | 8.1 - 8.4 | Features, Bugfixes, Security Updates |
+| 3.x     | 11.5       | 7.4 - 8.3 | Security Updates                     |
+| 2.x     | 9.5 - 10.4 | 7.2 - 7.4 | Support dropped                      |
 | 1.x     | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                      |
 
 ## Breaking changes
+
+###  Version 5.0.0
+
+This version contains major breaking changes, which must be migrated manually.
+The following TypoScript settings must be migrated to site settings:
+
+* `plugin.tx_fechangepwd.settings.changePasswordPid` => `fe_change_pwd.changePasswordPid`
+* `plugin.tx_fechangepwd.settings.redirect.*` => `fe_change_pwd.redirect.*`
+
+This change is required, since full TypoScript is not available for cached
+pages in a PSR-15 MiddleWare.
+
+This breaking change limits the plugin to be used once per Site, if the
+"Must change password" or "Password expiry date" features are used, which
+both need to redirect to a single page UID, which now is configured in
+site settings.
 
 ###  Version 4.0.0
 
 This version contains major breaking changes, since now the TYPO3 password
 policy is used for password validation.
 
-* All password validators have been removed in favor to TYPO3 password policies. Make sure to check, if the TYPO3 default password policy suits your needs
-* The pwned password check has been removed. If this check is required, please use TYPO3 extension [add_pwd_policy](https://github.com/derhansen/add_pwd_policy) in the password policy for frontend users
-* The extension now requires the current user password by default. This check can be disabled in settings using `requireCurrentPassword`
-* The extension requires TYPO3 `security.usePasswordPolicyForFrontendUsers` feature toggle to be active
+* All password validators have been removed in favor to TYPO3 password policies.
+  Make sure to check, if the TYPO3 default password policy suits your needs
+* The pwned password check has been removed. If this check is required, please
+  use TYPO3 extension [add_pwd_policy](https://github.com/derhansen/add_pwd_policy) in the password policy for frontend users
+* The extension now requires the current user password by default. This check
+  can be disabled in settings using `requireCurrentPassword`
+* The extension requires TYPO3 `security.usePasswordPolicyForFrontendUsers`
+  feature toggle to be active
 * Dropped TYPO3 11.5 compatibility.
 
 ###  Version 3.0.0

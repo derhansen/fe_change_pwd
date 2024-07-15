@@ -19,9 +19,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 /**
  * This middleware redirects the current frontend user to a configured page if the user must change the password
@@ -39,49 +38,50 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $typoScriptFrontendController = $request->getAttribute('frontend.controller');
+        $pageInformation = $request->getAttribute('frontend.page.information');
         $frontendUser = $request->getAttribute('frontend.user');
-        $pageUid = $typoScriptFrontendController->id;
+        $pageUid = $pageInformation->getId();
 
         // Early return, if no frontend user
         if (!isset($frontendUser->user['uid'])) {
             return $handler->handle($request);
         }
 
-        $settings = $this->settingsService->getSettings($request);
+        $siteSettings = $this->settingsService->getSiteSettings($request);
 
         // Early return if page is excluded from redirect or user is not forced to change the password
-        if (!$this->frontendUserService->mustChangePassword($frontendUser->user) ||
-            $this->pageAccessService->isExcludePage($pageUid, $settings)
+        if (!$this->frontendUserService->mustChangePassword($request, $frontendUser->user) ||
+            $this->pageAccessService->isExcludePage($pageUid, $siteSettings)
         ) {
             return $handler->handle($request);
         }
 
-        switch ($this->pageAccessService->getRedirectMode($settings)) {
+        switch ($this->pageAccessService->getRedirectMode($siteSettings)) {
             case 'allAccessProtectedPages':
-                $mustRedirect = $this->pageAccessService->isAccessProtectedPageInRootline($typoScriptFrontendController->rootLine);
+                $mustRedirect = $this->pageAccessService->isAccessProtectedPageInRootline(
+                    $pageInformation->getLocalRootLine()
+                );
                 break;
             case 'includePageUids':
-                $mustRedirect = $this->pageAccessService->isIncludePage($pageUid, $settings);
+                $mustRedirect = $this->pageAccessService->isIncludePage($pageUid, $siteSettings);
                 break;
             default:
                 $mustRedirect = false;
         }
 
         if ($mustRedirect) {
-            $typoScriptFrontendController->calculateLinkVars($request->getQueryParams());
-            $parameter = $this->pageAccessService->getRedirectPid($settings);
-            if (MathUtility::canBeInterpretedAsInteger($pageUid) &&
-                $typoScriptFrontendController->getPageArguments()->getPageType()
-            ) {
-                $parameter .= ',' . $typoScriptFrontendController->getPageArguments()->getPageType();
-            }
-            $url = GeneralUtility::makeInstance(ContentObjectRenderer::class, $typoScriptFrontendController)->typoLink_URL([
-                'parameter' => $parameter,
-                'addQueryString' => true,
-                'addQueryString.' => ['exclude' => 'id'],
-                'forceAbsoluteUrl' => true,
-            ]);
+            $redirectPid = $this->pageAccessService->getRedirectPid($siteSettings);
+
+            /** @var SiteLanguage $language */
+            $language = $request->getAttribute('language');
+
+            /** @var Site $site */
+            $site = $request->getAttribute('site');
+            $router = $site->getRouter();
+
+            $parameter = ['_language' => $language];
+            // @todo: Provide PSR-14 event to modify parameter
+            $url = (string)$router->generateUri($redirectPid, $parameter);
             return new RedirectResponse($url, 307);
         }
 
