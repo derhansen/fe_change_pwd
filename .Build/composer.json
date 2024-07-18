@@ -20,6 +20,7 @@
     "typo3/cms-recordlist": "^13.2 || dev-main",
     "typo3/cms-extbase": "^13.2 || dev-main",
     "typo3/cms-fluid": "^13.2 || dev-main",
+    "typo3/cms-install": "^13.2 || dev-main",
     "typo3/cms-composer-installers": "^5.0",
     "typo3/testing-framework": "^8.2.0 || dev-main",
     "friendsofphp/php-cs-fixer": "^3.12.0",
