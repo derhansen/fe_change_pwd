@@ -15,7 +15,8 @@ call_user_func(function () {
         // non-cacheable actions
         [
             PasswordController::class => 'edit,update,sendChangePasswordCode',
-        ]
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 
     // Define template override for Fluid email
