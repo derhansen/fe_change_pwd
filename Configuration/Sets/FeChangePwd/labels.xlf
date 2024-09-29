@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:fe_change_pwd/Configuration/Sets/FeChangePwd/labels.xlf" date="2024-09-29T12:57:00Z" product-name="fe_change_owd">
+		<header/>
+		<body>
+			<trans-unit id="label" resname="label">
+				<source>Change password for frontend users</source>
+			</trans-unit>
+
+			<trans-unit id="categories.fe_change_pwd" resname="categories.fe_change_pwd">
+				<source>Change password for frontend users</source>
+			</trans-unit>
+
+			<trans-unit id="settings.fe_change_pwd.changePasswordPid" resname="settings.fe_change_pwd.changePasswordPid">
+				<source>Change password Page</source>
+			</trans-unit>
+			<trans-unit id="settings.description.fe_change_pwd.changePasswordPid" resname="settings.description.fe_change_pwd.changePasswordPid">
+				<source>The pid to redirect to if a password change is required (usually the page with the plugin of the extension)</source>
+			</trans-unit>
+			<trans-unit id="settings.fe_change_pwd.redirect.allAccessProtectedPages" resname="settings.fe_change_pwd.redirect.allAccessProtectedPages">
+				<source>Redirect for all access protected pages</source>
+			</trans-unit>
+			<trans-unit id="settings.description.fe_change_pwd.redirect.allAccessProtectedPages" resname="settings.description.fe_change_pwd.redirect.allAccessProtectedPages">
+				<source>If true, a redirect to the configured changePasswordPid will be forced for all access protected pages, if the user password has expired. Overrides includePageUids setting!</source>
+			</trans-unit>
+			<trans-unit id="settings.fe_change_pwd.redirect.includePageUids" resname="settings.fe_change_pwd.redirect.includePageUids">
+				<source>Include Page UIDs</source>
+			</trans-unit>
+			<trans-unit id="settings.description.fe_change_pwd.redirect.includePageUids" resname="settings.description.fe_change_pwd.redirect.includePageUids">
+				<source>If set, a redirect to the configured changePasswordPid will be forced for the configured PIDs</source>
+			</trans-unit>
+			<trans-unit id="settings.fe_change_pwd.redirect.includePageUidsRecursionLevel" resname="settings.fe_change_pwd.redirect.includePageUidsRecursionLevel">
+				<source>Include Page UIDs recursion level</source>
+			</trans-unit>
+			<trans-unit id="settings.description.fe_change_pwd.redirect.includePageUidsRecursionLevel" resname="settings.description.fe_change_pwd.redirect.includePageUidsRecursionLevel">
+				<source>If > 0, all page uids configured in includePageUids will be resolved by the given recursion level</source>
+			</trans-unit>
+			<trans-unit id="settings.fe_change_pwd.redirect.excludePageUids" resname="settings.fe_change_pwd.redirect.excludePageUids">
+				<source>Exclude Page UIDs</source>
+			</trans-unit>
+			<trans-unit id="settings.description.fe_change_pwd.redirect.excludePageUids" resname="settings.description.fe_change_pwd.redirect.excludePageUids">
+				<source>List of PIDs to exclude from redirect checks</source>
+			</trans-unit>
+			<trans-unit id="settings.fe_change_pwd.redirect.excludePageUidsRecursionLevel" resname="settings.fe_change_pwd.redirect.excludePageUidsRecursionLevel">
+				<source>Exclude Page UIDs recursion level</source>
+			</trans-unit>
+			<trans-unit id="settings.description.fe_change_pwd.redirect.excludePageUidsRecursionLevel" resname="settings.description.fe_change_pwd.redirect.excludePageUidsRecursionLevel">
+				<source>If > 0, all page uids configured in excludePageUids will be resolved by the given recursion level</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
