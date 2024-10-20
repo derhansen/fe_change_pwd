@@ -1,4 +1,3 @@
 name: derhansen/fe_change_pwd
-label: Change password for frontend users
 dependencies:
   - typo3/felogin
