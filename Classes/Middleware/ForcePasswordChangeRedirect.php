@@ -52,7 +52,8 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
 
         // Early return if page is excluded from redirect or user is not forced to change the password
         if (!$this->frontendUserService->mustChangePassword($frontendUser->user) ||
-            $this->pageAccessService->isExcludePage($pageUid, $settings)
+            $this->pageAccessService->isExcludePage($pageUid, $settings) ||
+            ($request->getQueryParams()['tx_felogin_login']['action'] ?? '') === 'login'
         ) {
             return $handler->handle($request);
         }
