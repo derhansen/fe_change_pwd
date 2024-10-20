@@ -12,7 +12,9 @@ ExtensionUtility::registerPlugin(
     'fe_change_pwd',
     'Pi1',
     'LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:plugin.title',
-    'ext-fechangepwd-default'
+    'ext-fechangepwd-default',
+    'plugins',
+    'LLL:EXT:fe_change_pwd/Resources/Private/Language/locallang_be.xlf:plugin.description',
 );
 
 /**

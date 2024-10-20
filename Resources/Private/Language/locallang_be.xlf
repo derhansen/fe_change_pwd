@@ -6,6 +6,9 @@
 			<trans-unit id="plugin.title">
 				<source>Change Frontend User Password</source>
 			</trans-unit>
+			<trans-unit id="plugin.description">
+				<source>Plugin to enable password change for frontend users.</source>
+			</trans-unit>
 			<trans-unit id="label.must_change_password">
 				<source>User must change password at next login</source>
 			</trans-unit>
