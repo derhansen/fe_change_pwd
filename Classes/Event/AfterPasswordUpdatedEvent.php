@@ -15,8 +15,7 @@ final class AfterPasswordUpdatedEvent
     public function __construct(
         private readonly ChangePassword $changePassword,
         private readonly PasswordController $passwordController
-    ) {
-    }
+    ) {}
 
     public function getChangePassword(): ChangePassword
     {

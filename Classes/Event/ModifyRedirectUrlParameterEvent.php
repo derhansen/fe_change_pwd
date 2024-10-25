@@ -16,8 +16,7 @@ final class ModifyRedirectUrlParameterEvent
         private readonly ServerRequestInterface $request,
         private int $redirectPid,
         private array $parameter
-    ) {
-    }
+    ) {}
 
     public function getRequest(): ServerRequestInterface
     {
