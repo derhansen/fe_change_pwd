@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2018-22-17T19:47:01Z" product-name="fe_change_pwd" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="plugin.title" approved="yes">
+        <source>Change Frontend User Password</source>
+        <target state="final">Frontend-Benutzer Passwort ändern</target>
+      </trans-unit>
+      <trans-unit id="label.must_change_password" approved="yes">
+        <source>User must change password at next login</source>
+        <target state="final">Benutzer muss das Passwort beim nächsten Login ändern</target>
+      </trans-unit>
+      <trans-unit id="label.password_expiry_date" approved="yes">
+        <source>Password expiry date</source>
+        <target state="final">Passwort Ablaufdatum</target>
+      </trans-unit>
+      <trans-unit id="label.password_settings" approved="yes">
+        <source>Password settings</source>
+        <target state="final">Passwort Einstellungen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
