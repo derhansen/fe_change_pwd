@@ -12,15 +12,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 final class ModifyRedirectUrlParameterEvent
 {
-    private ServerRequestInterface $request;
-    private int $redirectPid;
-    private array $parameter;
-
-    public function __construct(ServerRequestInterface $request, int $redirectPid, array $parameter)
-    {
-        $this->request = $request;
-        $this->redirectPid = $redirectPid;
-        $this->parameter = $parameter;
+    public function __construct(
+        private readonly ServerRequestInterface $request,
+        private int $redirectPid,
+        private array $parameter
+    ) {
     }
 
     public function getRequest(): ServerRequestInterface

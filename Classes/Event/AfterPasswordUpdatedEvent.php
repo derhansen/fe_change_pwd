@@ -12,13 +12,10 @@ use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
  */
 final class AfterPasswordUpdatedEvent
 {
-    private ChangePassword $changePassword;
-    private PasswordController $passwordController;
-
-    public function __construct(ChangePassword $changePassword, PasswordController $passwordController)
-    {
-        $this->changePassword = $changePassword;
-        $this->passwordController = $passwordController;
+    public function __construct(
+        private readonly ChangePassword $changePassword,
+        private readonly PasswordController $passwordController
+    ) {
     }
 
     public function getChangePassword(): ChangePassword
