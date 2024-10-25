@@ -7,6 +7,10 @@
         <source>Change Frontend User Password</source>
         <target>crwdns298776:0crwdne298776:0</target>
       </trans-unit>
+      <trans-unit id="plugin.description">
+        <source>Plugin to enable password change for frontend users.</source>
+        <target>crwdns342226:0crwdne342226:0</target>
+      </trans-unit>
       <trans-unit id="label.must_change_password">
         <source>User must change password at next login</source>
         <target>crwdns298778:0crwdne298778:0</target>
