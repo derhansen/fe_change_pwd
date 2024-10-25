@@ -13,6 +13,7 @@ namespace Derhansen\FeChangePwd\Controller;
 
 use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 use Derhansen\FeChangePwd\Event\AfterPasswordUpdatedEvent;
+use Derhansen\FeChangePwd\Event\ModifyUpdatePasswordResponseEvent;
 use Derhansen\FeChangePwd\Exception\InvalidEmailAddressException;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\SettingsService;
@@ -79,10 +80,16 @@ class PasswordController extends ActionController
                 LocalizationUtility::translate('passwordUpdated', 'FeChangePwd'),
                 LocalizationUtility::translate('passwordUpdated.title', 'FeChangePwd')
             );
-            return $this->redirect('edit');
+            $response = $this->redirect('edit');
+        } else {
+            $response = $this->htmlResponse();
         }
 
-        return $this->htmlResponse();
+        $modifyUpdatePasswordResponseEvent = $this->eventDispatcher->dispatch(
+            new ModifyUpdatePasswordResponseEvent($this->request, $this->settings, $response)
+        );
+
+        return $modifyUpdatePasswordResponseEvent->getResponse();
     }
 
     /**

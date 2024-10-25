@@ -145,6 +145,7 @@ The extension currently contains the following PSR-14 events:
 
 * Derhansen\FeChangePwd\Controller\PasswordController
   * `AfterPasswordUpdatedEvent`
+  * `ModifyUpdatePasswordResponseEvent`
 * Derhansen\FeChangePwd\Middleware\ForcePasswordChangeRedirect
   * `ModifyRedirectUrlParameterEvent`
 
