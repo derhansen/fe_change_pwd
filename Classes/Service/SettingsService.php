@@ -42,7 +42,8 @@ class SettingsService
     {
         /** @var Site $site */
         $site = $request->getAttribute('site');
-        return $site->getSettings()->get('fe_change_pwd');
+        $settings = $site->getSettings()->get('fe_change_pwd') ?? [];
+        return is_array($settings) ? $settings : [];
     }
 
     /**
