@@ -25,7 +25,7 @@
       </trans-unit>
       <trans-unit id="passwordUpdated.title" approved="yes">
         <source>Password updated</source>
-        <target state="final">Password aktualisiert</target>
+        <target state="final">Passwort aktualisiert</target>
       </trans-unit>
       <trans-unit id="changePasswordCode" approved="yes">
         <source>Change password code</source>
