@@ -21,6 +21,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Session\SessionManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
@@ -99,6 +100,19 @@ class FrontendUserService
                 )
             )
             ->executeStatement();
+
+        // If ext:felogin is installed, invalidate password recovery hash
+        if (ExtensionManagementUtility::isLoaded('felogin')) {
+            $queryBuilder->update($userTable)
+                ->set('felogin_forgotHash', '')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
+                    )
+                )
+                ->executeStatement();
+        }
 
         // Unset reason for password change in user session
         $this->getFrontendUser()->setKey('ses', self::SESSION_KEY, null);
