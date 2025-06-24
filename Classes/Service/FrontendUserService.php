@@ -108,7 +108,7 @@ class FrontendUserService
                 ->where(
                     $queryBuilder->expr()->eq(
                         'uid',
-                        $queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
+                        $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
                     )
                 )
                 ->executeStatement();
