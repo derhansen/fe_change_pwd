@@ -18,12 +18,6 @@ ExtensionUtility::registerPlugin(
 );
 
 /**
- * Remove unused fields
- */
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['fechangepwd_pi1'] =
-    'layout,recursive,pages';
-
-/**
  * Default TypoScript
  */
 ExtensionManagementUtility::addStaticFile(
