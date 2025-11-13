@@ -17,6 +17,7 @@ use Derhansen\FeChangePwd\Event\ModifyUpdatePasswordResponseEvent;
 use Derhansen\FeChangePwd\Exception\InvalidEmailAddressException;
 use Derhansen\FeChangePwd\Service\FrontendUserService;
 use Derhansen\FeChangePwd\Service\SettingsService;
+use Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -64,10 +65,12 @@ class PasswordController extends ActionController
     }
 
     /**
-     * Update action
-     *
-     * @Extbase\Validate(param="changePassword", validator="Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator")
+     * Updates the user password
      */
+    #[Extbase\Validate([
+        'validator' => ChangePasswordValidator::class,
+        'param' => 'changePassword',
+    ])]
     public function updateAction(ChangePassword $changePassword): ResponseInterface
     {
         $this->frontendUserService->updatePassword($this->request, $changePassword->getPassword1(), $this->settings);
