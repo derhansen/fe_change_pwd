@@ -165,6 +165,10 @@ use this event to add the data to the `ContextData` DTO.
 | 2.x     | 9.5 - 10.4 | 7.2 - 7.4 | Support dropped                      |
 | 1.x     | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                      |
 
+## Reporting a Vulnerability
+
+Please report vulnerabilities to [security@typo3.org](mailto:security@typo3.org).
+
 ## Breaking changes
 
 ###  Version 5.0.0
