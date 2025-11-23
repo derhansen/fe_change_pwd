@@ -7,6 +7,10 @@
         <source>Change Frontend User Password</source>
         <target state="final">Skift Frontendbruger adgangskode</target>
       </trans-unit>
+      <trans-unit id="plugin.description" approved="yes">
+        <source>Plugin to enable password change for frontend users.</source>
+        <target state="final">Plugin til at aktivere adgangskodeændring for frontendbrugere.</target>
+      </trans-unit>
       <trans-unit id="label.must_change_password" approved="yes">
         <source>User must change password at next login</source>
         <target state="final">Bruger skal skifte adgangskode ved næste log ind</target>
