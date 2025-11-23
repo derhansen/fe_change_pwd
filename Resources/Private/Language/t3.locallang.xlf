@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2018-22-26T19:47:02Z" product-name="fe_change_pwd" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="passwordFieldsEmptyOrNotBothFilledOut">
+        <source>You must fill out both password fields</source>
+        <target>crwdns298734:0crwdne298734:0</target>
+      </trans-unit>
+      <trans-unit id="passwordsDoNotMatch">
+        <source>The passwords do not match</source>
+        <target>crwdns298736:0crwdne298736:0</target>
+      </trans-unit>
+      <trans-unit id="pwnedPasswordFailure">
+        <source>This password appeared in a data breach and is found %1s times in the haveibeenpwned.com database. Please choose a different password.</source>
+        <target>crwdns298748:0%1scrwdne298748:0</target>
+      </trans-unit>
+      <trans-unit id="oldPasswordFailure">
+        <source>This password can not be used, because it equals the old password.</source>
+        <target>crwdns298750:0crwdne298750:0</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated">
+        <source>The password has been updated</source>
+        <target>crwdns298752:0crwdne298752:0</target>
+      </trans-unit>
+      <trans-unit id="passwordUpdated.title">
+        <source>Password updated</source>
+        <target>crwdns298754:0crwdne298754:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode">
+        <source>Change password code</source>
+        <target>crwdns298784:0crwdne298784:0</target>
+      </trans-unit>
+      <trans-unit id="link.sendChangePasswordCode">
+        <source>Send change password code</source>
+        <target>crwdns298786:0crwdne298786:0</target>
+      </trans-unit>
+      <trans-unit id="currentPassword">
+        <source>Current Password</source>
+        <target>crwdns298756:0crwdne298756:0</target>
+      </trans-unit>
+      <trans-unit id="password">
+        <source>Password</source>
+        <target>crwdns298758:0crwdne298758:0</target>
+      </trans-unit>
+      <trans-unit id="repeatPassword">
+        <source>Repeat Password</source>
+        <target>crwdns298760:0crwdne298760:0</target>
+      </trans-unit>
+      <trans-unit id="update">
+        <source>Update</source>
+        <target>crwdns298762:0crwdne298762:0</target>
+      </trans-unit>
+      <trans-unit id="validationErrorHeader">
+        <source>Please check your input for the following errors:</source>
+        <target>crwdns298764:0crwdne298764:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.forcedChange">
+        <source>You must change your password</source>
+        <target>crwdns298766:0crwdne298766:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordReason.passwordExpired">
+        <source>Your password has expired and must be changed</source>
+        <target>crwdns298768:0crwdne298768:0</target>
+      </trans-unit>
+      <trans-unit id="notLoggedIn">
+        <source>You need to be logged in to update your password</source>
+        <target>crwdns298770:0crwdne298770:0</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordEmpty">
+        <source>Please enter your current password in the corresponding field.</source>
+        <target>crwdns298772:0crwdne298772:0</target>
+      </trans-unit>
+      <trans-unit id="currentPasswordFailure">
+        <source>The current password you entered is wrong.</source>
+        <target>crwdns298774:0crwdne298774:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.empty">
+        <source>You must enter the change password code.</source>
+        <target>crwdns298788:0crwdne298788:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.invalidOrExpired">
+        <source>The given change password code is invalid or has expired.</source>
+        <target>crwdns298790:0crwdne298790:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeSent">
+        <source>The change password code has been sent to your email address.</source>
+        <target>crwdns298792:0crwdne298792:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeSent.title">
+        <source>Change password code sent</source>
+        <target>crwdns298794:0crwdne298794:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeInvalidEmail">
+        <source>Change password code could not be sent, because no valid email address is configured for your acccount.</source>
+        <target>crwdns298796:0crwdne298796:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeInvalidEmail.title">
+        <source>Invalid email address</source>
+        <target>crwdns298798:0crwdne298798:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.subject">
+        <source>Your change password code</source>
+        <target>crwdns298800:0crwdne298800:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.title">
+        <source>Change password code</source>
+        <target>crwdns298802:0crwdne298802:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.introduction">
+        <source>Please find below the change password code you requested.</source>
+        <target>crwdns298804:0crwdne298804:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.code">
+        <source>Code</source>
+        <target>crwdns298806:0crwdne298806:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.validUntil">
+        <source>Valid until</source>
+        <target>crwdns298808:0crwdne298808:0</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.notice">
+        <source>The change password code can be used multiple times either until the validity date is reached or until the password has been successfully changed.</source>
+        <target>crwdns298810:0crwdne298810:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
