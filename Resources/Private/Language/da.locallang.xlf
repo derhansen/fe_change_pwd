@@ -27,6 +27,14 @@
         <source>Password updated</source>
         <target state="final">Adgangskode opdateret</target>
       </trans-unit>
+      <trans-unit id="changePasswordCode" approved="yes">
+        <source>Change password code</source>
+        <target state="final">Skift adgangskode</target>
+      </trans-unit>
+      <trans-unit id="link.sendChangePasswordCode" approved="yes">
+        <source>Send change password code</source>
+        <target state="final">Send skift af adgangskode</target>
+      </trans-unit>
       <trans-unit id="currentPassword" approved="yes">
         <source>Current Password</source>
         <target state="final">Nuværende adgangskode</target>
@@ -66,6 +74,34 @@
       <trans-unit id="currentPasswordFailure" approved="yes">
         <source>The current password you entered is wrong.</source>
         <target state="final">Den aktuelle adgangskode du indtastede er forkert.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.empty" approved="yes">
+        <source>You must enter the change password code.</source>
+        <target state="final">Du skal indtaste ændring af adgangskode.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.invalidOrExpired" approved="yes">
+        <source>The given change password code is invalid or has expired.</source>
+        <target state="final">Den angivne ændrede adgangskode er ugyldig eller er udløbet.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeSent" approved="yes">
+        <source>The change password code has been sent to your email address.</source>
+        <target state="final">Den ændrede adgangskode er sendt til din e-mailadresse.</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeSent.title" approved="yes">
+        <source>Change password code sent</source>
+        <target state="final">Kode til ændring af adgangskode er sendt</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCodeInvalidEmail.title" approved="yes">
+        <source>Invalid email address</source>
+        <target state="final">Ugyldig e-mailadresse</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.code" approved="yes">
+        <source>Code</source>
+        <target state="final">Kode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.validUntil" approved="yes">
+        <source>Valid until</source>
+        <target state="final">Gyldig indtil</target>
       </trans-unit>
     </body>
   </file>
