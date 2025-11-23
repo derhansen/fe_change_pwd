@@ -29,7 +29,7 @@
       </trans-unit>
       <trans-unit id="changePasswordCode" approved="yes">
         <source>Change password code</source>
-        <target state="final">Skift adgangskode</target>
+        <target state="final">Skift kode til adgangskode</target>
       </trans-unit>
       <trans-unit id="link.sendChangePasswordCode" approved="yes">
         <source>Send change password code</source>
@@ -77,11 +77,11 @@
       </trans-unit>
       <trans-unit id="changePasswordCode.empty" approved="yes">
         <source>You must enter the change password code.</source>
-        <target state="final">Du skal indtaste ændring af adgangskode.</target>
+        <target state="final">Du skal indtaste koden til ændring af adgangskode.</target>
       </trans-unit>
       <trans-unit id="changePasswordCode.invalidOrExpired" approved="yes">
         <source>The given change password code is invalid or has expired.</source>
-        <target state="final">Den angivne ændrede adgangskode er ugyldig eller er udløbet.</target>
+        <target state="final">Den angivne kode til at ændre adgangskode er ugyldig eller er udløbet.</target>
       </trans-unit>
       <trans-unit id="changePasswordCodeSent" approved="yes">
         <source>The change password code has been sent to your email address.</source>
@@ -91,9 +91,25 @@
         <source>Change password code sent</source>
         <target state="final">Kode til ændring af adgangskode er sendt</target>
       </trans-unit>
+      <trans-unit id="changePasswordCodeInvalidEmail" approved="yes">
+        <source>Change password code could not be sent, because no valid email address is configured for your acccount.</source>
+        <target state="final">Koden til skift af adgangskode kunne ikke sendes, da der ikke er konfigureret en gyldig e-mailadresse til din konto.</target>
+      </trans-unit>
       <trans-unit id="changePasswordCodeInvalidEmail.title" approved="yes">
         <source>Invalid email address</source>
         <target state="final">Ugyldig e-mailadresse</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.subject" approved="yes">
+        <source>Your change password code</source>
+        <target state="final">Din kode til ændring af adgangskode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.title" approved="yes">
+        <source>Change password code</source>
+        <target state="final">Skift kode til adgangskode</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.introduction" approved="yes">
+        <source>Please find below the change password code you requested.</source>
+        <target state="final">Nedenfor finder du den ændrede kode til din adgangskode, som du anmodede om.</target>
       </trans-unit>
       <trans-unit id="changePasswordCode.email.code" approved="yes">
         <source>Code</source>
@@ -102,6 +118,10 @@
       <trans-unit id="changePasswordCode.email.validUntil" approved="yes">
         <source>Valid until</source>
         <target state="final">Gyldig indtil</target>
+      </trans-unit>
+      <trans-unit id="changePasswordCode.email.notice" approved="yes">
+        <source>The change password code can be used multiple times either until the validity date is reached or until the password has been successfully changed.</source>
+        <target state="final">Koden til skift af adgangskode kan bruges flere gange, enten indtil gyldighedsdatoen er nået, eller indtil adgangskoden er blevet ændret.</target>
       </trans-unit>
     </body>
   </file>
