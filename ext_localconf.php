@@ -10,11 +10,11 @@ call_user_func(function () {
         'fe_change_pwd',
         'Pi1',
         [
-            PasswordController::class => 'edit,update,sendChangePasswordCode',
+            PasswordController::class => ['edit', 'update', 'sendChangePasswordCode'],
         ],
         // non-cacheable actions
         [
-            PasswordController::class => 'edit,update,sendChangePasswordCode',
+            PasswordController::class => ['edit', 'update', 'sendChangePasswordCode'],
         ],
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
