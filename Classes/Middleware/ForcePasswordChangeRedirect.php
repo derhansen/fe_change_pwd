@@ -51,9 +51,9 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
         $settings = $this->settingsService->getSettings($request);
 
         // Early return if page is excluded from redirect or user is not forced to change the password
-        if (!$this->frontendUserService->mustChangePassword($frontendUser->user) ||
-            $this->pageAccessService->isExcludePage($pageUid, $settings) ||
-            ($request->getQueryParams()['tx_felogin_login']['action'] ?? '') === 'login'
+        if (!$this->frontendUserService->mustChangePassword($frontendUser->user)
+            || $this->pageAccessService->isExcludePage($pageUid, $settings)
+            || ($request->getQueryParams()['tx_felogin_login']['action'] ?? '') === 'login'
         ) {
             return $handler->handle($request);
         }
@@ -72,8 +72,8 @@ class ForcePasswordChangeRedirect implements MiddlewareInterface
         if ($mustRedirect) {
             $typoScriptFrontendController->calculateLinkVars($request->getQueryParams());
             $parameter = $this->pageAccessService->getRedirectPid($settings);
-            if (MathUtility::canBeInterpretedAsInteger($pageUid) &&
-                $typoScriptFrontendController->getPageArguments()->getPageType()
+            if (MathUtility::canBeInterpretedAsInteger($pageUid)
+                && $typoScriptFrontendController->getPageArguments()->getPageType()
             ) {
                 $parameter .= ',' . $typoScriptFrontendController->getPageArguments()->getPageType();
             }

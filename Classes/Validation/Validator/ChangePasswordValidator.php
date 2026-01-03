@@ -54,9 +54,9 @@ class ChangePasswordValidator extends AbstractValidator
         $settings = $this->settingsService->getSettings($this->getRequest());
 
         // Early return if old password is required, but either empty or not valid
-        if (isset($settings['requireCurrentPassword']['enabled']) &&
-            (bool)$settings['requireCurrentPassword']['enabled'] &&
-            !$value->getSkipCurrentPasswordCheck()
+        if (isset($settings['requireCurrentPassword']['enabled'])
+            && (bool)$settings['requireCurrentPassword']['enabled']
+            && !$value->getSkipCurrentPasswordCheck()
         ) {
             $requireCurrentPasswordResult = $this->evaluateRequireCurrentPassword($value);
             if ($requireCurrentPasswordResult === false) {
@@ -65,9 +65,9 @@ class ChangePasswordValidator extends AbstractValidator
         }
 
         // Early return if change password code is required, but either empty or not valid
-        if (isset($settings['requireChangePasswordCode']['enabled']) &&
-            (bool)$settings['requireChangePasswordCode']['enabled'] &&
-            $this->evaluateChangePasswordCode($value) === false
+        if (isset($settings['requireChangePasswordCode']['enabled'])
+            && (bool)$settings['requireChangePasswordCode']['enabled']
+            && $this->evaluateChangePasswordCode($value) === false
         ) {
             return;
         }
@@ -136,8 +136,8 @@ class ChangePasswordValidator extends AbstractValidator
             );
         }
 
-        if ($oldPasswordEmpty === false &&
-            !$this->oldPasswordService->checkEqualsOldPassword(
+        if ($oldPasswordEmpty === false
+            && !$this->oldPasswordService->checkEqualsOldPassword(
                 $changePassword->getCurrentPassword(),
                 $this->getFrontendUser()->user['password']
             )
@@ -168,10 +168,10 @@ class ChangePasswordValidator extends AbstractValidator
             return false;
         }
 
-        if ($currentHash === '' ||
-            $expirationTime === 0 ||
-            $expirationTime < time() ||
-            !hash_equals($currentHash, $calculatedHash)
+        if ($currentHash === ''
+            || $expirationTime === 0
+            || $expirationTime < time()
+            || !hash_equals($currentHash, $calculatedHash)
         ) {
             $this->addError(
                 $this->localizationService->translate('changePasswordCode.invalidOrExpired'),

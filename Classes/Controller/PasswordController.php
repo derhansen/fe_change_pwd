@@ -83,8 +83,8 @@ class PasswordController extends ActionController
 
         $this->eventDispatcher->dispatch(new AfterPasswordUpdatedEvent($changePassword, $this));
 
-        if (isset($this->settings['afterPasswordChangeAction']) &&
-            $this->settings['afterPasswordChangeAction'] === 'redirect') {
+        if (isset($this->settings['afterPasswordChangeAction'])
+            && $this->settings['afterPasswordChangeAction'] === 'redirect') {
             $this->addFlashMessage(
                 LocalizationUtility::translate('passwordUpdated', 'FeChangePwd'),
                 LocalizationUtility::translate('passwordUpdated.title', 'FeChangePwd')
