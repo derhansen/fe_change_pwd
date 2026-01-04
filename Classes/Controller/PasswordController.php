@@ -21,7 +21,7 @@ use Derhansen\FeChangePwd\Validation\Validator\ChangePasswordValidator;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -67,12 +67,10 @@ class PasswordController extends ActionController
     /**
      * Updates the user password
      */
-    #[Extbase\Validate([
-        'validator' => ChangePasswordValidator::class,
-        'param' => 'changePassword',
-    ])]
-    public function updateAction(ChangePassword $changePassword): ResponseInterface
-    {
+    public function updateAction(
+        #[Validate(validator: ChangePasswordValidator::class)]
+        ChangePassword $changePassword
+    ): ResponseInterface {
         $this->frontendUserService->updatePassword($this->request, $changePassword->getPassword1(), $this->settings);
 
         $this->eventDispatcher->dispatch(new AfterPasswordUpdatedEvent($changePassword, $this));
