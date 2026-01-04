@@ -7,10 +7,10 @@
 
 ## What does it do?
 
-This TYPO3 extension contains a plugin to allow logged in frontend users to change their password. The new user
+This TYPO3 extension contains a plugin to allow logged-in frontend users to change their password. The new user
 password is validated against the TYPO3 password policy for frontend users.
 
-Password changes for frontend users can be enforced and passwords can expire after a certain amount of days.
+Password changes for frontend users can be enforced, and passwords can expire after a certain amount of days.
 
 **Features:**
 
