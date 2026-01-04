@@ -18,10 +18,10 @@ Password changes for frontend users can be enforced and passwords can expire aft
 * Change password plugin
 * Validates the password against the TYPO3 password policies for frontend users
 * Force password change for frontend users
-* Redirect to configured page when password change is required
-* Password expiration after a configurable amount of days
-* Optional require the current password in order to change the password
-* Optional require a change password code, which is sent to the users email address, in order to change the password
+* Redirect to a configured page when password change is required
+* Password expiration after a configurable number of days
+* Optional requires the current password to change the password
+* Optional requires a change password code, which is sent to the users email address, to change the password
 
 ## Screenshot
 
@@ -37,7 +37,7 @@ a weak password.
 
 2) Add the site set "Change password for frontend users" to your site
 
-3) Create a new page and make sure, that the page is only visible to logged in frontend users.
+3) Create a new page and make sure that the page is only visible to logged in frontend users.
 
 4) Add the Plugin "Change Frontend User Password" to the page created in step 2
 
@@ -46,7 +46,7 @@ a weak password.
 
 6) Change TypoScript settings to your needs.
 
-7) Optionally change the path to the extension templates in TypoScript and modify the templates to your needs.
+7) Optionally, change the path to the extension templates in TypoScript and modify the templates to your needs.
 
 ## New fe_user fields
 
@@ -123,7 +123,7 @@ override for the `ChangePasswordCode` template.
 
 ### No password hashing service
 
-The extension will not save a users password, if it can not be hashed. If this scenario occurs,
+The extension will not save a user password if it cannot be hashed. If this scenario occurs,
 the following exception is shown:
 
 `No secure password hashing service could be initialized. Please check your TYPO3 system configuration`
@@ -159,8 +159,9 @@ use this event to add the data to the `ContextData` DTO.
 
 | Version | TYPO3      | PHP       | Support/Development                  |
 |---------|------------|-----------|--------------------------------------|
-| 5.x     | 13.4       | 8.2 - 8.4 | Features, Bugfixes, Security Updates |
-| 4.x     | 12.4       | 8.1 - 8.4 | Features, Bugfixes, Security Updates |
+| 6.x     | 14.3       | 8.2 - 8.5 | Features, Bugfixes, Security Updates |
+| 5.x     | 13.4       | 8.2 - 8.5 | Features, Bugfixes, Security Updates |
+| 4.x     | 12.4       | 8.1 - 8.4 | Bugfixes, Security Updates           |
 | 3.x     | 11.5       | 7.4 - 8.3 | Security Updates                     |
 | 2.x     | 9.5 - 10.4 | 7.2 - 7.4 | Support dropped                      |
 | 1.x     | 8.7 - 9.5  | 7.0 - 7.3 | Support dropped                      |
@@ -205,7 +206,7 @@ policy is used for password validation.
 ###  Version 3.0.0
 
 * Dropped TYPO3 9.5 and 10.4 compatibility.
-* Changed file extension für TypoScript files to `.typoscript`
+* Changed file extension for TypoScript files to `.typoscript`
 * Replaced signal slot with PSR-14 event
 
 ###  Version 2.0.0

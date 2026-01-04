@@ -64,7 +64,7 @@ class PageAccessService
         ) {
             $includePids = $this->extendPidListByChildren(
                 $siteSettings['redirect']['includePageUids'],
-                (int)$siteSettings['redirect']['includePageUidsRecursionLevel']
+                (int)($siteSettings['redirect']['includePageUidsRecursionLevel'] ?? 0)
             );
             $includePids = GeneralUtility::intExplode(',', $includePids, true);
         } else {
@@ -83,7 +83,7 @@ class PageAccessService
         ) {
             $excludePids = $this->extendPidListByChildren(
                 $siteSettings['redirect']['excludePageUids'],
-                (int)$siteSettings['redirect']['excludePageUidsRecursionLevel']
+                (int)($siteSettings['redirect']['excludePageUidsRecursionLevel'] ?? 0)
             );
             $excludePids = GeneralUtility::intExplode(',', $excludePids, true);
         } else {

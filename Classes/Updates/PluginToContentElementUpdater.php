@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Derhansen\FeChangePwd\Updates;
 
 use TYPO3\CMS\Core\Attribute\UpgradeWizard;
-use \TYPO3\CMS\Core\Upgrades\AbstractListTypeToCTypeUpdate;
+use TYPO3\CMS\Core\Upgrades\AbstractListTypeToCTypeUpdate;
 
 #[UpgradeWizard('feChangePwdPluginToContentElementUpdate')]
 class PluginToContentElementUpdater extends AbstractListTypeToCTypeUpdate
