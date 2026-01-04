@@ -93,7 +93,7 @@ The following TypoScript settings are available.
 
 **plugin.tx_fechangepwd.settings.requireChangePasswordCode**
 
-* `enabled` *(bool)* If set to `1`, the user must enter a change password code, which will be sent to the users email address,  in order to set a new password. Default setting is `0`.
+* `enabled` *(bool)* If set to `1`, the user must enter a change password code, which will be sent to the users email address, to set a new password. Default setting is `0`.
 * `validityInMinutes` *(integer)* The time in minutes the change password code is valid, when it has been requested by the user.
 * `senderEmail` *(string)* Sender email address for email send to user
 * `senderName` *(string)* Sender name for email sent to user
