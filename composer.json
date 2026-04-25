@@ -43,6 +43,7 @@
 	"extra": {
 		"typo3/cms": {
 			"extension-key": "fe_change_pwd",
+			"version": "6.0.2",
 			"Package": {
 				"providesPackages": []
 			}
