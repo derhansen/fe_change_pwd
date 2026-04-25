@@ -9,22 +9,23 @@
   ],
   "require": {
     "derhansen/fe_change_pwd": "@dev",
-    "typo3/cms-core": "^14.0",
+    "typo3/cms-core": "^14.3",
     "ext-curl": "*",
     "ext-pdo": "*",
     "php": ">=8.2"
   },
   "require-dev": {
-    "typo3/cms-backend": "^14.0",
-    "typo3/cms-frontend": "^14.0",
-    "typo3/cms-recordlist": "^14.0",
-    "typo3/cms-extbase": "^14.0",
-    "typo3/cms-fluid": "^14.0",
-    "typo3/cms-install": "^14.0",
+    "typo3/cms-backend": "^14.3",
+    "typo3/cms-frontend": "^14.3",
+    "typo3/cms-recordlist": "^14.3",
+    "typo3/cms-extbase": "^14.3",
+    "typo3/cms-fluid": "^14.3",
+    "typo3/cms-install": "^14.3",
     "typo3/cms-composer-installers": "^5.0",
     "typo3/testing-framework": "^9.0",
     "friendsofphp/php-cs-fixer": "^3.12.0",
-    "phpstan/phpstan": "2.1.22",
+    "phpstan/phpstan": "^2.1.22",
+    "saschaegerer/phpstan-typo3": "^3.0",
     "phpstan/extension-installer": "^1.1"
   },
   "config": {
