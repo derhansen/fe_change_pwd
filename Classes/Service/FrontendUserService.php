@@ -145,7 +145,7 @@ class FrontendUserService
         $frontendUser = $this->getFrontendUser($request);
         $userUid = $frontendUser->user['uid'];
         if (!is_int($userUid) || (int)$userUid <= 0) {
-            throw new InvalidUserException('The fe_user uid is not a positive number.', 1574102778917);
+            throw new InvalidUserException('The fe_user uid is not a positive number.', 1574102778);
         }
 
         $tstamp = $frontendUser->user['tstamp'];

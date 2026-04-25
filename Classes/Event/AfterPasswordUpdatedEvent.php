@@ -10,11 +10,11 @@ use Derhansen\FeChangePwd\Domain\Model\Dto\ChangePassword;
 /**
  * This event is triggered after the password has been updated
  */
-final class AfterPasswordUpdatedEvent
+final readonly class AfterPasswordUpdatedEvent
 {
     public function __construct(
-        private readonly ChangePassword $changePassword,
-        private readonly PasswordController $passwordController
+        private ChangePassword $changePassword,
+        private PasswordController $passwordController
     ) {}
 
     public function getChangePassword(): ChangePassword
