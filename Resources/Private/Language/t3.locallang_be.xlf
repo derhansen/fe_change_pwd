@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2018-22-17T19:47:01Z" product-name="fe_change_pwd" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="plugin.title">
+        <source>Change Frontend User Password</source>
+        <target>crwdns298776:0crwdne298776:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.description">
+        <source>Plugin to enable password change for frontend users.</source>
+        <target>crwdns342226:0crwdne342226:0</target>
+      </trans-unit>
+      <trans-unit id="label.must_change_password">
+        <source>User must change password at next login</source>
+        <target>crwdns298778:0crwdne298778:0</target>
+      </trans-unit>
+      <trans-unit id="label.password_expiry_date">
+        <source>Password expiry date</source>
+        <target>crwdns298780:0crwdne298780:0</target>
+      </trans-unit>
+      <trans-unit id="label.password_settings">
+        <source>Password settings</source>
+        <target>crwdns298782:0crwdne298782:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
